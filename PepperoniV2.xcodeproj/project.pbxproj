@@ -12,6 +12,20 @@
 		909C93242CE5F29100976538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 909C931F2CE5F29100976538 /* Assets.xcassets */; };
 		909C93252CE5F29100976538 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C93202CE5F29100976538 /* ContentView.swift */; };
 		909C93262CE5F29100976538 /* PepperoniV2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C93212CE5F29100976538 /* PepperoniV2App.swift */; };
+		BD400C9D2CE890320052174B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400C9C2CE8902C0052174B /* AppDelegate.swift */; };
+		BD400CA12CE890B40052174B /* AnimeQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CA02CE890B00052174B /* AnimeQuote.swift */; };
+		BD400CA62CE891C10052174B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CA52CE891B90052174B /* HomeView.swift */; };
+		BD400CA82CE892330052174B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CA72CE892300052174B /* HomeViewModel.swift */; };
+		BD400CAC2CE8927D0052174B /* AnimeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CAB2CE8927D0052174B /* AnimeSelectView.swift */; };
+		BD400CB32CE892CE0052174B /* PlayerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CB22CE892CE0052174B /* PlayerSettingView.swift */; };
+		BD400CB52CE892D90052174B /* GameSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CB42CE892D90052174B /* GameSettingViewModel.swift */; };
+		BD400CB92CE9A8720052174B /* TurnSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CB82CE9A8720052174B /* TurnSettingView.swift */; };
+		BD400CBD2CE9A8860052174B /* VideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CBC2CE9A8860052174B /* VideoPlayView.swift */; };
+		BD400CBF2CE9A8930052174B /* SpeakingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CBE2CE9A8930052174B /* SpeakingView.swift */; };
+		BD400CC12CE9A8A10052174B /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CC02CE9A8A10052174B /* ScoreView.swift */; };
+		BD400CC32CE9A8A90052174B /* RankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CC22CE9A8A90052174B /* RankingView.swift */; };
+		BD400CC52CE9A9DC0052174B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CC42CE9A9DC0052174B /* Router.swift */; };
+		BD400CC72CE9ACFD0052174B /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CC62CE9ACFD0052174B /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +35,20 @@
 		909C931F2CE5F29100976538 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		909C93202CE5F29100976538 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		909C93212CE5F29100976538 /* PepperoniV2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PepperoniV2App.swift; sourceTree = "<group>"; };
+		BD400C9C2CE8902C0052174B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BD400CA02CE890B00052174B /* AnimeQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeQuote.swift; sourceTree = "<group>"; };
+		BD400CA52CE891B90052174B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		BD400CA72CE892300052174B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		BD400CAB2CE8927D0052174B /* AnimeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeSelectView.swift; sourceTree = "<group>"; };
+		BD400CB22CE892CE0052174B /* PlayerSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSettingView.swift; sourceTree = "<group>"; };
+		BD400CB42CE892D90052174B /* GameSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingViewModel.swift; sourceTree = "<group>"; };
+		BD400CB82CE9A8720052174B /* TurnSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnSettingView.swift; sourceTree = "<group>"; };
+		BD400CBC2CE9A8860052174B /* VideoPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayView.swift; sourceTree = "<group>"; };
+		BD400CBE2CE9A8930052174B /* SpeakingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingView.swift; sourceTree = "<group>"; };
+		BD400CC02CE9A8A10052174B /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
+		BD400CC22CE9A8A90052174B /* RankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingView.swift; sourceTree = "<group>"; };
+		BD400CC42CE9A9DC0052174B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		BD400CC62CE9ACFD0052174B /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,12 +90,90 @@
 		909C93222CE5F29100976538 /* PepperoniV2 */ = {
 			isa = PBXGroup;
 			children = (
+				BD400C9B2CE890200052174B /* App */,
+				BD400C9E2CE890620052174B /* Data */,
+				BD400CB62CE9A7360052174B /* Router */,
+				BD400CA32CE8914D0052174B /* Presentation */,
+				BD400C992CE88EDD0052174B /* Resource */,
 				909C931E2CE5F29100976538 /* Preview Content */,
-				909C931F2CE5F29100976538 /* Assets.xcassets */,
-				909C93202CE5F29100976538 /* ContentView.swift */,
-				909C93212CE5F29100976538 /* PepperoniV2App.swift */,
 			);
 			path = PepperoniV2;
+			sourceTree = "<group>";
+		};
+		BD400C992CE88EDD0052174B /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				909C931F2CE5F29100976538 /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		BD400C9B2CE890200052174B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				BD400C9C2CE8902C0052174B /* AppDelegate.swift */,
+				909C93212CE5F29100976538 /* PepperoniV2App.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		BD400C9E2CE890620052174B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				BD400CA02CE890B00052174B /* AnimeQuote.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		BD400CA32CE8914D0052174B /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				909C93202CE5F29100976538 /* ContentView.swift */,
+				BD400CA42CE8918F0052174B /* Home */,
+				BD400CA92CE8924F0052174B /* GameSetting */,
+				BD400CB72CE9A7CA0052174B /* Game */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		BD400CA42CE8918F0052174B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				BD400CA52CE891B90052174B /* HomeView.swift */,
+				BD400CA72CE892300052174B /* HomeViewModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		BD400CA92CE8924F0052174B /* GameSetting */ = {
+			isa = PBXGroup;
+			children = (
+				BD400CAB2CE8927D0052174B /* AnimeSelectView.swift */,
+				BD400CB22CE892CE0052174B /* PlayerSettingView.swift */,
+				BD400CB42CE892D90052174B /* GameSettingViewModel.swift */,
+			);
+			path = GameSetting;
+			sourceTree = "<group>";
+		};
+		BD400CB62CE9A7360052174B /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				BD400CC42CE9A9DC0052174B /* Router.swift */,
+				BD400CC62CE9ACFD0052174B /* Game.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		BD400CB72CE9A7CA0052174B /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				BD400CB82CE9A8720052174B /* TurnSettingView.swift */,
+				BD400CBC2CE9A8860052174B /* VideoPlayView.swift */,
+				BD400CBE2CE9A8930052174B /* SpeakingView.swift */,
+				BD400CC02CE9A8A10052174B /* ScoreView.swift */,
+				BD400CC22CE9A8A90052174B /* RankingView.swift */,
+			);
+			path = Game;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,8 +250,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD400CB52CE892D90052174B /* GameSettingViewModel.swift in Sources */,
+				BD400CA82CE892330052174B /* HomeViewModel.swift in Sources */,
+				BD400C9D2CE890320052174B /* AppDelegate.swift in Sources */,
+				BD400CBD2CE9A8860052174B /* VideoPlayView.swift in Sources */,
 				909C93252CE5F29100976538 /* ContentView.swift in Sources */,
 				909C93262CE5F29100976538 /* PepperoniV2App.swift in Sources */,
+				BD400CBF2CE9A8930052174B /* SpeakingView.swift in Sources */,
+				BD400CC32CE9A8A90052174B /* RankingView.swift in Sources */,
+				BD400CB32CE892CE0052174B /* PlayerSettingView.swift in Sources */,
+				BD400CB92CE9A8720052174B /* TurnSettingView.swift in Sources */,
+				BD400CC52CE9A9DC0052174B /* Router.swift in Sources */,
+				BD400CAC2CE8927D0052174B /* AnimeSelectView.swift in Sources */,
+				BD400CA62CE891C10052174B /* HomeView.swift in Sources */,
+				BD400CC12CE9A8A10052174B /* ScoreView.swift in Sources */,
+				BD400CA12CE890B40052174B /* AnimeQuote.swift in Sources */,
+				BD400CC72CE9ACFD0052174B /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +399,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PepperoniV2/Preview Content\"";
+				DEVELOPMENT_TEAM = PK4L7H6D6F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -286,6 +407,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,6 +429,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PepperoniV2/Preview Content\"";
+				DEVELOPMENT_TEAM = PK4L7H6D6F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -314,6 +437,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
