@@ -12,7 +12,8 @@ struct YouTubePlayerView: UIViewRepresentable {
     var videoID: String
     var startTime: Int
     var endTime: Int
-
+    var replayTrigger: Bool
+    
     func makeUIView(context: Context) -> YTPlayerView {
         let playerView = YTPlayerView()
         
@@ -29,7 +30,9 @@ struct YouTubePlayerView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: YTPlayerView, context: Context) {
-        // 업데이트 로직
+        if replayTrigger {
+            uiView.seek(toSeconds: Float(startTime), allowSeekAhead: true)
+        }
     }
 }
 
