@@ -29,6 +29,7 @@
 		BD400CCD2CEA63670052174B /* YoutubePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CCC2CEA63670052174B /* YoutubePlayerView.swift */; };
 		BD9A1FD62CEB5EFF0077F005 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A1FD52CEB5EFF0077F005 /* GameData.swift */; };
 		BD9A1FD82CEB6F4A0077F005 /* PlayerSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A1FD72CEB6F4A0077F005 /* PlayerSettingViewModel.swift */; };
+		BD9A1FDD2CEBA7810077F005 /* AnimeSelectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A1FDC2CEBA7810077F005 /* AnimeSelectViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		BD400CCC2CEA63670052174B /* YoutubePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerView.swift; sourceTree = "<group>"; };
 		BD9A1FD52CEB5EFF0077F005 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		BD9A1FD72CEB6F4A0077F005 /* PlayerSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSettingViewModel.swift; sourceTree = "<group>"; };
+		BD9A1FDC2CEBA7810077F005 /* AnimeSelectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeSelectViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				BD400CAB2CE8927D0052174B /* AnimeSelectView.swift */,
+				BD9A1FDC2CEBA7810077F005 /* AnimeSelectViewModel.swift */,
 				BD9A1FD92CEB87360077F005 /* PlayerSetting */,
 			);
 			path = GameSetting;
@@ -296,6 +299,7 @@
 				BD400CCD2CEA63670052174B /* YoutubePlayerView.swift in Sources */,
 				BD400CA12CE890B40052174B /* AnimeQuote.swift in Sources */,
 				BD400CC72CE9ACFD0052174B /* Game.swift in Sources */,
+				BD9A1FDD2CEBA7810077F005 /* AnimeSelectViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
