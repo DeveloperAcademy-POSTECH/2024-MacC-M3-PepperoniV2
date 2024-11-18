@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var router: Router
+    @State var gameData = GameData()
     
     @State private var isAnimeSelectPresented = false
     @State private var isPlayerSettingPresented = false
@@ -32,13 +33,18 @@ struct HomeView: View {
                 Text("인원 설정")
             }
             .fullScreenCover(isPresented: $isPlayerSettingPresented) {
-                PlayerSettingView(isPresented: $isPlayerSettingPresented)
+                PlayerSettingView(isPresented: $isPlayerSettingPresented, viewModel: PlayerSettingViewModel(gameData: gameData))
             }
             
             Button {
                 router.push(screen: Game.turnSetting)
             } label: {
                 Text("게임 시작")
+            }
+            
+            // TODO: 확인용 임시 코드임 추후 삭제
+            List(gameData.players, id: \.turn) { player in
+                Text(player.nickname ?? "")
             }
         }
     }
