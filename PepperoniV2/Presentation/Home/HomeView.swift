@@ -41,6 +41,11 @@ struct HomeView: View {
             } label: {
                 Text("게임 시작")
             }
+            
+            // TODO: 확인용 임시 코드임 추후 삭제
+            List(gameData.players, id: \.turn) { player in
+                Text(player.nickname ?? "")
+            }
         }
     }
 }
