@@ -24,7 +24,7 @@ struct HomeView: View {
                 Text("애니 선택")
             }
             .fullScreenCover(isPresented: $isAnimeSelectPresented) {
-                AnimeSelectView(isPresented: $isAnimeSelectPresented)
+                AnimeSelectView(isPresented: $isAnimeSelectPresented, gameData: gameData)
             }
             
             Button {
@@ -42,9 +42,13 @@ struct HomeView: View {
                 Text("게임 시작")
             }
             
-            // TODO: 확인용 임시 코드임 추후 삭제
-            List(gameData.players, id: \.turn) { player in
-                Text(player.nickname ?? "")
+            // TODO: 확인용 임시 코드 - 추후 삭제
+            VStack {
+                Text("선택한 애니: \(gameData.selectedAnime?.title ?? "없음")")
+                
+                List(gameData.players, id: \.turn) { player in
+                    Text(player.nickname ?? "")
+                }
             }
         }
     }
