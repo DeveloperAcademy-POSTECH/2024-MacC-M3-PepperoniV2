@@ -24,6 +24,7 @@ struct PlayerSettingView: View {
                     Image(systemName: "minus.circle")
                         .font(.title)
                 }
+                .disabled(viewModel.gameData.players.count <= 1)
                 
                 Text("\(viewModel.gameData.players.count)")
                     .font(.title)
@@ -35,6 +36,7 @@ struct PlayerSettingView: View {
                     Image(systemName: "plus.circle")
                         .font(.title)
                 }
+                .disabled(viewModel.gameData.players.count >= 10)
             }
         }
         
