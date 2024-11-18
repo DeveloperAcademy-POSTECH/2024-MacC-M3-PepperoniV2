@@ -26,6 +26,8 @@
 		BD400CC32CE9A8A90052174B /* RankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CC22CE9A8A90052174B /* RankingView.swift */; };
 		BD400CC52CE9A9DC0052174B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CC42CE9A9DC0052174B /* Router.swift */; };
 		BD400CC72CE9ACFD0052174B /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CC62CE9ACFD0052174B /* Game.swift */; };
+		BD400CCA2CEA62270052174B /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = BD400CC92CEA62270052174B /* YouTubeiOSPlayerHelper */; };
+		BD400CCD2CEA63670052174B /* YoutubePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CCC2CEA63670052174B /* YoutubePlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,7 @@
 		BD400CC22CE9A8A90052174B /* RankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingView.swift; sourceTree = "<group>"; };
 		BD400CC42CE9A9DC0052174B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		BD400CC62CE9ACFD0052174B /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		BD400CCC2CEA63670052174B /* YoutubePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD400CCA2CEA62270052174B /* YouTubeiOSPlayerHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +132,7 @@
 		BD400CA32CE8914D0052174B /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				BD400CCB2CEA62D40052174B /* Components */,
 				909C93202CE5F29100976538 /* ContentView.swift */,
 				BD400CA42CE8918F0052174B /* Home */,
 				BD400CA92CE8924F0052174B /* GameSetting */,
@@ -176,6 +181,14 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
+		BD400CCB2CEA62D40052174B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BD400CCC2CEA63670052174B /* YoutubePlayerView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -193,6 +206,7 @@
 			);
 			name = PepperoniV2;
 			packageProductDependencies = (
+				BD400CC92CEA62270052174B /* YouTubeiOSPlayerHelper */,
 			);
 			productName = PepperoniV2;
 			productReference = 909C93082CE5EFE400976538 /* PepperoniV2.app */;
@@ -222,6 +236,9 @@
 			);
 			mainGroup = 909C92FF2CE5EFE400976538;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BD400CC82CEA62270052174B /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 909C93092CE5EFE400976538 /* Products */;
 			projectDirPath = "";
@@ -264,6 +281,7 @@
 				BD400CAC2CE8927D0052174B /* AnimeSelectView.swift in Sources */,
 				BD400CA62CE891C10052174B /* HomeView.swift in Sources */,
 				BD400CC12CE9A8A10052174B /* ScoreView.swift in Sources */,
+				BD400CCD2CEA63670052174B /* YoutubePlayerView.swift in Sources */,
 				BD400CA12CE890B40052174B /* AnimeQuote.swift in Sources */,
 				BD400CC72CE9ACFD0052174B /* Game.swift in Sources */,
 			);
@@ -473,6 +491,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BD400CC82CEA62270052174B /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/youtube/youtube-ios-player-helper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BD400CC92CEA62270052174B /* YouTubeiOSPlayerHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD400CC82CEA62270052174B /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */;
+			productName = YouTubeiOSPlayerHelper;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 909C93002CE5EFE400976538 /* Project object */;
 }
