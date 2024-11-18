@@ -16,6 +16,13 @@ struct PlayerSettingView: View {
             Text("인원 설정")
                 .font(.title)
             
+            Button {
+                viewModel.resetPlayer()
+            } label: {
+                Text("reset")
+            }
+
+            
             // 인원 수 조정
             HStack {
                 Button(action: {

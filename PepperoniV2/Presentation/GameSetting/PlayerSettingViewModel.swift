@@ -12,14 +12,6 @@ import SwiftUI
 
     init(gameData: GameData) {
         self.gameData = gameData
-        setupDefaultPlayer()
-    }
-
-    /// default 인원 1명 설정
-    private func setupDefaultPlayer() {
-        if gameData.players.isEmpty {
-            addPlayer()
-        }
     }
 
     /// 플레이어 추가
@@ -39,5 +31,10 @@ import SwiftUI
     func updateNickname(for index: Int, nickname: String) {
         guard index < gameData.players.count else { return }
         gameData.players[index].nickname = nickname
+    }
+    
+    /// 플레이어 초기화
+    func resetPlayer() {
+        gameData.players = [Player(nickname: "1번", turn: 1)] // 초기 상태
     }
 }
