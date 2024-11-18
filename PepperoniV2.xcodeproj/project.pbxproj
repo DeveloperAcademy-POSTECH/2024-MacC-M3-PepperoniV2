@@ -28,6 +28,8 @@
 		BD400CC72CE9ACFD0052174B /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CC62CE9ACFD0052174B /* Game.swift */; };
 		BD400CCA2CEA62270052174B /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = BD400CC92CEA62270052174B /* YouTubeiOSPlayerHelper */; };
 		BD400CCD2CEA63670052174B /* YoutubePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CCC2CEA63670052174B /* YoutubePlayerView.swift */; };
+		BD9A1FD62CEB5EFF0077F005 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A1FD52CEB5EFF0077F005 /* GameData.swift */; };
+		BD9A1FD82CEB6F4A0077F005 /* PlayerSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A1FD72CEB6F4A0077F005 /* PlayerSettingViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		BD400CC42CE9A9DC0052174B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		BD400CC62CE9ACFD0052174B /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		BD400CCC2CEA63670052174B /* YoutubePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePlayerView.swift; sourceTree = "<group>"; };
+		BD9A1FD52CEB5EFF0077F005 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
+		BD9A1FD72CEB6F4A0077F005 /* PlayerSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSettingViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				BD400CA02CE890B00052174B /* AnimeQuote.swift */,
+				BD9A1FD52CEB5EFF0077F005 /* GameData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			children = (
 				BD400CAB2CE8927D0052174B /* AnimeSelectView.swift */,
 				BD400CB22CE892CE0052174B /* PlayerSettingView.swift */,
+				BD9A1FD72CEB6F4A0077F005 /* PlayerSettingViewModel.swift */,
 				BD400CB42CE892D90052174B /* GameSettingViewModel.swift */,
 			);
 			path = GameSetting;
@@ -278,7 +284,9 @@
 				BD400CB32CE892CE0052174B /* PlayerSettingView.swift in Sources */,
 				BD400CB92CE9A8720052174B /* TurnSettingView.swift in Sources */,
 				BD400CC52CE9A9DC0052174B /* Router.swift in Sources */,
+				BD9A1FD82CEB6F4A0077F005 /* PlayerSettingViewModel.swift in Sources */,
 				BD400CAC2CE8927D0052174B /* AnimeSelectView.swift in Sources */,
+				BD9A1FD62CEB5EFF0077F005 /* GameData.swift in Sources */,
 				BD400CA62CE891C10052174B /* HomeView.swift in Sources */,
 				BD400CC12CE9A8A10052174B /* ScoreView.swift in Sources */,
 				BD400CCD2CEA63670052174B /* YoutubePlayerView.swift in Sources */,
