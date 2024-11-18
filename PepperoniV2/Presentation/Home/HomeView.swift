@@ -32,7 +32,7 @@ struct HomeView: View {
                 Text("인원 설정")
             }
             .fullScreenCover(isPresented: $isPlayerSettingPresented) {
-                PlayerSettingView(isPresented: $isPlayerSettingPresented)
+                PlayerSettingView(isPresented: $isPlayerSettingPresented, viewModel: PlayerSettingViewModel(gameData: GameData()))
             }
             
             Button {
