@@ -24,7 +24,7 @@ struct HomeView: View {
                 Text("애니 선택")
             }
             .fullScreenCover(isPresented: $isAnimeSelectPresented) {
-                AnimeSelectView(isPresented: $isAnimeSelectPresented, gameData: gameData)
+                AnimeSelectView(isPresented: $isAnimeSelectPresented, viewModel: AnimeSelectViewModel(gameData: gameData))
             }
             
             Button {

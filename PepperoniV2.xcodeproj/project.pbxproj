@@ -158,8 +158,7 @@
 		BD400CA92CE8924F0052174B /* GameSetting */ = {
 			isa = PBXGroup;
 			children = (
-				BD400CAB2CE8927D0052174B /* AnimeSelectView.swift */,
-				BD9A1FDC2CEBA7810077F005 /* AnimeSelectViewModel.swift */,
+				BD9A1FDE2CEBAB5D0077F005 /* AnimeSelect */,
 				BD9A1FD92CEB87360077F005 /* PlayerSetting */,
 			);
 			path = GameSetting;
@@ -201,6 +200,15 @@
 				BD9A1FD72CEB6F4A0077F005 /* PlayerSettingViewModel.swift */,
 			);
 			path = PlayerSetting;
+			sourceTree = "<group>";
+		};
+		BD9A1FDE2CEBAB5D0077F005 /* AnimeSelect */ = {
+			isa = PBXGroup;
+			children = (
+				BD400CAB2CE8927D0052174B /* AnimeSelectView.swift */,
+				BD9A1FDC2CEBA7810077F005 /* AnimeSelectViewModel.swift */,
+			);
+			path = AnimeSelect;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
