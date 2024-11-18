@@ -38,6 +38,27 @@ struct PlayerSettingView: View {
                 }
                 .disabled(viewModel.gameData.players.count >= 10)
             }
+            
+            // 플레이어 닉네임 설정
+            List {
+                ForEach(Array(viewModel.gameData.players.enumerated()), id: \.1.turn) { index, player in
+                    HStack {
+                        Text("\(player.turn):")
+                            .font(.headline)
+                        
+                        TextField("\(player.nickname ?? "\(index + 1)번")", text: Binding(
+                            get: {
+                                player.nickname ?? "\(index + 1)번"
+                            },
+                            set: { newValue in
+                                viewModel.updateNickname(for: index, nickname: newValue)
+                            }
+                        ))
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
+                }
+            }
+            .listStyle(.plain)
         }
         
         Button {
