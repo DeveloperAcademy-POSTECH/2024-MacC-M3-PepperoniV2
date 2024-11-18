@@ -25,9 +25,9 @@ struct PlayerSettingView: View {
             
             // 인원 수 조정
             HStack {
-                Button(action: {
+                Button {
                     viewModel.removePlayer()
-                }) {
+                } label: {
                     Image(systemName: "minus.circle")
                         .font(.title)
                 }
@@ -37,9 +37,9 @@ struct PlayerSettingView: View {
                     .font(.title)
                     .padding(.horizontal)
                 
-                Button(action: {
+                Button{
                     viewModel.addPlayer()
-                }) {
+                } label: {
                     Image(systemName: "plus.circle")
                         .font(.title)
                 }
