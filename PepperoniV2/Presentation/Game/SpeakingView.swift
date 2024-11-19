@@ -65,20 +65,10 @@ struct SpeakingView: View {
                     VStack {
                         HStack {
                             ForEach(0..<halfIndex, id: \.self) { index in
-                                VStack(spacing:12) {
-                                    Text(quote.pronunciation[index])
-                                        .font(.system(size:18))
-                                    Text(quote.japanese[index])
-                                        .font(.system(size:14))
-                                }
-                                .bold()
-                                .padding(8)
-                                .background(
-                                    isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount) ?
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color.yellow.opacity(0.5)) // 강조 표시 색상
-                                        .frame(height:88)
-                                    : nil
+                                WordCard(
+                                    pronunciation: quote.pronunciation[index],
+                                    japanese: quote.japanese[index],
+                                    isHighlighted: isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount)
                                 )
                             }
                         }
@@ -86,20 +76,10 @@ struct SpeakingView: View {
                         
                         HStack {
                             ForEach(halfIndex..<quote.japanese.count, id: \.self) { index in
-                                VStack(spacing:12) {
-                                    Text(quote.pronunciation[index])
-                                        .font(.system(size:18))
-                                    Text(quote.japanese[index])
-                                        .font(.system(size:14))
-                                }
-                                .bold()
-                                .padding(8)
-                                .background(
-                                    isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount) ?
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color.yellow.opacity(0.5)) // 강조 표시 색상
-                                        .frame(height:88)
-                                    : nil
+                                WordCard(
+                                    pronunciation: quote.pronunciation[index],
+                                    japanese: quote.japanese[index],
+                                    isHighlighted: isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount)
                                 )
                             }
                         }
@@ -110,20 +90,10 @@ struct SpeakingView: View {
                     // 길이가 5 미만일 때 기존 방식
                     HStack {
                         ForEach(quote.japanese.indices, id: \.self) { index in
-                            VStack(spacing: 12) {
-                                Text(quote.pronunciation[index])
-                                    .font(.system(size:18))
-                                Text(quote.japanese[index])
-                                    .font(.system(size:14))
-                            }
-                            .bold()
-                            .padding(8)
-                            .background(
-                                isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount) ?
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.yellow.opacity(0.5)) // 강조 표시 색상
-                                    .frame(height:88)
-                                : nil
+                            WordCard(
+                                pronunciation: quote.pronunciation[index],
+                                japanese: quote.japanese[index],
+                                isHighlighted: isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount)
                             )
                         }
                     }
@@ -220,4 +190,28 @@ struct SpeakingView: View {
 
 #Preview {
     SpeakingView()
+}
+
+struct WordCard: View {
+    let pronunciation: String
+    let japanese: String
+    let isHighlighted: Bool
+    
+    var body: some View {
+        VStack(spacing: 12) {
+            Text(pronunciation)
+                .font(.system(size: 18))
+            Text(japanese)
+                .font(.system(size: 14))
+        }
+        .bold()
+        .padding(8)
+        .background(
+            isHighlighted
+                ? RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.yellow.opacity(0.5))
+                    .frame(height: 88)
+                : nil
+        )
+    }
 }
