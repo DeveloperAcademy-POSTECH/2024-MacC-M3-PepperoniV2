@@ -56,7 +56,12 @@ struct AnimeSelectView: View {
         if searchText.isEmpty {
             return dummie.animes
         } else {
-            return dummie.animes.filter { $0.title.localizedCaseInsensitiveContains(searchText)
+            // 검색어 공백 제거
+            let normalizedSearchText = searchText.replacingOccurrences(of: " ", with: "")
+            return dummie.animes.filter {
+                // 애니 제목 공백 제거
+                let normalizedTitle = $0.title.replacingOccurrences(of: " ", with: "")
+                return normalizedTitle.localizedCaseInsensitiveContains(normalizedSearchText)
             }
         }
     }
