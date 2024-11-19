@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		90129B852CEC67ED0029DAEF /* RouletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90129B842CEC67E70029DAEF /* RouletteView.swift */; };
 		909C931C2CE5F08E00976538 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 909C931B2CE5F08E00976538 /* .gitignore */; };
 		909C93232CE5F29100976538 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 909C931D2CE5F29100976538 /* Preview Assets.xcassets */; };
 		909C93242CE5F29100976538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 909C931F2CE5F29100976538 /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		90129B842CEC67E70029DAEF /* RouletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouletteView.swift; sourceTree = "<group>"; };
 		909C93082CE5EFE400976538 /* PepperoniV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PepperoniV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909C931B2CE5F08E00976538 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		909C931D2CE5F29100976538 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		BD400CB72CE9A7CA0052174B /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				90129B842CEC67E70029DAEF /* RouletteView.swift */,
 				BD400CB82CE9A8720052174B /* TurnSettingView.swift */,
 				BD400CBC2CE9A8860052174B /* VideoPlayView.swift */,
 				BD400CBE2CE9A8930052174B /* SpeakingView.swift */,
@@ -292,6 +295,7 @@
 				BD400CAC2CE8927D0052174B /* AnimeSelectView.swift in Sources */,
 				BD9A1FD62CEB5EFF0077F005 /* GameData.swift in Sources */,
 				BD400CA62CE891C10052174B /* HomeView.swift in Sources */,
+				90129B852CEC67ED0029DAEF /* RouletteView.swift in Sources */,
 				BD400CC12CE9A8A10052174B /* ScoreView.swift in Sources */,
 				BD400CCD2CEA63670052174B /* YoutubePlayerView.swift in Sources */,
 				BD400CA12CE890B40052174B /* AnimeQuote.swift in Sources */,
