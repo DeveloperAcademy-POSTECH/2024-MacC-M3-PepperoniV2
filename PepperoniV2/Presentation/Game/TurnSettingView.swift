@@ -11,7 +11,8 @@ struct TurnSettingView: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-        Text("TurnSetting")
+        
+        RouletteView()
         
         Button {
             router.push(screen: Game.videoPlay)
