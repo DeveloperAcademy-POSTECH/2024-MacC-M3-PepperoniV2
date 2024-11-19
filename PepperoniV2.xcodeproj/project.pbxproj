@@ -16,7 +16,6 @@
 		BD400C9D2CE890320052174B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400C9C2CE8902C0052174B /* AppDelegate.swift */; };
 		BD400CA12CE890B40052174B /* AnimeQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CA02CE890B00052174B /* AnimeQuote.swift */; };
 		BD400CA62CE891C10052174B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CA52CE891B90052174B /* HomeView.swift */; };
-		BD400CA82CE892330052174B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CA72CE892300052174B /* HomeViewModel.swift */; };
 		BD400CAC2CE8927D0052174B /* AnimeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CAB2CE8927D0052174B /* AnimeSelectView.swift */; };
 		BD400CB32CE892CE0052174B /* PlayerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CB22CE892CE0052174B /* PlayerSettingView.swift */; };
 		BD400CB92CE9A8720052174B /* TurnSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CB82CE9A8720052174B /* TurnSettingView.swift */; };
@@ -44,7 +43,6 @@
 		BD400C9C2CE8902C0052174B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD400CA02CE890B00052174B /* AnimeQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeQuote.swift; sourceTree = "<group>"; };
 		BD400CA52CE891B90052174B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		BD400CA72CE892300052174B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		BD400CAB2CE8927D0052174B /* AnimeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeSelectView.swift; sourceTree = "<group>"; };
 		BD400CB22CE892CE0052174B /* PlayerSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSettingView.swift; sourceTree = "<group>"; };
 		BD400CB82CE9A8720052174B /* TurnSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnSettingView.swift; sourceTree = "<group>"; };
@@ -152,7 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				BD400CA52CE891B90052174B /* HomeView.swift */,
-				BD400CA72CE892300052174B /* HomeViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -292,7 +289,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD400CA82CE892330052174B /* HomeViewModel.swift in Sources */,
 				BD400C9D2CE890320052174B /* AppDelegate.swift in Sources */,
 				BD400CBD2CE9A8860052174B /* VideoPlayView.swift in Sources */,
 				909C93252CE5F29100976538 /* ContentView.swift in Sources */,

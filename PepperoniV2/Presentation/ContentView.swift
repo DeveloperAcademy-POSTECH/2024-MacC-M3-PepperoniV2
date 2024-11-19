@@ -13,7 +13,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack(path: $router.route) {
-            HomeView(viewModel: HomeViewModel(gameData: gameData))
+            HomeView()
                 .environmentObject(router)
                 .environment(gameData)
                 .navigationDestination(for: Game.self) { type in
