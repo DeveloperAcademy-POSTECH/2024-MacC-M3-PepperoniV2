@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var router: Router
     @Environment(GameData.self) var gameData
+    @Environment(GameViewModel.self) var gameViewModel
     
     @State private var isAnimeSelectPresented = false
     @State private var isPlayerSettingPresented = false
@@ -38,6 +39,9 @@ struct HomeView: View {
             
             Button {
                 setRandomQuote()
+                gameViewModel.players = gameData.players
+                gameViewModel.selectedAnime = gameData.selectedAnime
+                gameViewModel.selectedQuote = gameData.selectedQuote
                 router.push(screen: Game.turnSetting)
             } label: {
                 Text("게임 시작")
