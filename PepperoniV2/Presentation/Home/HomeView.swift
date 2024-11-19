@@ -9,11 +9,11 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var router: Router
-    @State var gameData = GameData()
+    @Environment(GameData.self) var gameData
     
     @State private var isAnimeSelectPresented = false
     @State private var isPlayerSettingPresented = false
-    
+
     var body: some View {
         VStack {
             Text("Home")
@@ -24,7 +24,7 @@ struct HomeView: View {
                 Text("애니 선택")
             }
             .fullScreenCover(isPresented: $isAnimeSelectPresented) {
-                AnimeSelectView(isPresented: $isAnimeSelectPresented)
+                AnimeSelectView(isPresented: $isAnimeSelectPresented, viewModel: AnimeSelectViewModel(gameData: gameData))
             }
             
             Button {
@@ -37,19 +37,29 @@ struct HomeView: View {
             }
             
             Button {
+                setRandomQuote()
                 router.push(screen: Game.turnSetting)
             } label: {
                 Text("게임 시작")
             }
             
-            // TODO: 확인용 임시 코드임 추후 삭제
-            List(gameData.players, id: \.turn) { player in
-                Text(player.nickname ?? "")
+            // TODO: 확인용 임시 코드 - 추후 삭제
+            VStack {
+                Text("선택한 애니: \(gameData.selectedAnime?.title ?? "없음")")
+                
+                List(gameData.players, id: \.turn) { player in
+                    Text(player.nickname ?? "")
+                }
             }
         }
     }
-}
-
-#Preview {
-    HomeView()
+    
+    // 랜덤으로 quote를 선택
+    private func setRandomQuote() {
+        guard let quotes = gameData.selectedAnime?.quotes, !quotes.isEmpty else {
+            gameData.selectedQuote = nil
+            return
+        }
+        gameData.selectedQuote = quotes.randomElement()
+    }
 }

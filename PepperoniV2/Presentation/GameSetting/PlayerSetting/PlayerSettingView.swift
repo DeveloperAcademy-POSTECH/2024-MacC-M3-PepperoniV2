@@ -31,9 +31,9 @@ struct PlayerSettingView: View {
                     Image(systemName: "minus.circle")
                         .font(.title)
                 }
-                .disabled(viewModel.tempGameData.players.count <= 1)
+                .disabled(viewModel.tempPlayers.count <= 1)
                 
-                Text("\(viewModel.tempGameData.players.count)")
+                Text("\(viewModel.tempPlayers.count)")
                     .font(.title)
                     .padding(.horizontal)
                 
@@ -43,12 +43,12 @@ struct PlayerSettingView: View {
                     Image(systemName: "plus.circle")
                         .font(.title)
                 }
-                .disabled(viewModel.tempGameData.players.count >= 10)
+                .disabled(viewModel.tempPlayers.count >= 10)
             }
             
             // MARK: - 플레이어 닉네임 설정
             List {
-                ForEach(Array(viewModel.tempGameData.players.enumerated()), id: \.1.turn) { index, player in
+                ForEach(Array(viewModel.tempPlayers.enumerated()), id: \.1.turn) { index, player in
                     HStack {
                         Text("\(player.turn)")
                             .font(.headline)
