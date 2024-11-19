@@ -5,7 +5,6 @@
 //  Created by Hyun Jaeyeon on 11/16/24.
 //
 
-
 import SwiftData
 
 // TODO: 임시로 넣어놨습니다. 데이터 전문가님 나중에 수정 부탁요💨
@@ -14,7 +13,7 @@ class Anime {
     @Attribute(.unique) var id: String
     var title: String
     @Relationship(deleteRule: .cascade) var quotes: [AnimeQuote]
-    
+
     init(id: String, title: String, quotes: [AnimeQuote] = []) {
         self.id = id
         self.title = title
@@ -34,7 +33,7 @@ class AnimeQuote {
     var youtubeID: String // 유튜브 영상 ID
     var youtubeStartTime: Double // 유튜브 영상 시작 시간
     var youtubeEndTime: Double // 유튜브 영상 끝 시간
-    
+
     init(id: String, japanese: [String], pronunciation: [String], korean: [String], timeMark: [Double], voicingTime: Double, audioFile: String, youtubeID: String, youtubeStartTime: Double, youtubeEndTime: Double) {
         self.id = id
         self.japanese = japanese
@@ -48,7 +47,6 @@ class AnimeQuote {
         self.youtubeEndTime = youtubeEndTime
     }
 }
-
 
 // TODO: 임시 더미데이터 삭제
 @Observable class Dummie {
@@ -175,3 +173,4 @@ class AnimeQuote {
         )
     ]
 }
+
