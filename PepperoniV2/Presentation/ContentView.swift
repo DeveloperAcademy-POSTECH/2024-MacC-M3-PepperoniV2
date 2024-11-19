@@ -9,14 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var router = Router()
+    @State var gameData = GameData()
     
     var body: some View {
         NavigationStack(path: $router.route) {
-            HomeView()
+            HomeView(viewModel: HomeViewModel(gameData: gameData))
                 .environmentObject(router)
+                .environment(gameData)
                 .navigationDestination(for: Game.self) { type in
                     GameView(type: type)
                         .environmentObject(router)
+                        .environment(gameData)
                 }
         }
     }

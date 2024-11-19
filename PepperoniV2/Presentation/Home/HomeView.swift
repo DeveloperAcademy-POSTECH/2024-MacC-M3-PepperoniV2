@@ -9,11 +9,12 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var router: Router
-    @State var gameData = GameData()
+    @Environment(GameData.self) var gameData
+    @State var viewModel: HomeViewModel
     
     @State private var isAnimeSelectPresented = false
     @State private var isPlayerSettingPresented = false
-    
+
     var body: some View {
         VStack {
             Text("Home")
@@ -37,6 +38,8 @@ struct HomeView: View {
             }
             
             Button {
+                viewModel.setRandomQuote()
+                print("\(viewModel.gameData.selectedQuote?.korean[0] ?? "nono")")
                 router.push(screen: Game.turnSetting)
             } label: {
                 Text("게임 시작")
@@ -44,16 +47,21 @@ struct HomeView: View {
             
             // TODO: 확인용 임시 코드 - 추후 삭제
             VStack {
-                Text("선택한 애니: \(gameData.selectedAnime?.title ?? "없음")")
+                Text("선택한 애니: \(viewModel.gameData.selectedAnime?.title ?? "없음")")
                 
-                List(gameData.players, id: \.turn) { player in
+                List(viewModel.gameData.players, id: \.turn) { player in
                     Text(player.nickname ?? "")
                 }
             }
         }
     }
 }
-
-#Preview {
-    HomeView()
-}
+//
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let gameData = GameData()
+//        let viewModel = HomeViewModel(gameData: gameData)
+//        
+//        return HomeView(gameData: gameData, viewModel: viewModel)
+//    }
+//}

@@ -13,8 +13,6 @@ import SwiftUI
 
     init(gameData: GameData) {
         self.gameData = gameData
-        
-        // 저장 전 임시 GameData
         self.tempPlayers = gameData.players
     }
 
