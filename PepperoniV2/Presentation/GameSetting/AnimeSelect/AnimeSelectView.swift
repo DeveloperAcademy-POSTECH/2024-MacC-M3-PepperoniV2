@@ -10,22 +10,30 @@ import SwiftUI
 struct AnimeSelectView: View {
     @Binding var isPresented: Bool
     @Bindable var viewModel: AnimeSelectViewModel
+    @State private var searchText: String = ""
+    
     // TODO: 더미데이터 삭제
     @State var dummie = Dummie()
     
     var body: some View {
-        List(dummie.animes) { anime in
-            HStack {
-                Text(anime.title)
-                
-                Spacer()
-                
-                if viewModel.tempSelectedAnime?.id == anime.id {
-                    Image(systemName: "checkmark")
+        VStack{
+            TextField("검색어를 입력하세요", text: $searchText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
+            List(currentAnimes) { anime in
+                HStack {
+                    Text(anime.title)
+                    
+                    Spacer()
+                    
+                    if viewModel.tempSelectedAnime?.id == anime.id {
+                        Image(systemName: "checkmark")
+                    }
                 }
-            }
-            .onTapGesture {
-                viewModel.selectAnime(anime)
+                .onTapGesture {
+                    viewModel.selectAnime(anime)
+                }
             }
         }
         
@@ -40,6 +48,16 @@ struct AnimeSelectView: View {
             isPresented = false
         } label: {
             Text("닫기")
+        }
+    }
+    
+    /// 현재 보여지는 애니 리스트
+    private var currentAnimes: [Anime] {
+        if searchText.isEmpty {
+            return dummie.animes
+        } else {
+            return dummie.animes.filter { $0.title.localizedCaseInsensitiveContains(searchText)
+            }
         }
     }
 }
