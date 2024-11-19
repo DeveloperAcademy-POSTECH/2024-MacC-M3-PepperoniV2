@@ -12,7 +12,8 @@ struct TurnSettingView: View {
     @Environment(GameData.self) var gameData
     
     var body: some View {
-        Text("TurnSetting")
+        
+        RouletteView()
         
         Text("\(gameData.selectedQuote?.korean[0])")
         
