@@ -16,39 +16,104 @@ struct AnimeSelectView: View {
     @State var dummie = Dummie()
     
     var body: some View {
-        VStack{
-            TextField("검색어를 입력하세요", text: $searchText)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+        VStack(spacing: 0) {
+            Header(
+                title: "애니 선택",
+                dismissAction: {
+                    isPresented = false
+                },
+                dismissButtonType: .icon("xmark")
+            )
+            
+            HStack (spacing: 14){
+                Image(systemName: "magnifyingglass")
+                    .font(.system(size: 17, weight: .regular))
+                
+                TextField(
+                    "애니 검색",
+                    text: $searchText,
+                    prompt: Text("애니 검색").foregroundColor(Color(red: 0.47, green: 0.47, blue: 0.47))
+                )
+                .font(.system(size: 16, weight: .medium))
+                
+                    .background(.black)
+            }
+            .padding(.horizontal, 13)
+            .padding(.vertical, 9)
+            .foregroundColor(.white)
+            .cornerRadius(6)
+            .overlay {
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(Color(red: 0.47, green: 0.47, blue: 0.47), lineWidth: 1)
+            }
+            .frame(height: 40)
+            .padding(.horizontal)
+            .padding(.top, 8)
+            
+            DashLine()
+                .stroke(style: .init(dash: [6]))
+                .foregroundColor(Color(red: 0.47, green: 0.47, blue: 0.47))
+                .frame(height: 1)
+                .padding(.vertical, 25)
+                .padding(.horizontal, 16)
             
             List(currentAnimes) { anime in
                 HStack {
-                    Text(anime.title)
-                    
-                    Spacer()
-                    
-                    if viewModel.tempSelectedAnime?.id == anime.id {
-                        Image(systemName: "checkmark")
+                    VStack{
+                        if viewModel.tempSelectedAnime?.id == anime.id {
+                            Image("Checkmark")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 36)
+                                .padding(.leading, 6)
+                        }
                     }
+                    .frame(width: 48)
+                    
+                    HStack{
+                        Text(anime.title)
+                            .foregroundStyle(.white)
+                            .font(.system(size: 18, weight: .medium))
+                        
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    .frame(maxHeight: .infinity)
+                    .background(viewModel.tempSelectedAnime?.id == anime.id ? Color(red: 0.25, green: 0.91, blue: 1) : Color(red: 0.19, green: 0.19, blue: 0.22))
                 }
+                .frame(height: 78)
+                .cornerRadius(10)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color(red: 0.47, green: 0.47, blue: 0.47), lineWidth: 2)
+                }
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                .padding(.horizontal)
+                .padding(.vertical, 14)
                 .onTapGesture {
                     viewModel.selectAnime(anime)
                 }
+               
             }
+            .listStyle(.plain)
+            
+            Button {
+                viewModel.saveChanges()
+                isPresented = false
+            } label: {
+                Text("저장")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(.black)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 56)
+            .background(Color(red: 0.86, green: 0.85, blue: 0.92))
+            .cornerRadius(60)
+            .padding(.horizontal)
         }
-        
-        Button {
-            viewModel.saveChanges()
-            isPresented = false
-        } label: {
-            Text("저장")
-        }
-        
-        Button {
-            isPresented = false
-        } label: {
-            Text("닫기")
-        }
+        .background(.black)
     }
     
     /// 현재 보여지는 애니 리스트
@@ -64,6 +129,15 @@ struct AnimeSelectView: View {
                 return normalizedTitle.localizedCaseInsensitiveContains(normalizedSearchText)
             }
         }
+    }
+}
+
+struct DashLine: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: rect.width, y: 0))
+        return path
     }
 }
 
