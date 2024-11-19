@@ -15,5 +15,6 @@ struct Player {
 
 @Observable class GameData {
     var selectedAnime: Anime?
+    var selectedQuote: AnimeQuote?
     var players: [Player] = [Player(nickname: "1번", turn: 1)]
 }

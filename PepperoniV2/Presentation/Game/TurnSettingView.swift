@@ -9,9 +9,12 @@ import SwiftUI
 
 struct TurnSettingView: View {
     @EnvironmentObject var router: Router
+    @Environment(GameData.self) var gameData
     
     var body: some View {
         Text("TurnSetting")
+        
+        Text("\(gameData.selectedQuote?.korean[0])")
         
         Button {
             router.push(screen: Game.videoPlay)
