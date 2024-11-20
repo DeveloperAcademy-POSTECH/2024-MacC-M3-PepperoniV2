@@ -41,7 +41,17 @@ struct HomeView: View {
                 setRandomQuote()
                 gameViewModel.players = gameData.players
                 gameViewModel.selectedAnime = gameData.selectedAnime
-                gameViewModel.selectedQuote = gameData.selectedQuote
+                gameViewModel.selectedQuote = AnimeQuote(id: "String",
+                                                         japanese: ["本当の", "夢は", "その", "先に", "あるんだけど"],
+                                                         pronunciation: ["혼토오노", "유메와", "소노", "사키니", "아룬다케도"],
+                                                         korean: ["진짜", "꿈은", "그", "뒤에", "있어"],
+                                                         timeMark: [0.01, 0.5, 1.1, 1.3, 1.7],
+                                                         voicingTime: 2.2,
+                                                         audioFile: "BOT006.m4a",
+                                                         youtubeID: "6gQGHGpoBm4",
+                                                         youtubeStartTime: 1,
+                                                         youtubeEndTime: 26)
+//                gameViewModel.selectedQuote = gameData.selectedQuote
                 router.push(screen: Game.turnSetting)
             } label: {
                 Text("게임 시작")

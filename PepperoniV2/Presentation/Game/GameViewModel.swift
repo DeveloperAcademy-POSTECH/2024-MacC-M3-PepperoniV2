@@ -12,11 +12,22 @@ import SwiftUI
     var selectedAnime: Anime?
     var selectedQuote: AnimeQuote?
     var players: [Player]
+    var turnComplete: Int = 0
+    
+    var temporaryPronunciationScore: Double = 0.0
+    var temporarySpeedScore: Double = 0.0
+    var temporaryIntonationScore: Double = 0.0
 
     init(selectedAnime: Anime? = nil, selectedQuote: AnimeQuote? = nil, players: [Player] = []) {
         self.selectedAnime = selectedAnime
         self.selectedQuote = selectedQuote
         self.players = players
+    }
+    
+    func retryThisQuote() {
+        for index in players.indices {
+            players[index].score = 0
+        }
     }
     
     func changeTurn(first: Player) {
