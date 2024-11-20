@@ -17,7 +17,7 @@ struct VideoPlayView: View {
     var body: some View {
         VStack{
             Header(
-                title: "애니 선택",
+                title: "플레이 참고영상",
                 dismissAction: {
                     showAlert = true
                 },
