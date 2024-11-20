@@ -23,6 +23,7 @@ struct VideoPlayView: View {
                 },
                 dismissButtonType: .text("나가기")
             )
+            .padding(.bottom, 34)
             RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.gray, lineWidth: 2)
                 .frame(height: 78)
