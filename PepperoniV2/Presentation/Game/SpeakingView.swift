@@ -10,6 +10,57 @@ import SwiftUI
 struct SpeakingView: View {
     @EnvironmentObject var router: Router
     @Environment(GameViewModel.self) var gameViewModel
+
+    // TODO: - Preview용 gameviewmodel, 컬러 폰트 적용 후 삭제
+//    @State var gameViewModel: GameViewModel = GameViewModel(
+//        selectedAnime: Anime(
+//            id: "anime1",
+//            title: "진격의 거인",
+//            quotes: [
+//                AnimeQuote(
+//                    id: "quote1",
+//                    japanese: ["自由はあきらめない！"],
+//                    pronunciation: ["지유와 아키라메나이!"],
+//                    korean: ["자유를 포기하지 않아!"],
+//                    timeMark: [0.0, 1.0],
+//                    voicingTime: 2.0,
+//                    audioFile: "attack_on_titan_quote1.mp3",
+//                    youtubeID: "abcd1234",
+//                    youtubeStartTime: 12.5,
+//                    youtubeEndTime: 15.5
+//                ),
+//                AnimeQuote(
+//                    id: "quote2",
+//                    japanese: ["お前が決めるんだ！"],
+//                    pronunciation: ["오마에가 키메룬다!"],
+//                    korean: ["네가 결정하는 거야!"],
+//                    timeMark: [0.0, 1.5],
+//                    voicingTime: 2.5,
+//                    audioFile: "attack_on_titan_quote2.mp3",
+//                    youtubeID: "abcd1234",
+//                    youtubeStartTime: 20.0,
+//                    youtubeEndTime: 23.0
+//                )
+//            ]
+//        ),
+//        selectedQuote: AnimeQuote(
+//            id: "quote2",
+//            japanese: ["お前が決！", "めるんだ"],
+//            pronunciation: ["오마에가", "키메룬다!"],
+//            korean: ["네가 결정하는", "거야!"],
+//            timeMark: [0.0, 1.5],
+//            voicingTime: 2.5,
+//            audioFile: "attack_on_titan_quote2.mp3",
+//            youtubeID: "abcd1234",
+//            youtubeStartTime: 20.0,
+//            youtubeEndTime: 23.0
+//        )
+//        ,
+//        players: [Player(nickname:"준요", turn: 0),
+//                  Player(nickname:"젠", turn: 1),
+//                  Player(nickname:"원", turn: 2),
+//                 ]
+//    )
     
     @State var isCounting: Bool = true
     @State var countdown = 3 // 초기 카운트 설정
@@ -20,17 +71,32 @@ struct SpeakingView: View {
     
     @StateObject private var sttManager = STTManager()
     
+    @State var showAlert: Bool = false
+    
     var body: some View {
         ZStack{
             VStack {
-                Spacer()
+                Header(
+                    title: "",
+                    dismissAction: {
+                        showAlert = true
+                    },
+                    dismissButtonType: .text("나가기")
+                )
+                .padding(.bottom, 14)
                 
-                Text("\(gameViewModel.players.count)명중 \(gameViewModel.players[gameViewModel.turnComplete].turn)번째")
+                Text("\(gameViewModel.players.count)명중 \(gameViewModel.players[gameViewModel.turnComplete].turn+1)번째")
                     .font(.system(size: 14))
                     .padding(.bottom, 6)
                 
-                Text("\(String(describing: gameViewModel.players[gameViewModel.turnComplete].nickname)) 차례입니다.")
+                Text("\(gameViewModel.players[gameViewModel.turnComplete].nickname ?? "") 차례")
                     .font(.system(size: 20))
+                    .padding(.bottom, 38)
+                
+                Rectangle()
+                    .frame(height:1)
+                    .foregroundStyle(.gray)
+                    .padding(.horizontal, 17.5)
                 
                 Spacer()
                 
@@ -60,7 +126,7 @@ struct SpeakingView: View {
                                     )
                                 }
                             }
-                            .padding()
+                            .padding(.bottom, 50)
                         }
                         
                     } else {
@@ -77,27 +143,45 @@ struct SpeakingView: View {
                         .padding()
                     }
                 }
+                
                 Spacer()
+                
+                Rectangle()
+                    .frame(height:1)
+                    .foregroundStyle(.gray)
+                    .padding(.init(top: 0, leading: 17.5, bottom: 65, trailing: 17.5))
+                
                 VStack{
                     Button(action:{
                         Task {
-                            await sttManager.stopRecording()  // stopRecoding() 동기 처리
+//                            await sttManager.stopRecording()  // stopRecoding() 동기 처리
                             stopTimer()
                             grading()
-                            router.push(screen: Game.score)
+//                            router.push(screen: Game.score)
                         }
                     }, label:{
-                        RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 280, height: 64) // Circle의 크기 지정
-                            .overlay(
-                                Text("STOP")
-                                    .foregroundStyle(.white)
-                                    .bold()
-                            )
+                        Image("SpeakingStopButton")
+                            .resizable()
+                            .frame(width:175, height:64)
                     })
                     .padding(.bottom, 78)
                 }
                 
+            }
+            if !isCounting {
+                RoundedRectangle(cornerRadius: 60)
+                    .stroke(
+                            LinearGradient(
+                                colors: [.blue, .green, .purple], // 그라데이션 색상
+                                startPoint: .topLeading,         // 시작점
+                                endPoint: .bottomTrailing        // 끝점
+                            ),
+                            lineWidth: 6 // 선의 굵기
+                        )
+                    
+                    .padding(2)
+                    .ignoresSafeArea()
+                    
             }
             if isCounting {
                 Color.black.opacity(0.7) // 어두운 오버레이 배경
@@ -121,6 +205,16 @@ struct SpeakingView: View {
                 startTimer()
             }
         }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("홈 화면으로 나가시겠습니까?"),
+                primaryButton: .destructive(Text("나가기")) {
+                    router.popToRoot()
+                },
+                secondaryButton: .cancel(Text("취소"))
+            )
+        }
+        .navigationBarBackButtonHidden(true)
     }
     
     private func startCountdown() {
@@ -183,9 +277,10 @@ struct SpeakingView: View {
     }
 }
 
-#Preview {
-    SpeakingView()
-}
+//#Preview {
+//    SpeakingView()
+//        .preferredColorScheme(.dark)
+//}
 
 struct WordCard: View {
     let pronunciation: String
@@ -203,8 +298,8 @@ struct WordCard: View {
         .padding(8)
         .background(
             isHighlighted
-            ? RoundedRectangle(cornerRadius: 8)
-                .fill(Color.yellow.opacity(0.5))
+            ? RoundedRectangle(cornerRadius: 4)
+                .fill(Color.blue.opacity(0.5))
                 .frame(height: 88)
             : nil
         )
