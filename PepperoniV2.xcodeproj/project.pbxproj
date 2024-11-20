@@ -116,9 +116,28 @@
 			path = PepperoniV2;
 			sourceTree = "<group>";
 		};
+		90A5038D2CED8AB300D83DCC /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				90129B842CEC67E70029DAEF /* RouletteManager.swift */,
+				90E2E98E2CED01EA00857636 /* STTManager.swift */,
+				90E2E9902CED020700857636 /* SpeechGrader.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		90A5038E2CED8B0E00D83DCC /* audioFile */ = {
+			isa = PBXGroup;
+			children = (
+				90E2E9922CED035600857636 /* BOT006.m4a */,
+			);
+			path = audioFile;
+			sourceTree = "<group>";
+		};
 		BD400C992CE88EDD0052174B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				90A5038E2CED8B0E00D83DCC /* audioFile */,
 				909C931F2CE5F29100976538 /* Assets.xcassets */,
 			);
 			path = Resource;
@@ -145,6 +164,7 @@
 		BD400CA32CE8914D0052174B /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				90A5038D2CED8AB300D83DCC /* Helper */,
 				BD400CCB2CEA62D40052174B /* Components */,
 				909C93202CE5F29100976538 /* ContentView.swift */,
 				BD400CA42CE8918F0052174B /* Home */,
@@ -183,16 +203,12 @@
 		BD400CB72CE9A7CA0052174B /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				90129B842CEC67E70029DAEF /* RouletteManager.swift */,
 				BD400CB82CE9A8720052174B /* TurnSettingView.swift */,
 				BD400CBC2CE9A8860052174B /* VideoPlayView.swift */,
 				BD400CBE2CE9A8930052174B /* SpeakingView.swift */,
 				BD400CC02CE9A8A10052174B /* ScoreView.swift */,
-				90E2E98E2CED01EA00857636 /* STTManager.swift */,
-				90E2E9902CED020700857636 /* SpeechGrader.swift */,
 				BD400CC22CE9A8A90052174B /* RankingView.swift */,
 				90F69DDB2CECCEA40053AADA /* GameViewModel.swift */,
-				90E2E9922CED035600857636 /* BOT006.m4a */,
 			);
 			path = Game;
 			sourceTree = "<group>";
