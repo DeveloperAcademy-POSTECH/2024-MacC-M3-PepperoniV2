@@ -80,9 +80,9 @@ struct AnimeSelectView: View {
                 Text("저장")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.black)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 56)
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 56)
             .background(Color(red: 0.86, green: 0.85, blue: 0.92))
             .cornerRadius(60)
             .padding(.horizontal)
