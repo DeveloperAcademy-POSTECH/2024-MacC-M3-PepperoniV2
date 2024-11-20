@@ -7,60 +7,17 @@
 
 import SwiftUI
 
-struct RouletteView: View {
-    
-    @StateObject private var manager = RouletteManager(players: [
-        Player(nickname: "준요", turn: 1, score: 0),
-        Player(nickname: "하래", turn: 2, score: 0),
-        Player(nickname: "자운드", turn: 3, score: 0),
-        Player(nickname: "원", turn: 4, score: 0),
-        Player(nickname: "젠", turn: 5, score: 0),
-        Player(nickname: "푸딩", turn: 6, score: 0)
-    ])
-    
-    var body: some View {
-        VStack {
-            if let player = manager.selectedItem {
-                Text(player.nickname ?? "")
-                    .font(.largeTitle)
-            }
-            
-            RouletteTriangle()
-                .fill(Color.black)
-                .frame(width: 20, height: 40)
-                .padding(20)
-            
-            ZStack {
-                Circle()
-                    .fill(.clear)
-                    .frame(width: 300, height: 300)
-                    .overlay(
-                        ZStack {
-                            ForEach(manager.players.indices) { index in
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(style: StrokeStyle(lineWidth: 2))
-                                        .frame(width: 100, height: 50)
-                                    Text(manager.players[index].nickname ?? "")
-                                }
-                                .offset(y: -150)
-                                .rotationEffect(.degrees(Double(index) * manager.sectorAngle))
-                            }
-                        }
-                    )
-                    .rotationEffect(.degrees(manager.rotation))
-                    .animation(.easeOut(duration: manager.isSpinning ? 3 : 0), value: manager.rotation)
-            }
-            .onTapGesture {
-                manager.spinRoulette()
-            }
+class RouletteManager: ObservableObject {
+    @Published var players: [Player] = [] {
+        didSet {
+            // players가 변경될 때 추가 로직을 넣을 수 있음
+            print("Players updated, new count: \(players.count)")
         }
     }
-}
-
-class RouletteManager: ObservableObject {
-    let players: [Player]
-    let sectorAngle: Double
+    
+    var sectorAngle: Double {
+        players.isEmpty ? 0 : 360 / Double(players.count)
+    }
     
     @Published var rotation: Double = 0 // 룰렛의 현재 회전 각도
     @Published var isSpinning = false
@@ -68,7 +25,6 @@ class RouletteManager: ObservableObject {
     
     init(players: [Player]) {
         self.players = players
-        self.sectorAngle = 360 / Double(players.count)
     }
     
     func spinRoulette() {

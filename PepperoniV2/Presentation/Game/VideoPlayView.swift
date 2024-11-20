@@ -9,6 +9,7 @@ import SwiftUI
 
 struct VideoPlayView: View {
     @EnvironmentObject var router: Router
+    @Environment(GameViewModel.self) var gameViewModel
     
     // TODO: 유튜브 속성 임의로 설정 - 추후 삭제
     @State private var youtubeID = "Ue_JMHDEds4"
@@ -19,14 +20,17 @@ struct VideoPlayView: View {
     
     
     var body: some View {
-        YouTubePlayerView(
-            videoID: youtubeID,
-            startTime: youtubeStartTime,
-            endTime: youtubeEndTime,
-            replayTrigger: replayTrigger
-        )
-        .frame(height: 218)
-        .padding(.bottom, 24)
+        if let selectedQuote = gameViewModel.selectedQuote{
+            YouTubePlayerView(
+                videoID: selectedQuote.youtubeID,
+                startTime: Int(selectedQuote.youtubeStartTime),
+                endTime: Int(selectedQuote.youtubeEndTime),
+                replayTrigger: replayTrigger
+            )
+            .frame(height: 218)
+            .padding(.bottom, 24)
+        }
+        
         
         Button(action: {
             replayTrigger.toggle()

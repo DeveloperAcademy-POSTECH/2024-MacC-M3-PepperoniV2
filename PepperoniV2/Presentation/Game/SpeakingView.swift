@@ -9,29 +9,7 @@ import SwiftUI
 
 struct SpeakingView: View {
     @EnvironmentObject var router: Router
-    
-    // 2줄 더미데이터
-    let quote: AnimeQuote = AnimeQuote(id: "String",
-                                       japanese: ["本当の", "夢は", "その", "先に", "あるんだけど", "어쩌구저쩌"],
-                                       pronunciation: ["혼토오노", "유메와", "소노", "사키니", "아룬다케도", "어쩌구저쩌"],
-                                       korean: ["진짜", "꿈은", "그", "뒤에", "있어", "어쩌구저쩌"],
-                                       timeMark: [0.01, 0.5, 1.1, 1.3, 1.7, 2.2],
-                                       voicingTime: 2.2,
-                                       audioFile: "BOT006.m4a",
-                                       youtubeID: "6gQGHGpoBm4",
-                                       youtubeStartTime: 1,
-                                       youtubeEndTime: 26)
-    // 1줄 더미데이터
-    //    let quote: AnimeQuote = AnimeQuote(id: "String",
-    //                                       japanese: ["本当の", "夢は", "その", "先に"],
-    //                                       pronunciation: ["혼토오노", "유메와", "소노", "사키니"],
-    //                                       korean: ["진짜", "꿈은", "그", "뒤에"],
-    //                                       timeMark: [0.01, 0.5, 1.1, 1.3],
-    //                                       voicingTime: 1.7,
-    //                                       audioFile: "BOT006.m4a",
-    //                                       youtubeID: "6gQGHGpoBm4",
-    //                                       youtubeStartTime: 1,
-    //                                       youtubeEndTime: 26)
+    @Environment(GameViewModel.self) var gameViewModel
     
     @State var isCounting: Bool = true
     @State var countdown = 3 // 초기 카운트 설정
@@ -40,42 +18,55 @@ struct SpeakingView: View {
     @State private var timerCount: Double = 0.0 // 초기 타이머 설정 (초 단위)
     @State private var isRunning: Bool = false   // 타이머 상태
     
-    @State private var temporaryPronunciationScore: Double = 0.0
-    @State private var temporarySpeedScore: Double = 0.0
-    @State private var temporaryIntonationScore: Double = 0.0
+    @StateObject private var sttManager = STTManager()
     
     var body: some View {
         ZStack{
             VStack {
                 Spacer()
                 
-                Text("10명중 1번쨰")
+                Text("\(gameViewModel.players.count)명중 \(gameViewModel.players[gameViewModel.turnComplete].turn)번째")
                     .font(.system(size: 14))
                     .padding(.bottom, 6)
                 
-                Text("강우원 차례입니다.")
+                Text("\(String(describing: gameViewModel.players[gameViewModel.turnComplete].nickname)) 차례입니다.")
                     .font(.system(size: 20))
                 
                 Spacer()
                 
-                if quote.japanese.count >= 5 {
-                    let halfIndex = quote.japanese.count / 2
-                    
-                    // 두 개의 HStack으로 나누어 텍스트 표시
-                    VStack {
-                        HStack {
-                            ForEach(0..<halfIndex, id: \.self) { index in
-                                WordCard(
-                                    pronunciation: quote.pronunciation[index],
-                                    japanese: quote.japanese[index],
-                                    isHighlighted: isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount)
-                                )
-                            }
-                        }
-                        .padding()
+                if let quote = gameViewModel.selectedQuote{
+                    if quote.japanese.count >= 5 {
+                        let halfIndex = quote.japanese.count / 2
                         
+                        // 두 개의 HStack으로 나누어 텍스트 표시
+                        VStack {
+                            HStack {
+                                ForEach(0..<halfIndex, id: \.self) { index in
+                                    WordCard(
+                                        pronunciation: quote.pronunciation[index],
+                                        japanese: quote.japanese[index],
+                                        isHighlighted: isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount)
+                                    )
+                                }
+                            }
+                            .padding()
+                            
+                            HStack {
+                                ForEach(halfIndex..<quote.japanese.count, id: \.self) { index in
+                                    WordCard(
+                                        pronunciation: quote.pronunciation[index],
+                                        japanese: quote.japanese[index],
+                                        isHighlighted: isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount)
+                                    )
+                                }
+                            }
+                            .padding()
+                        }
+                        
+                    } else {
+                        // 길이가 5 미만일 때 기존 방식
                         HStack {
-                            ForEach(halfIndex..<quote.japanese.count, id: \.self) { index in
+                            ForEach(quote.japanese.indices, id: \.self) { index in
                                 WordCard(
                                     pronunciation: quote.pronunciation[index],
                                     japanese: quote.japanese[index],
@@ -85,29 +76,15 @@ struct SpeakingView: View {
                         }
                         .padding()
                     }
-                    
-                } else {
-                    // 길이가 5 미만일 때 기존 방식
-                    HStack {
-                        ForEach(quote.japanese.indices, id: \.self) { index in
-                            WordCard(
-                                pronunciation: quote.pronunciation[index],
-                                japanese: quote.japanese[index],
-                                isHighlighted: isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount)
-                            )
-                        }
-                    }
-                    .padding()
                 }
                 Spacer()
                 VStack{
                     Button(action:{
                         Task {
-                            //                        await sttManager.stopRecording()  // stopRecoding() 동기 처리
-                            router.push(screen: Game.score)
+                            await sttManager.stopRecording()  // stopRecoding() 동기 처리
                             stopTimer()
-                            //                        grading()
-                            //                        navigateToResult = true
+                            grading()
+                            router.push(screen: Game.score)
                         }
                     }, label:{
                         RoundedRectangle(cornerRadius: 10)
@@ -156,7 +133,7 @@ struct SpeakingView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.isCounting = false
                     timer.invalidate()
-                    //                    sttManager.startRecording() // STT 녹음 시작
+                    sttManager.startRecording() // STT 녹음 시작
                 }
             }
         }
@@ -186,6 +163,24 @@ struct SpeakingView: View {
         return timerCount >= startTime
     }
     
+    /// 채점 함수
+    /// 사용자 음성의 발음, 억양, 스피드를 대상 음성과 비교하여 채점합니다.
+    private func grading() {
+        // 발음과 속도를 채점합니다.
+        print("채점시작) 사용자 일본어: \(sttManager.recognizedText)")
+        if let quote = gameViewModel.selectedQuote{
+            gameViewModel.temporaryPronunciationScore = calculatePronunciation(original: quote.japanese, sttText: sttManager.recognizedText)
+            
+            gameViewModel.temporaryIntonationScore = calculateIntonation(referenceFileName: quote.audioFile, comparisonFileURL: sttManager.getFileURL())
+            
+            if let sttVoicingTime = sttManager.voicingTime {
+                gameViewModel.temporarySpeedScore = calculateVoiceSpeed(originalLength: quote.voicingTime, sttVoicingTime: sttVoicingTime)
+                print("사용자 STT 음성 속도: \(sttVoicingTime)")
+            } else {
+                print("Error: sttManager.voicingTime is nil.")
+            }
+        }
+    }
 }
 
 #Preview {
@@ -208,10 +203,10 @@ struct WordCard: View {
         .padding(8)
         .background(
             isHighlighted
-                ? RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.yellow.opacity(0.5))
-                    .frame(height: 88)
-                : nil
+            ? RoundedRectangle(cornerRadius: 8)
+                .fill(Color.yellow.opacity(0.5))
+                .frame(height: 88)
+            : nil
         )
     }
 }
