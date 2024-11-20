@@ -41,10 +41,13 @@ struct PlayerSettingView: View {
                 }
                 .disabled(viewModel.tempPlayers.count <= 1)
                 
+                Spacer()
+                
                 Text("\(viewModel.tempPlayers.count)")
                     .font(.system(size: 45, weight: .bold))
                     .foregroundStyle(.white)
-                    .padding(.horizontal, 63)
+                
+                Spacer()
                 
                 Button {
                     viewModel.addPlayer()
@@ -57,6 +60,7 @@ struct PlayerSettingView: View {
             }
             .padding(.top, 39)
             .padding(.bottom, 58)
+            .padding(.horizontal, 71)
             
             // MARK: - 플레이어 닉네임 리스트
             List {
