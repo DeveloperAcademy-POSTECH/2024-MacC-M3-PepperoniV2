@@ -17,6 +17,7 @@
 		90E2E9912CED020700857636 /* SpeechGrader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E2E9902CED020700857636 /* SpeechGrader.swift */; };
 		90E2E9932CED035600857636 /* BOT006.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 90E2E9922CED035600857636 /* BOT006.m4a */; };
 		90F69DDC2CECCEA40053AADA /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F69DDB2CECCEA40053AADA /* GameViewModel.swift */; };
+		BD04533A2CEE308700F83631 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0453392CEE308400F83631 /* Color+.swift */; };
 		BD400C9D2CE890320052174B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400C9C2CE8902C0052174B /* AppDelegate.swift */; };
 		BD400CA12CE890B40052174B /* AnimeQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CA02CE890B00052174B /* AnimeQuote.swift */; };
 		BD400CA62CE891C10052174B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CA52CE891B90052174B /* HomeView.swift */; };
@@ -49,6 +50,7 @@
 		90E2E9902CED020700857636 /* SpeechGrader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechGrader.swift; sourceTree = "<group>"; };
 		90E2E9922CED035600857636 /* BOT006.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BOT006.m4a; sourceTree = "<group>"; };
 		90F69DDB2CECCEA40053AADA /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		BD0453392CEE308400F83631 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		BD400C9C2CE8902C0052174B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD400CA02CE890B00052174B /* AnimeQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeQuote.swift; sourceTree = "<group>"; };
 		BD400CA52CE891B90052174B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -136,10 +138,19 @@
 			path = audioFile;
 			sourceTree = "<group>";
 		};
+		BD0453382CEE307900F83631 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BD0453392CEE308400F83631 /* Color+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		BD400C992CE88EDD0052174B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
 				90A5038E2CED8B0E00D83DCC /* audioFile */,
+				BD0453382CEE307900F83631 /* Extensions */,
 				909C931F2CE5F29100976538 /* Assets.xcassets */,
 			);
 			path = Resource;
@@ -322,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD8A5FB32CECD750004CB014 /* Header.swift in Sources */,
+				BD04533A2CEE308700F83631 /* Color+.swift in Sources */,
 				BD400C9D2CE890320052174B /* AppDelegate.swift in Sources */,
 				BD400CBD2CE9A8860052174B /* VideoPlayView.swift in Sources */,
 				909C93252CE5F29100976538 /* ContentView.swift in Sources */,
