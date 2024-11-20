@@ -12,9 +12,17 @@ struct VideoPlayView: View {
     @Environment(GameViewModel.self) var gameViewModel
     
     @State private var replayTrigger = false
+    @State private var showAlert = false
     
     var body: some View {
         VStack{
+            Header(
+                title: "애니 선택",
+                dismissAction: {
+                    showAlert = true
+                },
+                dismissButtonType: .text("나가기")
+            )
             RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.gray, lineWidth: 2)
                 .frame(height: 78)
@@ -74,6 +82,16 @@ struct VideoPlayView: View {
                 
             }
         }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("홈 화면으로 나가시겠습니까?"),
+                primaryButton: .destructive(Text("나가기")) {
+                    router.popToRoot()
+                },
+                secondaryButton: .cancel(Text("취소"))
+            )
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
