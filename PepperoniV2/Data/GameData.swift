@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct Player {
+struct Player: Identifiable {
+    let id: UUID = UUID() 
     var nickname: String?
     var turn: Int
     var score: Int = 0
