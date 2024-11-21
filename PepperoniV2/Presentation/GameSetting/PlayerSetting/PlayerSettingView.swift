@@ -123,38 +123,56 @@ struct PlayerRowView: View {
     let player: Player
     let index: Int
     let updateNickname: (Int, String) -> Void
-
+    
+    @State private var isEditing: Bool = false
+    
     var body: some View {
         HStack(spacing: 12) {
             VStack {
                 Text("\(player.turn)")
-                    .font(.system(size: 20, weight: .bold))
+                    .hakgyoansim(size: 20)
                     .foregroundColor(Color(red: 0.93, green: 0.93, blue: 0.96))
             }
             .frame(width: 70, height: 60)
             .background(Color(red: 0.08, green: 0.08, blue: 0.08))
             .cornerRadius(18)
-
+            .overlay {
+                RoundedRectangle(cornerRadius: 18)
+                    .strokeBorder(RadialGradient(
+                        gradient: Gradient(stops: [
+                            Gradient.Stop(color: Color(hex: "A52DEF"), location: 0.01),
+                            Gradient.Stop(color: Color(hex: "9C34F0"), location: 0.06),
+                            Gradient.Stop(color: Color(hex: "6B56F4"), location: 0.36),
+                            Gradient.Stop(color: Color(hex: "4ADBFF"), location: 1.00),
+                        ]),
+                        center: UnitPoint(x: 0.62, y: -0.39),
+                        startRadius: 20,
+                        endRadius: 80
+                    ), lineWidth: 1)
+            }
+            
             VStack {
                 TextField(
-                    "\(player.nickname ?? "\(index + 1)번")",
+                    "\(index + 1)번",
                     text: Binding(
                         get: {
-                            player.nickname ?? "\(index + 1)번"
+                            player.nickname ?? ""
                         },
                         set: { newValue in
                             updateNickname(index, newValue)
                         }
-                    )
+                    ),
+                    prompt: Text("\(index + 1)번")
+                        .foregroundStyle(Color.ppWhiteGray)
                 )
                 .foregroundStyle(.white)
-                .font(.system(size: 20, weight: .medium))
+                .suit(.medium, size: 20)
                 .background(Color(red: 0.19, green: 0.19, blue: 0.22))
                 .cornerRadius(10)
                 .multilineTextAlignment(.center)
             }
             .frame(height: 60)
-            .foregroundStyle(.white)
+            .foregroundStyle(Color.ppWhiteGray)
             .font(.system(size: 20, weight: .medium))
             .background(Color(red: 0.19, green: 0.19, blue: 0.22))
             .cornerRadius(10)
