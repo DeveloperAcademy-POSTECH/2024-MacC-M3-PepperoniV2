@@ -19,6 +19,7 @@ struct PepperoniV2App: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
             ContentView()
