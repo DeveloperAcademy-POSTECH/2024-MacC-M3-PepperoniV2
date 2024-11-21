@@ -138,11 +138,12 @@ struct AnimeRowView: View {
         HStack {
             VStack {
                 if isSelected {
-                    Image("Checkmark")
+                    Image(systemName: "checkmark")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 36)
-                        .padding(.leading, 6)
+                        .frame(height: 20, alignment: .center)
+                        .foregroundStyle(.white)
+                        .padding(.leading, 7)
                 }
             }
             .frame(width: 48)
@@ -156,16 +157,24 @@ struct AnimeRowView: View {
             }
             .padding(.horizontal)
             .frame(maxHeight: .infinity)
-            .background(isSelected ? Color(red: 0.25, green: 0.91, blue: 1) : Color(red: 0.19, green: 0.19, blue: 0.22))
+            .background(isSelected ? LinearGradient.gradient3 : LinearGradient(
+                stops: [
+                    Gradient.Stop(color: Color(hex: "313037"), location: 0.12),
+                    Gradient.Stop(color: Color(hex: "0D0D0D"), location: 1.00),
+                ],
+                startPoint: UnitPoint(x: 0, y: 0.5),
+                endPoint: UnitPoint(x: 1, y: 0.5)
+            ))
         }
         .frame(height: 78)
         .cornerRadius(10)
         .overlay {
             RoundedRectangle(cornerRadius: 10)
-                .stroke(Color(red: 0.47, green: 0.47, blue: 0.47), lineWidth: 2)
+                .stroke(LinearGradient.gradient3, lineWidth: 2)
         }
         .padding(.horizontal)
-        .padding(.bottom, 14)
+        .padding(.top, 2)
+        .padding(.bottom, 12)
     }
 }
 
