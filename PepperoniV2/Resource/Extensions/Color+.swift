@@ -30,6 +30,8 @@ extension Color {
     
     static let ppPurple_02 = Color(hex: "6652E7")
     
+    static let ppPurple_03 = Color(hex: "AD29FF")
+    
     static let ppPink_00 = Color(hex: "FF37C9")
     
     static let ppMint_00 = Color(hex: "3FE9FF")
