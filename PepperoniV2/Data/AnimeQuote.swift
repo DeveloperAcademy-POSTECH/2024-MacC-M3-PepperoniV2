@@ -170,7 +170,115 @@ class AnimeQuote {
                     youtubeEndTime: 33.0
                 )
             ]
-        )
-    ]
-}
+        ),
+        Anime(
+                    id: "anime5",
+                    title: "나루토",
+                    quotes: [
+                        AnimeQuote(
+                            id: "quote9",
+                            japanese: ["忍道を貫く、それが俺の忍者道だ！"],
+                            pronunciation: ["닌도오 츠라누쿠, 소레가 오레노 닌자도다!"],
+                            korean: ["닌자의 길을 관철하는 것, 그것이 내 닌자도야!"],
+                            timeMark: [0.0, 2.5],
+                            voicingTime: 3.0,
+                            audioFile: "naruto_quote1.mp3",
+                            youtubeID: "uvwx1234",
+                            youtubeStartTime: 15.0,
+                            youtubeEndTime: 18.0
+                        )
+                    ]
+                ),
+                Anime(
+                    id: "anime6",
+                    title: "도쿄 구울",
+                    quotes: [
+                        AnimeQuote(
+                            id: "quote10",
+                            japanese: ["世界は間違っている"],
+                            pronunciation: ["세카이와 마치가테이루"],
+                            korean: ["세상은 잘못되어 있어"],
+                            timeMark: [0.0, 1.5],
+                            voicingTime: 2.0,
+                            audioFile: "tokyo_ghoul_quote1.mp3",
+                            youtubeID: "yzab5678",
+                            youtubeStartTime: 7.0,
+                            youtubeEndTime: 9.0
+                        )
+                    ]
+                ),
+                Anime(
+                    id: "anime7",
+                    title: "코드 기어스",
+                    quotes: [
+                        AnimeQuote(
+                            id: "quote11",
+                            japanese: ["世界を破壊し、世界を創造する"],
+                            pronunciation: ["세카이오 하카이시, 세카이오 소우조우스루"],
+                            korean: ["세계를 파괴하고, 세계를 창조한다"],
+                            timeMark: [0.0, 2.0],
+                            voicingTime: 2.5,
+                            audioFile: "code_geass_quote1.mp3",
+                            youtubeID: "cdef9012",
+                            youtubeStartTime: 20.0,
+                            youtubeEndTime: 22.5
+                        )
+                    ]
+                ),
+                Anime(
+                    id: "anime8",
+                    title: "죠죠의 기묘한 모험",
+                    quotes: [
+                        AnimeQuote(
+                            id: "quote12",
+                            japanese: ["やれやれだぜ"],
+                            pronunciation: ["야레야레다제"],
+                            korean: ["참 나"],
+                            timeMark: [0.0, 1.0],
+                            voicingTime: 1.5,
+                            audioFile: "jojo_quote1.mp3",
+                            youtubeID: "ghij3456",
+                            youtubeStartTime: 5.0,
+                            youtubeEndTime: 6.5
+                        )
+                    ]
+                ),
+                Anime(
+                    id: "anime9",
+                    title: "강철의 연금술사",
+                    quotes: [
+                        AnimeQuote(
+                            id: "quote13",
+                            japanese: ["等価交換だ"],
+                            pronunciation: ["토우카코우칸다"],
+                            korean: ["등가교환이다"],
+                            timeMark: [0.0, 1.2],
+                            voicingTime: 1.7,
+                            audioFile: "fullmetal_alchemist_quote1.mp3",
+                            youtubeID: "klmn7890",
+                            youtubeStartTime: 12.0,
+                            youtubeEndTime: 13.7
+                        )
+                    ]
+                ),
+                Anime(
+                    id: "anime10",
+                    title: "헌터x헌터",
+                    quotes: [
+                        AnimeQuote(
+                            id: "quote14",
+                            japanese: ["楽しいから、やるんだ"],
+                            pronunciation: ["타노시이카라, 야룬다"],
+                            korean: ["즐겁기 때문에 하는 거야"],
+                            timeMark: [0.0, 1.8],
+                            voicingTime: 2.3,
+                            audioFile: "hunter_x_hunter_quote1.mp3",
+                            youtubeID: "opqr1234",
+                            youtubeStartTime: 18.0,
+                            youtubeEndTime: 20.3
+                        )
+                    ]
+                )
+            ]
+        }
 
