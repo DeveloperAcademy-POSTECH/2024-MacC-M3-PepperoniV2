@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUI
 
 struct HakgyoansimSUITModifier: ViewModifier {
     
@@ -30,7 +29,7 @@ struct HakgyoansimSUITModifier: ViewModifier {
         var name: String {
             switch self {
             case .hakgyoansim:
-                return "HakgyoansimUndongjangOTFL"
+                return "OTHakgyoansimUndongjangL"
             case .suit(let weight):
                 return weight.rawValue
             }
