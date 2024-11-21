@@ -85,6 +85,7 @@ struct PlayerSettingView: View {
                 .listStyle(.plain)
                 .padding(.top, 32)
                 .padding(.horizontal, 60)
+                .padding(.bottom,60)
             }
             
             // MARK: -저장 버튼
