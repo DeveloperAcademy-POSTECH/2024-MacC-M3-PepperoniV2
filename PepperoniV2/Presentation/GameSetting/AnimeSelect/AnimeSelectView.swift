@@ -16,78 +16,93 @@ struct AnimeSelectView: View {
     @State var dummie = Dummie()
     
     var body: some View {
-        VStack(spacing: 0) {
-            Header(
-                title: "애니 선택",
-                dismissAction: {
-                    isPresented = false
-                },
-                dismissButtonType: .icon
-            )
-            
-            // MARK: -검색창
-            HStack (spacing: 14){
-                Image(systemName: "magnifyingglass")
-                    .font(.system(size: 17, weight: .regular))
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                Header(
+                    title: "애니 선택",
+                    dismissAction: {
+                        isPresented = false
+                    },
+                    dismissButtonType: .icon
+                )
                 
-                TextField(
-                    "애니 검색",
-                    text: $searchText,
-                    prompt: Text("애니 검색")
-                        .foregroundColor(Color(red: 0.47, green: 0.47, blue: 0.47))
-                )
-                .hakgyoansim(size: 16)
-            }
-            .padding(.horizontal, 13)
-            .padding(.vertical, 9)
-            .foregroundColor(.white)
-            .cornerRadius(6)
-            .overlay {
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(Color(red: 0.47, green: 0.47, blue: 0.47), lineWidth: 1)
-            }
-            .frame(height: 40)
-            .padding(.horizontal)
-            .padding(.top, 8)
-            
-            DashLine()
-                .stroke(style: .init(dash: [6]))
-                .foregroundColor(Color(red: 0.47, green: 0.47, blue: 0.47))
-                .frame(height: 1)
-                .padding(.vertical, 25)
-                .padding(.horizontal, 16)
-              
-            // MARK: -anime 리스트
-            List(currentAnimes) { anime in
-                AnimeRowView(
-                    anime: anime,
-                    isSelected: viewModel.tempSelectedAnime?.id == anime.id
-                )
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .onTapGesture {
-                    viewModel.selectAnime(anime)
+                // MARK: -검색창
+                HStack (spacing: 14){
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 17, weight: .regular))
+                    
+                    TextField(
+                        "애니 검색",
+                        text: $searchText,
+                        prompt: Text("애니 검색")
+                            .foregroundColor(Color(red: 0.47, green: 0.47, blue: 0.47))
+                    )
+                    .hakgyoansim(size: 16)
                 }
+                .padding(.horizontal, 13)
+                .padding(.vertical, 9)
+                .foregroundColor(.white)
+                .cornerRadius(6)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .strokeBorder(Color(red: 0.47, green: 0.47, blue: 0.47), lineWidth: 1)
+                }
+                .frame(height: 40)
+                .padding(.horizontal)
+                .padding(.top, 8)
+                
+                DashLine()
+                    .stroke(style: .init(dash: [6]))
+                    .foregroundColor(Color(red: 0.47, green: 0.47, blue: 0.47))
+                    .frame(height: 1)
+                    .padding(.vertical, 25)
+                    .padding(.horizontal, 16)
+                
+                // MARK: -anime 리스트
+                List(currentAnimes) { anime in
+                    AnimeRowView(
+                        anime: anime,
+                        isSelected: viewModel.tempSelectedAnime?.id == anime.id
+                    )
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .onTapGesture {
+                        viewModel.selectAnime(anime)
+                    }
+                }
+                .listStyle(.plain)
             }
-            .listStyle(.plain)
+            .background(.black)
             
-            // MARK: -저장 버튼
-            Button {
-                viewModel.saveChanges()
-                isPresented = false
-            } label: {
-                Text("저장")
-                    .suit(.extraBold, size: 16)
-                    .foregroundStyle(.black)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 56)
+            VStack {
+                // MARK: -저장 버튼
+                Button {
+                    viewModel.saveChanges()
+                    isPresented = false
+                } label: {
+                    Text("저장")
+                        .suit(.extraBold, size: 16)
+                        .foregroundStyle(.black)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+                }
+                .background(Color(red: 0.86, green: 0.85, blue: 0.92))
+                .cornerRadius(60)
+                .padding(.horizontal)
             }
-            .background(Color(red: 0.86, green: 0.85, blue: 0.92))
-            .cornerRadius(60)
-            .padding(.horizontal)
+            .frame(height: 140, alignment: .bottom)
+            .background(
+                LinearGradient(
+                    stops: [
+                        Gradient.Stop(color: .black.opacity(0), location: 0.00),
+                        Gradient.Stop(color: .black, location: 0.8),
+                    ],
+                    startPoint: UnitPoint(x: 0.5, y: 0),
+                    endPoint: UnitPoint(x: 0.5, y: 1)
+                )
+            )
         }
-        .background(.black)
     }
     
     /// 현재 보여지는 애니 리스트
