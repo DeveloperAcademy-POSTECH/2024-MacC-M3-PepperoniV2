@@ -27,6 +27,7 @@ struct TurnSettingView: View {
     ])
     
     @State private var showAlert = false
+    @State private var afterRoulette = false
     
     var body: some View {
         VStack {
@@ -53,7 +54,7 @@ struct TurnSettingView: View {
                     Text("First Turn")
                         .font(.system(size: 20, weight: .bold)) // 동일한 텍스트 스타일 적용
                 )
-
+            
             ZStack {
                 Circle()
                     .fill(.clear)
@@ -78,54 +79,71 @@ struct TurnSettingView: View {
             }
             .padding(.init(top: 40, leading: 0, bottom: 50, trailing: 0))
             Spacer()
-            HStack{
-                Button(action:{
-                    manager.spinRoulette()
-                }, label:{
-                    RoundedRectangle(cornerRadius: 60)
-                        .frame(height:54)
-                        .foregroundStyle(
-                            RadialGradient(
-                                gradient: Gradient(stops: [
-                                    .init(color: Color(hex:"A52DEF"), location: 0.01),
-                                    .init(color: Color(hex:"9C34F0"), location: 0.06),
-                                    .init(color: Color(hex:"6B56F4"), location: 0.36),
-                                    .init(color: Color(hex:"4ADBFF"), location: 1.0)
-                                ]),
-                                center: UnitPoint(x: 0.62, y: -0.39),
-                                startRadius: -30,
-                                endRadius: 180
+            if !afterRoulette {
+                HStack{
+                    Button(action:{
+                        manager.spinRoulette()
+                        afterRoulette = true
+                    }, label:{
+                        RoundedRectangle(cornerRadius: 60)
+                            .frame(height:54)
+                            .foregroundStyle(
+                                RadialGradient(
+                                    gradient: Gradient(stops: [
+                                        .init(color: Color(hex:"A52DEF"), location: 0.01),
+                                        .init(color: Color(hex:"9C34F0"), location: 0.06),
+                                        .init(color: Color(hex:"6B56F4"), location: 0.36),
+                                        .init(color: Color(hex:"4ADBFF"), location: 1.0)
+                                    ]),
+                                    center: UnitPoint(x: 0.62, y: -0.39),
+                                    startRadius: -30,
+                                    endRadius: 180
+                                )
                             )
-                        )
-                        .overlay{
-                            Text("순서 룰렛 돌리기")
-                                .suit(.extraBold, size: 16)
-                                .foregroundStyle(.white)
-                        }
-                        .background(
-                        
-                        )
-                        .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 12))
-                })
-                Button {
+                            .overlay{
+                                Text("순서 룰렛 돌리기")
+                                    .suit(.extraBold, size: 16)
+                                    .foregroundStyle(.white)
+                            }
+                            .background(
+                                
+                            )
+                            .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 12))
+                    })
+                    Button {
+                        router.push(screen: Game.videoPlay)
+                    } label: {
+                        RoundedRectangle(cornerRadius: 60)
+                            .frame(width:90, height:54)
+                            .foregroundStyle(Color.ppBlueGray)
+                            .overlay{
+                                Text("SKIP")
+                                    .hakgyoansim(size: 16)
+                                    .foregroundStyle(.black)
+                            }
+                            .padding(.trailing, 16)
+                    }
+                }
+                .padding(.bottom, 10)
+            } else{
+                Button(action:{
                     router.push(screen: Game.videoPlay)
                     if let firstPlayer = manager.selectedItem{
                         gameViewModel.changeTurn(first: firstPlayer)
                     }
-                } label: {
+                }, label:{
                     RoundedRectangle(cornerRadius: 60)
-                        .frame(width:90, height:54)
+                        .frame(height:54)
                         .foregroundStyle(Color.ppBlueGray)
                         .overlay{
-                            Text("SKIP")
-                                .hakgyoansim(size: 16)
-                                .foregroundStyle(.black)
+                            Text("다음")
+                                .suit(.extraBold, size:16)
+                                .foregroundStyle(Color.ppBlack_01)
                         }
-                        .padding(.trailing, 16)
-                }
+                        .padding(.init(top: 0, leading: 16, bottom: 10, trailing: 16))
+                })
+                
             }
-
-            
         }
         
         .onAppear {
@@ -166,11 +184,12 @@ struct TurnSettingView: View {
             Alert(
                 title: Text("홈 화면으로 나가시겠습니까?"),
                 primaryButton: .destructive(Text("나가기")) {
-                    //                    router.popToRoot()
+                    router.popToRoot()
                 },
                 secondaryButton: .cancel(Text("취소"))
             )
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

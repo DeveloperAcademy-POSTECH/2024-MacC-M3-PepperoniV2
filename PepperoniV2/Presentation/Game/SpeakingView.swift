@@ -85,7 +85,7 @@ struct SpeakingView: View {
                 )
                 .padding(.bottom, 14)
                 
-                Text("\(gameViewModel.players.count)명중 \(gameViewModel.players[gameViewModel.turnComplete].turn+1)번째")
+                Text("\(gameViewModel.players.count)명중 \(gameViewModel.players[gameViewModel.turnComplete].turn)번째")
                     .suit(.medium, size: 14)
                     .padding(.bottom, 6)
                 
@@ -192,7 +192,7 @@ struct SpeakingView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack{
-                    Text("\(gameViewModel.players.count)명중 \(gameViewModel.players[gameViewModel.turnComplete].turn+1)번째")
+                    Text("\(gameViewModel.players.count)명중 \(gameViewModel.players[gameViewModel.turnComplete].turn)번째")
                         .suit(.medium, size: 14)
                         .padding(.bottom, 6)
                     
@@ -272,7 +272,7 @@ struct SpeakingView: View {
             } else if countdown == 1 {
                 countdown -= 1
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     self.isCounting = false
                     timer.invalidate()
                     sttManager.startRecording() // STT 녹음 시작
