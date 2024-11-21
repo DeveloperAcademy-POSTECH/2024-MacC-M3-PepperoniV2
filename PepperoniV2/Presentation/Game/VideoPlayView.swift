@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct VideoPlayView: View {
+    
     @EnvironmentObject var router: Router
     @Environment(GameViewModel.self) var gameViewModel
     
@@ -25,16 +26,19 @@ struct VideoPlayView: View {
             )
             .padding(.bottom, 34)
             RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray, lineWidth: 2)
+                .stroke(Color.ppDarkGray_02, lineWidth: 2)
                 .frame(height: 78)
                 .overlay{
                     VStack(spacing:6){
                         HStack{
                             Image(systemName: "exclamationmark.triangle.fill")
                             Text("주의")
+                                .hakgyoansim(size: 16)
+                                .foregroundStyle(Color.ppWhiteGray)
                         }
                         Text("애니 내용 스포가 포함되어 있습니다.")
-                            .foregroundStyle(.gray)
+                            .suit(.medium, size:16)
+                            .foregroundStyle(Color.ppDarkGray_01)
                     }
                 }
                 .padding(.init(top: 0, leading: 36, bottom: 28, trailing: 36))
@@ -51,33 +55,53 @@ struct VideoPlayView: View {
             }
             
             RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray, lineWidth: 2)
+                .stroke(Color.ppDarkGray_02, lineWidth: 2)
                 .frame(height: 50)
                 .overlay{
-                    VStack(spacing:6){
                         Text("참고용 영상 안의 대사를 따라 말할 예정입니다.")
-                            .foregroundStyle(.gray)
-                    }
+                        .suit(.medium, size: 16)
+                            .foregroundStyle(Color.ppDarkGray_01)
                 }
                 .padding(.init(top: 0, leading: 16, bottom: 131, trailing: 16))
             
             Button(action: {
                 replayTrigger.toggle()
             }) {
-                Image("YoutubeReplayButton")
-                    .resizable()
+                RoundedRectangle(cornerRadius: 50)
                     .frame(width:109, height:41)
-                    .padding(.bottom, 28)
+                    .foregroundStyle(Color.ppDarkGray_03)
+                    .overlay{
+                        HStack(spacing:4){
+                            Image(systemName:"arrow.counterclockwise")
+                            Text("replay")
+                                .hakgyoansim(size: 19)
+                        }
+                        .foregroundStyle(Color.ppMint_00)
+                    }
+                    .padding(.bottom, 12)
             }
             
             Button {
                 router.push(screen: Game.speaking)
             } label: {
                 RoundedRectangle(cornerRadius: 60)
+                    .foregroundStyle(
+                        RadialGradient(
+                            gradient: Gradient(stops: [
+                                .init(color: Color(hex:"A52DEF"), location: 0.01),
+                                .init(color: Color(hex:"6B56F4"), location: 0.36),
+                                .init(color: Color(hex:"4ADBFF"), location: 1.0)
+                            ]),
+                            center: UnitPoint(x: 0.5, y: 0.5),
+                            startRadius: 5,
+                            endRadius: 180
+                        )
+                    )
                     .frame(height:54)
                     .overlay{
-                        Text("젠데이아 첫번째 시작")
-                            .foregroundStyle(.white)
+                        Text("\(gameViewModel.players[gameViewModel.turnComplete].nickname ?? "") 차례 시작")
+                            .suit(.extraBold, size: 16)
+                            .foregroundStyle(Color.ppWhiteGray)
                     }
                     .padding(.horizontal, 16)
                 
@@ -95,8 +119,3 @@ struct VideoPlayView: View {
         .navigationBarBackButtonHidden(true)
     }
 }
-
-//#Preview {
-//    VideoPlayView()
-//        .preferredColorScheme(.dark)
-//}
