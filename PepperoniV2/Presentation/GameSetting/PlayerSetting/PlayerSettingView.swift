@@ -125,6 +125,7 @@ struct PlayerRowView: View {
     let updateNickname: (Int, String) -> Void
     
     @State private var isEditing: Bool = false
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         HStack(spacing: 12) {
@@ -162,7 +163,7 @@ struct PlayerRowView: View {
                             updateNickname(index, newValue)
                         }
                     ),
-                    prompt: Text("\(index + 1)번")
+                    prompt: Text(isFocused ? "" : "\(index + 1)번")
                         .foregroundStyle(Color.ppWhiteGray)
                 )
                 .foregroundStyle(.white)
@@ -170,6 +171,7 @@ struct PlayerRowView: View {
                 .background(Color(red: 0.19, green: 0.19, blue: 0.22))
                 .cornerRadius(10)
                 .multilineTextAlignment(.center)
+                .focused($isFocused)
             }
             .frame(height: 60)
             .foregroundStyle(Color.ppWhiteGray)
