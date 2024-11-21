@@ -29,6 +29,7 @@
 		90E2E9932CED035600857636 /* BOT006.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 90E2E9922CED035600857636 /* BOT006.m4a */; };
 		90F69DDC2CECCEA40053AADA /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F69DDB2CECCEA40053AADA /* GameViewModel.swift */; };
 		BD04533A2CEE308700F83631 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0453392CEE308400F83631 /* Color+.swift */; };
+		BD0453402CEF795A00F83631 /* Gradient+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD04533F2CEF795A00F83631 /* Gradient+.swift */; };
 		BD400C9D2CE890320052174B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400C9C2CE8902C0052174B /* AppDelegate.swift */; };
 		BD400CA12CE890B40052174B /* AnimeQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CA02CE890B00052174B /* AnimeQuote.swift */; };
 		BD400CA62CE891C10052174B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD400CA52CE891B90052174B /* HomeView.swift */; };
@@ -74,6 +75,7 @@
 		90E2E9922CED035600857636 /* BOT006.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BOT006.m4a; sourceTree = "<group>"; };
 		90F69DDB2CECCEA40053AADA /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		BD0453392CEE308400F83631 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		BD04533F2CEF795A00F83631 /* Gradient+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+.swift"; sourceTree = "<group>"; };
 		BD400C9C2CE8902C0052174B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD400CA02CE890B00052174B /* AnimeQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeQuote.swift; sourceTree = "<group>"; };
 		BD400CA52CE891B90052174B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 		BD0453382CEE307900F83631 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				BD04533F2CEF795A00F83631 /* Gradient+.swift */,
 				BD0453392CEE308400F83631 /* Color+.swift */,
 				90A5038F2CEF11FF00D83DCC /* Font.swift */,
 				90A503912CEF12DD00D83DCC /* Fonts */,
@@ -394,6 +397,7 @@
 				909C93262CE5F29100976538 /* PepperoniV2App.swift in Sources */,
 				BD400CBF2CE9A8930052174B /* SpeakingView.swift in Sources */,
 				90E2E98F2CED01EA00857636 /* STTManager.swift in Sources */,
+				BD0453402CEF795A00F83631 /* Gradient+.swift in Sources */,
 				90E2E9912CED020700857636 /* SpeechGrader.swift in Sources */,
 				BD400CC32CE9A8A90052174B /* RankingView.swift in Sources */,
 				BD400CB32CE892CE0052174B /* PlayerSettingView.swift in Sources */,
