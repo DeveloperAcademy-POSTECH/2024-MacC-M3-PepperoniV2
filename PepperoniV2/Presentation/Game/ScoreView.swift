@@ -150,7 +150,6 @@ struct ScoreBar: View {
                             y: maxHeight
                                 - polygonHeight * CGFloat(index)
                                 - polygonHeight / 2
-                                - (index == 0 ? polygonHeight / 4 : 0) // 첫 번째 Polygon만 간격 추가
                         )
                 }
 
