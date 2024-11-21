@@ -128,9 +128,9 @@ struct TurnSettingView: View {
             
         }
         
-//        .onAppear {
-//            manager.players = gameViewModel.players
-//        }
+        .onAppear {
+            manager.players = gameViewModel.players
+        }
         .onAppear{
             // 마이크 권한 요청
             AVAudioSession.sharedInstance().requestRecordPermission { granted in
