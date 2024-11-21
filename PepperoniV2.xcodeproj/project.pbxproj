@@ -13,6 +13,17 @@
 		909C93242CE5F29100976538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 909C931F2CE5F29100976538 /* Assets.xcassets */; };
 		909C93252CE5F29100976538 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C93202CE5F29100976538 /* ContentView.swift */; };
 		909C93262CE5F29100976538 /* PepperoniV2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C93212CE5F29100976538 /* PepperoniV2App.swift */; };
+		90A503902CEF11FF00D83DCC /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A5038F2CEF11FF00D83DCC /* Font.swift */; };
+		90A5039B2CEF12F600D83DCC /* SUIT-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90A503932CEF12F600D83DCC /* SUIT-ExtraBold.otf */; };
+		90A5039C2CEF12F600D83DCC /* SUIT-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90A503952CEF12F600D83DCC /* SUIT-Heavy.otf */; };
+		90A5039D2CEF12F600D83DCC /* SUIT-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90A503962CEF12F600D83DCC /* SUIT-Light.otf */; };
+		90A5039E2CEF12F600D83DCC /* SUIT-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90A503982CEF12F600D83DCC /* SUIT-Regular.otf */; };
+		90A5039F2CEF12F600D83DCC /* SUIT-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90A5039A2CEF12F600D83DCC /* SUIT-Thin.otf */; };
+		90A503A02CEF12F600D83DCC /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90A503922CEF12F600D83DCC /* SUIT-Bold.otf */; };
+		90A503A12CEF12F600D83DCC /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90A503992CEF12F600D83DCC /* SUIT-SemiBold.otf */; };
+		90A503A22CEF12F600D83DCC /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90A503972CEF12F600D83DCC /* SUIT-Medium.otf */; };
+		90A503A32CEF12F600D83DCC /* SUIT-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90A503942CEF12F600D83DCC /* SUIT-ExtraLight.otf */; };
+		90A503A82CEF174000D83DCC /* HakgyoansimUndongjangOTFL.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90A503A72CEF174000D83DCC /* HakgyoansimUndongjangOTFL.otf */; };
 		90E2E98F2CED01EA00857636 /* STTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E2E98E2CED01EA00857636 /* STTManager.swift */; };
 		90E2E9912CED020700857636 /* SpeechGrader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E2E9902CED020700857636 /* SpeechGrader.swift */; };
 		90E2E9932CED035600857636 /* BOT006.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 90E2E9922CED035600857636 /* BOT006.m4a */; };
@@ -46,6 +57,18 @@
 		909C931F2CE5F29100976538 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		909C93202CE5F29100976538 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		909C93212CE5F29100976538 /* PepperoniV2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PepperoniV2App.swift; sourceTree = "<group>"; };
+		90A5038F2CEF11FF00D83DCC /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		90A503922CEF12F600D83DCC /* SUIT-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Bold.otf"; sourceTree = "<group>"; };
+		90A503932CEF12F600D83DCC /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-ExtraBold.otf"; sourceTree = "<group>"; };
+		90A503942CEF12F600D83DCC /* SUIT-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-ExtraLight.otf"; sourceTree = "<group>"; };
+		90A503952CEF12F600D83DCC /* SUIT-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Heavy.otf"; sourceTree = "<group>"; };
+		90A503962CEF12F600D83DCC /* SUIT-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Light.otf"; sourceTree = "<group>"; };
+		90A503972CEF12F600D83DCC /* SUIT-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Medium.otf"; sourceTree = "<group>"; };
+		90A503982CEF12F600D83DCC /* SUIT-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Regular.otf"; sourceTree = "<group>"; };
+		90A503992CEF12F600D83DCC /* SUIT-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-SemiBold.otf"; sourceTree = "<group>"; };
+		90A5039A2CEF12F600D83DCC /* SUIT-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SUIT-Thin.otf"; sourceTree = "<group>"; };
+		90A503A62CEF133700D83DCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		90A503A72CEF174000D83DCC /* HakgyoansimUndongjangOTFL.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HakgyoansimUndongjangOTFL.otf; sourceTree = "<group>"; };
 		90E2E98E2CED01EA00857636 /* STTManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STTManager.swift; sourceTree = "<group>"; };
 		90E2E9902CED020700857636 /* SpeechGrader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechGrader.swift; sourceTree = "<group>"; };
 		90E2E9922CED035600857636 /* BOT006.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BOT006.m4a; sourceTree = "<group>"; };
@@ -110,6 +133,7 @@
 		909C93222CE5F29100976538 /* PepperoniV2 */ = {
 			isa = PBXGroup;
 			children = (
+				90A503A62CEF133700D83DCC /* Info.plist */,
 				BD400C9B2CE890200052174B /* App */,
 				BD400C9E2CE890620052174B /* Data */,
 				BD400CB62CE9A7360052174B /* Router */,
@@ -138,10 +162,29 @@
 			path = audioFile;
 			sourceTree = "<group>";
 		};
+		90A503912CEF12DD00D83DCC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				90A503922CEF12F600D83DCC /* SUIT-Bold.otf */,
+				90A503932CEF12F600D83DCC /* SUIT-ExtraBold.otf */,
+				90A503942CEF12F600D83DCC /* SUIT-ExtraLight.otf */,
+				90A503952CEF12F600D83DCC /* SUIT-Heavy.otf */,
+				90A503962CEF12F600D83DCC /* SUIT-Light.otf */,
+				90A503972CEF12F600D83DCC /* SUIT-Medium.otf */,
+				90A503982CEF12F600D83DCC /* SUIT-Regular.otf */,
+				90A503992CEF12F600D83DCC /* SUIT-SemiBold.otf */,
+				90A5039A2CEF12F600D83DCC /* SUIT-Thin.otf */,
+				90A503A72CEF174000D83DCC /* HakgyoansimUndongjangOTFL.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		BD0453382CEE307900F83631 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				BD0453392CEE308400F83631 /* Color+.swift */,
+				90A5038F2CEF11FF00D83DCC /* Font.swift */,
+				90A503912CEF12DD00D83DCC /* Fonts */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -319,7 +362,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				909C93232CE5F29100976538 /* Preview Assets.xcassets in Resources */,
+				90A5039B2CEF12F600D83DCC /* SUIT-ExtraBold.otf in Resources */,
+				90A5039C2CEF12F600D83DCC /* SUIT-Heavy.otf in Resources */,
+				90A5039D2CEF12F600D83DCC /* SUIT-Light.otf in Resources */,
+				90A5039E2CEF12F600D83DCC /* SUIT-Regular.otf in Resources */,
+				90A5039F2CEF12F600D83DCC /* SUIT-Thin.otf in Resources */,
+				90A503A02CEF12F600D83DCC /* SUIT-Bold.otf in Resources */,
+				90A503A12CEF12F600D83DCC /* SUIT-SemiBold.otf in Resources */,
+				90A503A22CEF12F600D83DCC /* SUIT-Medium.otf in Resources */,
+				90A503A32CEF12F600D83DCC /* SUIT-ExtraLight.otf in Resources */,
 				90E2E9932CED035600857636 /* BOT006.m4a in Resources */,
+				90A503A82CEF174000D83DCC /* HakgyoansimUndongjangOTFL.otf in Resources */,
 				909C93242CE5F29100976538 /* Assets.xcassets in Resources */,
 				909C931C2CE5F08E00976538 /* .gitignore in Resources */,
 			);
@@ -337,6 +390,7 @@
 				BD400C9D2CE890320052174B /* AppDelegate.swift in Sources */,
 				BD400CBD2CE9A8860052174B /* VideoPlayView.swift in Sources */,
 				909C93252CE5F29100976538 /* ContentView.swift in Sources */,
+				90A503902CEF11FF00D83DCC /* Font.swift in Sources */,
 				909C93262CE5F29100976538 /* PepperoniV2App.swift in Sources */,
 				BD400CBF2CE9A8930052174B /* SpeakingView.swift in Sources */,
 				90E2E98F2CED01EA00857636 /* STTManager.swift in Sources */,
@@ -492,6 +546,7 @@
 				DEVELOPMENT_TEAM = PK4L7H6D6F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PepperoniV2/Info.plist;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -524,6 +579,7 @@
 				DEVELOPMENT_TEAM = PK4L7H6D6F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PepperoniV2/Info.plist;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
