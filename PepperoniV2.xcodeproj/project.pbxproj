@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		516A49232CEF96D000D4E9DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 516A49222CEF96D000D4E9DE /* GoogleService-Info.plist */; };
+		516A49252CEF98CB00D4E9DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */; };
 		90129B852CEC67ED0029DAEF /* RouletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90129B842CEC67E70029DAEF /* RouletteManager.swift */; };
 		909C931C2CE5F08E00976538 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 909C931B2CE5F08E00976538 /* .gitignore */; };
 		909C93232CE5F29100976538 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 909C931D2CE5F29100976538 /* Preview Assets.xcassets */; };
@@ -51,7 +51,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		516A49222CEF96D000D4E9DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		90129B842CEC67E70029DAEF /* RouletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouletteManager.swift; sourceTree = "<group>"; };
 		909C93082CE5EFE400976538 /* PepperoniV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PepperoniV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909C931B2CE5F08E00976538 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 		909C93222CE5F29100976538 /* PepperoniV2 */ = {
 			isa = PBXGroup;
 			children = (
-				516A49222CEF96D000D4E9DE /* GoogleService-Info.plist */,
+				516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */,
 				90A503A62CEF133700D83DCC /* Info.plist */,
 				BD400C9B2CE890200052174B /* App */,
 				BD400C9E2CE890620052174B /* Data */,
@@ -373,6 +373,7 @@
 				90A5039F2CEF12F600D83DCC /* SUIT-Thin.otf in Resources */,
 				90A503A02CEF12F600D83DCC /* SUIT-Bold.otf in Resources */,
 				90A503A12CEF12F600D83DCC /* SUIT-SemiBold.otf in Resources */,
+				516A49252CEF98CB00D4E9DE /* GoogleService-Info.plist in Resources */,
 				90A503A22CEF12F600D83DCC /* SUIT-Medium.otf in Resources */,
 				90A503A32CEF12F600D83DCC /* SUIT-ExtraLight.otf in Resources */,
 				90E2E9932CED035600857636 /* BOT006.m4a in Resources */,
