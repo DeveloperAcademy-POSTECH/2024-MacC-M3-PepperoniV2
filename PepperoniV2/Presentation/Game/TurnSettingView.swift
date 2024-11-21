@@ -105,9 +105,6 @@ struct TurnSettingView: View {
                                     .suit(.extraBold, size: 16)
                                     .foregroundStyle(.white)
                             }
-                            .background(
-                                
-                            )
                             .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 12))
                     })
                     Button {
