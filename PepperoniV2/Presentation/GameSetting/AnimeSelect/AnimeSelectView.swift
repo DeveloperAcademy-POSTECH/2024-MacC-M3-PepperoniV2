@@ -22,7 +22,7 @@ struct AnimeSelectView: View {
                 dismissAction: {
                     isPresented = false
                 },
-                dismissButtonType: .icon("xmark")
+                dismissButtonType: .icon
             )
             
             // MARK: -검색창

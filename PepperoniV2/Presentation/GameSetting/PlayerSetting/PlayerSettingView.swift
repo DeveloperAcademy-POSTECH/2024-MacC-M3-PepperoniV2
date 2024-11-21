@@ -18,7 +18,7 @@ struct PlayerSettingView: View {
                 dismissAction: {
                     isPresented = false
                 },
-                dismissButtonType: .icon("xmark")
+                dismissButtonType: .icon
             )
             
             // MARK: - 리셋 버튼
