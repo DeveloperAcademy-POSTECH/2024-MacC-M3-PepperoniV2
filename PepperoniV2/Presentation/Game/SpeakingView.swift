@@ -154,10 +154,10 @@ struct SpeakingView: View {
                 VStack{
                     Button(action:{
                         Task {
-//                            await sttManager.stopRecording()  // stopRecoding() 동기 처리
+                            await sttManager.stopRecording()  // stopRecoding() 동기 처리
                             stopTimer()
                             grading()
-//                            router.push(screen: Game.score)
+                            router.push(screen: Game.score)
                         }
                     }, label:{
                         Image("SpeakingStopButton")
