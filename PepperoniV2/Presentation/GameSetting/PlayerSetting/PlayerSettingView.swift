@@ -17,7 +17,7 @@ struct PlayerSettingView: View {
                 title: "인원 설정",
                 dismissAction: {
                     isPresented = false
-                },
+                }
                 dismissButtonType: .icon
             )
             
