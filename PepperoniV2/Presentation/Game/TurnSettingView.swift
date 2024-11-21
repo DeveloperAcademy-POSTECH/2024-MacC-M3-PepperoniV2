@@ -10,8 +10,8 @@ import AVFoundation
 import Speech
 
 struct TurnSettingView: View {
-//    @EnvironmentObject var router: Router
-//    @Environment(GameViewModel.self) var gameViewModel
+    @EnvironmentObject var router: Router
+    @Environment(GameViewModel.self) var gameViewModel
     
     @StateObject var manager: RouletteManager = RouletteManager(players: [
         Player(nickname: "준요", turn: 1),
@@ -108,10 +108,10 @@ struct TurnSettingView: View {
                         .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 12))
                 })
                 Button {
-        //            router.push(screen: Game.videoPlay)
-        //            if let firstPlayer = manager.selectedItem{
-        //                gameViewModel.changeTurn(first: firstPlayer)
-        //            }
+                    router.push(screen: Game.videoPlay)
+                    if let firstPlayer = manager.selectedItem{
+                        gameViewModel.changeTurn(first: firstPlayer)
+                    }
                 } label: {
                     RoundedRectangle(cornerRadius: 60)
                         .frame(width:90, height:54)
@@ -128,9 +128,9 @@ struct TurnSettingView: View {
             
         }
         
-//        .onAppear {
-//            manager.players = gameViewModel.players
-//        }
+        .onAppear {
+            manager.players = gameViewModel.players
+        }
         .onAppear{
             // 마이크 권한 요청
             AVAudioSession.sharedInstance().requestRecordPermission { granted in
