@@ -14,7 +14,7 @@ struct Header: View {
     
     enum DismissButtonType {
         case text(String)
-        case icon(String)
+        case icon
     }
     
     var body: some View {
@@ -22,9 +22,9 @@ struct Header: View {
             ZStack(alignment: .center) {
                 // 타이틀
                 Text(title)
-                    .font(.system(size: 22, weight: .bold))
+                    .hakgyoansim(size: 20)
                     .frame(width: geometry.size.width, alignment: .center)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.ppWhiteGray)
                 
                 // 버튼
                 if let dismissAction = dismissAction, let buttonType = dismissButtonType {
@@ -35,13 +35,13 @@ struct Header: View {
                             switch buttonType {
                             case .text(let text):
                                 Text(text)
-                                    .font(.system(size: 14, weight: .bold))
-                            case .icon(let iconName):
-                                Image(systemName: iconName)
+                                    .suit(.bold, size: 16)
+                                    .foregroundStyle(Color.ppDarkGray_01)
+                            case .icon:
+                                Image("DismissButton")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 18)
-                                    .fontWeight(.medium)
+                                    .frame(width: 18.6)
                                 
                             }
                         }
@@ -64,6 +64,6 @@ struct Header: View {
         dismissAction: {
             print("나가기 버튼 클릭")
         },
-        dismissButtonType: .text("나가기")
+        dismissButtonType: .icon
     )
 }
