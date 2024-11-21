@@ -36,7 +36,7 @@ struct AnimeSelectView: View {
                     prompt: Text("애니 검색")
                         .foregroundColor(Color(red: 0.47, green: 0.47, blue: 0.47))
                 )
-                .font(.system(size: 16, weight: .medium))
+                .hakgyoansim(size: 16)
             }
             .padding(.horizontal, 13)
             .padding(.vertical, 9)
@@ -78,7 +78,7 @@ struct AnimeSelectView: View {
                 isPresented = false
             } label: {
                 Text("저장")
-                    .font(.system(size: 16, weight: .bold))
+                    .suit(.extraBold, size: 16)
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity)
                     .frame(height: 56)
@@ -135,7 +135,7 @@ struct AnimeRowView: View {
             HStack {
                 Text(anime.title)
                     .foregroundStyle(.white)
-                    .font(.system(size: 18, weight: .medium))
+                    .suit(.medium, size: 16)
                 
                 Spacer()
             }
