@@ -22,7 +22,7 @@ struct Header: View {
             ZStack(alignment: .center) {
                 // 타이틀
                 Text(title)
-                    .font(.system(size: 22, weight: .bold))
+                    .hakgyoansim(size: 20)
                     .frame(width: geometry.size.width, alignment: .center)
                     .foregroundStyle(.white)
                 
@@ -35,7 +35,7 @@ struct Header: View {
                             switch buttonType {
                             case .text(let text):
                                 Text(text)
-                                    .font(.system(size: 14, weight: .bold))
+                                    .suit(.bold, size: 16)
                             case .icon(let iconName):
                                 Image(systemName: iconName)
                                     .resizable()

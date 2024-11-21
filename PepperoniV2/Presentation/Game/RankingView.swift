@@ -149,6 +149,7 @@ struct RankingView: View {
                 // 현재는 turnSetting으로 이동
                 // 3: VideoPlay로 이동
                 gameViewModel.retryThisQuote()
+                gameViewModel.turnComplete = 0
                 router.pop(depth: 4)
             } label: {
                 RoundedRectangle(cornerRadius: 60)
@@ -164,6 +165,7 @@ struct RankingView: View {
             
             
             Button {
+                gameViewModel.turnComplete = 0
                 router.popToRoot()
             } label: {
                 Text("나가기")
