@@ -12,6 +12,7 @@
 		516A492A2CEF9AD200D4E9DE /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 516A49292CEF9AD200D4E9DE /* FirebaseDatabase */; };
 		516A492C2CEF9AD200D4E9DE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 516A492B2CEF9AD200D4E9DE /* FirebaseFirestore */; };
 		516A492E2CEF9AD200D4E9DE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 516A492D2CEF9AD200D4E9DE /* FirebaseStorage */; };
+		516A49312CEF9D6600D4E9DE /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516A49302CEF9D6600D4E9DE /* FirestoreService.swift */; };
 		90129B852CEC67ED0029DAEF /* RouletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90129B842CEC67E70029DAEF /* RouletteManager.swift */; };
 		909C931C2CE5F08E00976538 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 909C931B2CE5F08E00976538 /* .gitignore */; };
 		909C93232CE5F29100976538 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 909C931D2CE5F29100976538 /* Preview Assets.xcassets */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		516A49302CEF9D6600D4E9DE /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		90129B842CEC67E70029DAEF /* RouletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouletteManager.swift; sourceTree = "<group>"; };
 		909C93082CE5EFE400976538 /* PepperoniV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PepperoniV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909C931B2CE5F08E00976538 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -115,6 +117,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		516A492F2CEF9D3C00D4E9DE /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				516A49302CEF9D6600D4E9DE /* FirestoreService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		909C92FF2CE5EFE400976538 = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +160,7 @@
 				BD400CB62CE9A7360052174B /* Router */,
 				BD400CA32CE8914D0052174B /* Presentation */,
 				BD400C992CE88EDD0052174B /* Resource */,
+				516A492F2CEF9D3C00D4E9DE /* Service */,
 				909C931E2CE5F29100976538 /* Preview Content */,
 			);
 			path = PepperoniV2;
@@ -405,6 +416,7 @@
 				BD8A5FB32CECD750004CB014 /* Header.swift in Sources */,
 				BD04533A2CEE308700F83631 /* Color+.swift in Sources */,
 				BD400C9D2CE890320052174B /* AppDelegate.swift in Sources */,
+				516A49312CEF9D6600D4E9DE /* FirestoreService.swift in Sources */,
 				BD400CBD2CE9A8860052174B /* VideoPlayView.swift in Sources */,
 				909C93252CE5F29100976538 /* ContentView.swift in Sources */,
 				90A503902CEF11FF00D83DCC /* Font.swift in Sources */,
