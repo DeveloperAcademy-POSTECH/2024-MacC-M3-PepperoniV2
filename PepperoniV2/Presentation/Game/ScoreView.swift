@@ -98,7 +98,7 @@ struct ScoreBar: View {
                         stops: [
                             Gradient.Stop(color: Color.ppMint_00,location: 0.00),
                             Gradient.Stop(color: Color.ppPurple_02, location: 0.75),
-                            Gradient.Stop(color: Color.ppPink_00, location: 1.00),
+                            Gradient.Stop(color: Color(hex:"AD29FF"), location: 1.00),
                         ],
                         startPoint: UnitPoint(x: 0.5, y: 0),
                         endPoint: UnitPoint(x: 0.5, y: 1)
@@ -249,8 +249,17 @@ struct NextPlayerButton: View {
         }
         .background(
             gameViewModel.turnComplete < gameViewModel.players.count - 1
-                ? Color.ppBlueGray // 일반 차례 버튼 배경
-                : Color.ppPurple_02 // 마지막 차례 버튼 배경
+                ? LinearGradient(
+                    gradient: Gradient(colors: [Color.ppBlueGray]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                : LinearGradient(
+                    gradient: Gradient(colors: [Color.ppMint_00,
+                                                Color(hex:"AD29FF")]),
+                    startPoint: .topTrailing,
+                    endPoint: .bottomLeading
+                )
         )
         .cornerRadius(60)
         .padding(.horizontal)
@@ -258,6 +267,6 @@ struct NextPlayerButton: View {
     }
 }
 
-//#Preview {
-//    ScoreView()
-//}
+#Preview {
+    ScoreView()
+}
