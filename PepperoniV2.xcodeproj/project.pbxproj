@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		516A49252CEF98CB00D4E9DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */; };
+		516A49282CEF9AD200D4E9DE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 516A49272CEF9AD200D4E9DE /* FirebaseAuth */; };
+		516A492A2CEF9AD200D4E9DE /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 516A49292CEF9AD200D4E9DE /* FirebaseDatabase */; };
+		516A492C2CEF9AD200D4E9DE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 516A492B2CEF9AD200D4E9DE /* FirebaseFirestore */; };
+		516A492E2CEF9AD200D4E9DE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 516A492D2CEF9AD200D4E9DE /* FirebaseStorage */; };
+		516A49312CEF9D6600D4E9DE /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516A49302CEF9D6600D4E9DE /* FirestoreService.swift */; };
 		90129B852CEC67ED0029DAEF /* RouletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90129B842CEC67E70029DAEF /* RouletteManager.swift */; };
 		909C931C2CE5F08E00976538 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 909C931B2CE5F08E00976538 /* .gitignore */; };
 		909C93232CE5F29100976538 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 909C931D2CE5F29100976538 /* Preview Assets.xcassets */; };
@@ -51,6 +57,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		516A49302CEF9D6600D4E9DE /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		90129B842CEC67E70029DAEF /* RouletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouletteManager.swift; sourceTree = "<group>"; };
 		909C93082CE5EFE400976538 /* PepperoniV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PepperoniV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909C931B2CE5F08E00976538 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -100,13 +108,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				516A492A2CEF9AD200D4E9DE /* FirebaseDatabase in Frameworks */,
+				516A492C2CEF9AD200D4E9DE /* FirebaseFirestore in Frameworks */,
 				BD400CCA2CEA62270052174B /* YouTubeiOSPlayerHelper in Frameworks */,
+				516A492E2CEF9AD200D4E9DE /* FirebaseStorage in Frameworks */,
+				516A49282CEF9AD200D4E9DE /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		516A492F2CEF9D3C00D4E9DE /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				516A49302CEF9D6600D4E9DE /* FirestoreService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		909C92FF2CE5EFE400976538 = {
 			isa = PBXGroup;
 			children = (
@@ -135,12 +155,14 @@
 		909C93222CE5F29100976538 /* PepperoniV2 */ = {
 			isa = PBXGroup;
 			children = (
+				516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */,
 				90A503A62CEF133700D83DCC /* Info.plist */,
 				BD400C9B2CE890200052174B /* App */,
 				BD400C9E2CE890620052174B /* Data */,
 				BD400CB62CE9A7360052174B /* Router */,
 				BD400CA32CE8914D0052174B /* Presentation */,
 				BD400C992CE88EDD0052174B /* Resource */,
+				516A492F2CEF9D3C00D4E9DE /* Service */,
 				909C931E2CE5F29100976538 /* Preview Content */,
 			);
 			path = PepperoniV2;
@@ -317,6 +339,10 @@
 			name = PepperoniV2;
 			packageProductDependencies = (
 				BD400CC92CEA62270052174B /* YouTubeiOSPlayerHelper */,
+				516A49272CEF9AD200D4E9DE /* FirebaseAuth */,
+				516A49292CEF9AD200D4E9DE /* FirebaseDatabase */,
+				516A492B2CEF9AD200D4E9DE /* FirebaseFirestore */,
+				516A492D2CEF9AD200D4E9DE /* FirebaseStorage */,
 			);
 			productName = PepperoniV2;
 			productReference = 909C93082CE5EFE400976538 /* PepperoniV2.app */;
@@ -348,6 +374,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				BD400CC82CEA62270052174B /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
+				516A49262CEF9AD200D4E9DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 909C93092CE5EFE400976538 /* Products */;
@@ -372,6 +399,7 @@
 				90A5039F2CEF12F600D83DCC /* SUIT-Thin.otf in Resources */,
 				90A503A02CEF12F600D83DCC /* SUIT-Bold.otf in Resources */,
 				90A503A12CEF12F600D83DCC /* SUIT-SemiBold.otf in Resources */,
+				516A49252CEF98CB00D4E9DE /* GoogleService-Info.plist in Resources */,
 				90A503A22CEF12F600D83DCC /* SUIT-Medium.otf in Resources */,
 				90A503A32CEF12F600D83DCC /* SUIT-ExtraLight.otf in Resources */,
 				90E2E9932CED035600857636 /* BOT006.m4a in Resources */,
@@ -391,6 +419,7 @@
 				BD8A5FB32CECD750004CB014 /* Header.swift in Sources */,
 				BD04533A2CEE308700F83631 /* Color+.swift in Sources */,
 				BD400C9D2CE890320052174B /* AppDelegate.swift in Sources */,
+				516A49312CEF9D6600D4E9DE /* FirestoreService.swift in Sources */,
 				BD400CBD2CE9A8860052174B /* VideoPlayView.swift in Sources */,
 				909C93252CE5F29100976538 /* ContentView.swift in Sources */,
 				90A503902CEF11FF00D83DCC /* Font+.swift in Sources */,
@@ -547,7 +576,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PepperoniV2/Preview Content\"";
-				DEVELOPMENT_TEAM = 5Z2TRCRXZZ;
+				DEVELOPMENT_TEAM = 2U3B7G3F2A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PepperoniV2/Info.plist;
@@ -580,7 +609,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PepperoniV2/Preview Content\"";
-				DEVELOPMENT_TEAM = 5Z2TRCRXZZ;
+				DEVELOPMENT_TEAM = 2U3B7G3F2A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PepperoniV2/Info.plist;
@@ -629,6 +658,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		516A49262CEF9AD200D4E9DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.5.0;
+			};
+		};
 		BD400CC82CEA62270052174B /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/youtube/youtube-ios-player-helper.git";
@@ -640,6 +677,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		516A49272CEF9AD200D4E9DE /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 516A49262CEF9AD200D4E9DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		516A49292CEF9AD200D4E9DE /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 516A49262CEF9AD200D4E9DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		516A492B2CEF9AD200D4E9DE /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 516A49262CEF9AD200D4E9DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		516A492D2CEF9AD200D4E9DE /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 516A49262CEF9AD200D4E9DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		BD400CC92CEA62270052174B /* YouTubeiOSPlayerHelper */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BD400CC82CEA62270052174B /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */;

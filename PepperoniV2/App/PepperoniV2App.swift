@@ -19,10 +19,21 @@ struct PepperoniV2App: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .preferredColorScheme(.dark)
+                .onAppear {
+                    Task {
+                        do {
+                            let context = modelContainer.mainContext
+                            try await FirestoreService().fetchAndStoreData(context: context)
+                        } catch {
+                            print("Failed to fetch and store data: \(error.localizedDescription)")
+                        }
+                    }
+                }
         }
         .modelContainer(modelContainer)
     }

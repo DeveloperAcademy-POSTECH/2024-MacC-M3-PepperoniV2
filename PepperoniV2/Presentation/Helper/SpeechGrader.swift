@@ -77,11 +77,13 @@ private func levenshteinDistance(_ source: String, _ target: String) -> Int {
 }
 
 func calculateIntonation(referenceFileName: String, comparisonFileURL: URL) -> Double {
-    guard let referenceURL = Bundle.main.url(forResource: String(referenceFileName.dropLast(4)), withExtension: "m4a") else {
-        print("참조 파일을 찾을 수 없습니다.")
+    let referenceURL = URL(fileURLWithPath: referenceFileName)
+    
+    // 파일 존재 여부 확인
+    guard FileManager.default.fileExists(atPath: referenceURL.path) else {
+        print("참조 파일을 찾을 수 없습니다: \(referenceURL.path)")
         return 0.0
     }
-    
     guard let referencePitchData = extractPitchData(from: referenceURL),
           let comparisonPitchData = extractPitchData(from: comparisonFileURL) else {
         print("피치 데이터를 추출할 수 없습니다.")

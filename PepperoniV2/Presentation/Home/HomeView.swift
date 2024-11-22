@@ -86,21 +86,7 @@ struct HomeView: View {
             
             // MARK: -시작 버튼
             Button {
-                setRandomQuote()
-                gameViewModel.players = gameData.players
-                gameViewModel.selectedAnime = gameData.selectedAnime
-                gameViewModel.selectedQuote = AnimeQuote(id: "String",
-                                                         japanese: ["本当の", "夢は", "その", "先に", "あるんだけど"],
-                                                         pronunciation: ["혼토오노", "유메와", "소노", "사키니", "아룬다케도"],
-                                                         korean: ["진짜", "꿈은", "그", "뒤에", "있어"],
-                                                         timeMark: [0.01, 0.5, 1.1, 1.3, 1.7],
-                                                         voicingTime: 2.2,
-                                                         audioFile: "BOT006.m4a",
-                                                         youtubeID: "6gQGHGpoBm4",
-                                                         youtubeStartTime: 1,
-                                                         youtubeEndTime: 26)
-                //                gameViewModel.selectedQuote = gameData.selectedQuote
-                router.push(screen: Game.turnSetting)
+                startGame()
             } label: {
                 Image(isGameStartEnabled ? "StartButton" : "StartButton_disabled")
             }
@@ -108,6 +94,19 @@ struct HomeView: View {
         }
         .padding(.horizontal)
         .background(.black)
+    }
+    
+    private func startGame() {
+        // 랜덤 Quote 설정
+        setRandomQuote()
+        
+        // GameViewModel에 데이터 설정
+        gameViewModel.players = gameData.players
+        gameViewModel.selectedAnime = gameData.selectedAnime
+        gameViewModel.selectedQuote = gameData.selectedQuote
+        
+        // 다음 화면으로 이동
+        router.push(screen: Game.turnSetting)
     }
     
     /// 랜덤으로 quote를 선택
