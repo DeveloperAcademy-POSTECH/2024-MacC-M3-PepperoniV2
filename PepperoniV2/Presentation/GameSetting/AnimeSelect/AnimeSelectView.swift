@@ -72,6 +72,7 @@ struct AnimeSelectView: View {
                     }
                 }
                 .listStyle(.plain)
+                .padding(.bottom,60)
             }
             .background(.black)
             
