@@ -37,7 +37,7 @@ import SwiftUI
     
     /// 플레이어 초기화
     func resetPlayer() {
-        tempPlayers = [Player(nickname: "1번", turn: 1)]
+        tempPlayers = [Player(nickname: "", turn: 1)]
     }
     
     /// 변경사항 저장
