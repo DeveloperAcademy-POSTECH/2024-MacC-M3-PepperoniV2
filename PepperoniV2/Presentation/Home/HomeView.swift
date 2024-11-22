@@ -22,10 +22,29 @@ struct HomeView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text("DUKBAM")
-                .hakgyoansim(size: 28)
-                .foregroundStyle(Color.ppWhiteGray)
-                .padding(.bottom, 45)
+            GeometryReader { geometry in
+                ZStack(alignment: .center) {
+                    // 타이틀
+                    Text("DUKBAM")
+                        .hakgyoansim(size: 28)
+                        .foregroundStyle(Color.ppWhiteGray)
+                    
+                    // 버튼
+                    HStack {
+                        Spacer()
+                        
+                        Button {
+                            // TODO: -개발자에게 요청 구글폼!
+                        } label: {
+                            Image("RequestButton")
+                        }
+                        .foregroundStyle(.white)
+                        .padding(.trailing, 16)
+                        .frame(width: geometry.size.width, alignment: .trailing)
+                    }
+                }
+            }
+            .frame(height: 70, alignment: .top)
             
             // MARK: -애니 선택
             VStack {
