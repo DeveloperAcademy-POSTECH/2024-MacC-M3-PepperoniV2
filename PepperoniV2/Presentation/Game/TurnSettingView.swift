@@ -145,6 +145,7 @@ struct TurnSettingView: View {
         
         .onAppear {
             manager.players = gameViewModel.players
+            afterRoulette = false
         }
         .onAppear{
             // 마이크 권한 요청
