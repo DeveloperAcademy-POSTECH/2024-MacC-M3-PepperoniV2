@@ -314,6 +314,8 @@ struct SpeakingView: View {
             gameViewModel.temporaryPronunciationScore = calculatePronunciation(original: quote.japanese, sttText: sttManager.recognizedText)
             
             gameViewModel.temporaryIntonationScore = calculateIntonation(referenceFileName: quote.audioFile, comparisonFileURL: sttManager.getFileURL())
+            print("레퍼런스 음원 주소: \(quote.audioFile)")
+            print("사용자 목소리 음원 주소: \(sttManager.getFileURL())")
             
             if let sttVoicingTime = sttManager.voicingTime {
                 gameViewModel.temporarySpeedScore = calculateVoiceSpeed(originalLength: quote.voicingTime, sttVoicingTime: sttVoicingTime)
@@ -356,7 +358,7 @@ struct WordCard: View {
                         .foregroundStyle(Color.ppDarkGray_02)
                 }
             }
-                .frame(height: 88) // frame을 Group에 적용
+            .frame(height: 88) // frame을 Group에 적용
         )
     }
 }

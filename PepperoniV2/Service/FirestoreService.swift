@@ -13,10 +13,17 @@ import FirebaseStorage
 class FirestoreService {
     let db = Firestore.firestore()
     let storage = Storage.storage()
+    let syncKey = "isDataSynced"
 
     /// Firestore에서 데이터를 가져와 로컬 저장소와 SwiftData에 저장
     @MainActor
     func fetchAndStoreData(context: ModelContext) async throws {
+        // 동기화 상태 확인
+        guard !isDataSynced() else {
+            print("Data already synced. Skipping fetch.")
+            return
+        }
+
         // Firestore 컬렉션 경로 설정
         let animeCollectionPath = "Anime"
 
@@ -59,28 +66,28 @@ class FirestoreService {
                     continue
                 }
 
-                // 음원 다운로드
-                let audioURL: URL
+                // 음원 다운로드 및 경로 저장
+                let localAudioURL: URL
                 do {
-                    audioURL = try await downloadAudioFile(animeID: animeID, quoteID: quoteID, audioFile: audioFile)
-                    print("Audio file downloaded to: \(audioURL.path)")
+                    localAudioURL = try await downloadAudioFile(animeID: animeID, audioFileName: audioFile)
+                    print("Audio file downloaded to: \(localAudioURL.path)")
                 } catch {
                     print("Failed to download audio file for Quote ID \(quoteID): \(error.localizedDescription)")
                     continue
                 }
 
                 let quote = AnimeQuote(
-                    id: quoteID,
-                    japanese: japanese,
-                    pronunciation: quoteData["pronunciation"] as? [String] ?? [],
-                    korean: korean,
-                    timeMark: quoteData["timeMark"] as? [Double] ?? [],
-                    voicingTime: quoteData["voicingTime"] as? Double ?? 0.0,
-                    audioFile: audioFile,
-                    youtubeID: quoteData["youtubeID"] as? String ?? "",
-                    youtubeStartTime: quoteData["youtubeStartTime"] as? Double ?? 0.0,
-                    youtubeEndTime: quoteData["youtubeEndTime"] as? Double ?? 0.0
-                )
+                        id: quoteID,
+                        japanese: japanese,
+                        pronunciation: quoteData["pronunciation"] as? [String] ?? [],
+                        korean: korean,
+                        timeMark: quoteData["timeMark"] as? [Double] ?? [],
+                        voicingTime: quoteData["voicingTime"] as? Double ?? 0.0,
+                        audioFile: localAudioURL.path, // 로컬 경로 저장
+                        youtubeID: quoteData["youtubeID"] as? String ?? "",
+                        youtubeStartTime: quoteData["youtubeStartTime"] as? Double ?? 0.0,
+                        youtubeEndTime: quoteData["youtubeEndTime"] as? Double ?? 0.0
+                    )
                 quotes.append(quote)
             }
 
@@ -94,49 +101,60 @@ class FirestoreService {
             print("Loaded Anime: \(animeID), Title: \(animeTitle), Quotes Count: \(quotes.count)")
         }
 
-        // 메인 큐에서 SwiftData 업데이트
-//        DispatchQueue.main.async {
-//            animeList.forEach { context.insert($0) }
-//            do {
-//                try context.save() // 변경 사항 저장
-//            } catch {
-//                print("Error saving context: \(error.localizedDescription)")
-//            }
-//        }
+        // SwiftData에 저장
+        DispatchQueue.main.async {
+            animeList.forEach { anime in
+                if let existingAnime = context.fetch(Anime.self).first(where: { $0.id == anime.id }) {
+                    // 기존 Anime에 대한 Quote 중복 확인 및 추가
+                    anime.quotes.forEach { newQuote in
+                        if !existingAnime.quotes.contains(where: { $0.id == newQuote.id }) {
+                            existingAnime.quotes.append(newQuote)
+                        }
+                    }
+                } else {
+                    // Anime 자체가 없으면 새로 추가
+                    context.insert(anime)
+                }
+            }
+            do {
+                try context.save()
+                print("Data successfully saved to SwiftData.")
+                self.setDataSynced()
+            } catch {
+                print("Error saving data to SwiftData: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    // 데이터 동기화 상태 확인
+    private func isDataSynced() -> Bool {
+        return UserDefaults.standard.bool(forKey: syncKey)
+    }
+
+    // 데이터 동기화 상태 저장
+    private func setDataSynced() {
+        UserDefaults.standard.set(true, forKey: syncKey)
     }
 
     /// Firebase Storage에서 오디오 파일 다운로드
-    func downloadAudioFile(animeID: String, quoteID: String, audioFile: String) async throws -> URL {
+    func downloadAudioFile(animeID: String, audioFileName: String) async throws -> URL {
         // Firebase Storage 경로 설정
-        let fullPath = "Animes/\(animeID)/\(audioFile)"
+        let fullPath = "Animes/\(animeID)/\(audioFileName)"
         let storageRef = storage.reference().child(fullPath)
-        print("Storage 경로: \(fullPath)")
+        print("Downloading file from Firebase Storage: \(fullPath)")
 
         // 로컬 저장 경로 설정
         let localURL = FileManager.default
             .urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent(audioFile)
-
-        // Firebase Storage에서 메타데이터 가져오기
-        let storageMetadata = try await storageRef.getMetadata()
+            .appendingPathComponent(audioFileName)
 
         // 파일이 로컬에 있는지 확인
         if FileManager.default.fileExists(atPath: localURL.path) {
-            // 로컬 파일의 속성 확인
-            let localAttributes = try FileManager.default.attributesOfItem(atPath: localURL.path)
-            if let localFileSize = localAttributes[.size] as? UInt64 {
-                // 로컬 파일 크기와 Firebase Storage 파일 크기 비교
-                if localFileSize == storageMetadata.size {
-                    print("File already exists and is identical. Using local file.")
-                    return localURL
-                } else {
-                    print("File exists locally but is different. Downloading updated file.")
-                }
-            }
+            print("File already exists at: \(localURL.path)")
+            return localURL
         }
 
         // Firebase Storage에서 파일 다운로드
-        print("Downloading file from Firebase Storage: \(fullPath)")
         return try await withCheckedThrowingContinuation { continuation in
             storageRef.write(toFile: localURL) { url, error in
                 if let error = error {

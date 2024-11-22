@@ -48,6 +48,17 @@ final class AnimeQuote {
     }
 }
 
+extension ModelContext {
+    func fetch<T: PersistentModel>(_ modelType: T.Type) -> [T] {
+        do {
+            return try self.fetch(FetchDescriptor<T>())
+        } catch {
+            print("Error fetching \(T.self): \(error.localizedDescription)")
+            return []
+        }
+    }
+}
+
 // TODO: 임시 더미데이터 삭제
 @Observable class Dummie {
     let animes: [Anime] = [
