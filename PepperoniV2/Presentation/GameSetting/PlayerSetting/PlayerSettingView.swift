@@ -12,111 +12,115 @@ struct PlayerSettingView: View {
     @Bindable var viewModel: PlayerSettingViewModel
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            VStack(spacing: 0) {
-                Header(
-                    title: "인원 설정",
-                    dismissAction: {
+        GeometryReader { geometry in
+            ZStack(alignment: .bottom) {
+                VStack(spacing: 0) {
+                    Header(
+                        title: "인원 설정",
+                        dismissAction: {
+                            isPresented = false
+                        },
+                        dismissButtonType: .icon
+                    )
+                    
+                    // MARK: - 리셋 버튼
+                    Button {
+                        viewModel.resetPlayer()
+                    } label: {
+                        Image("PlayerResetButton")
+                    }
+                    .padding(.top, 15)
+                    
+                    // MARK: - 인원 수 조정
+                    // TODO: - 배경에 gradient
+                    HStack {
+                        Button {
+                            viewModel.removePlayer()
+                        } label: {
+                            Image("PlayerMinusButton")
+                        }
+                        .disabled(viewModel.tempPlayers.count <= 1)
+                        
+                        Spacer()
+                        
+                        Text("\(viewModel.tempPlayers.count)")
+                            .hakgyoansim(size: 45)
+                            .foregroundStyle(.white)
+                        
+                        Spacer()
+                        
+                        Button {
+                            viewModel.addPlayer()
+                        } label: {
+                            Image("PlayerPlusButton")
+                        }
+                        .disabled(viewModel.tempPlayers.count >= 10)
+                    }
+                    .padding(.top, 39)
+                    .padding(.bottom, 58)
+                    .padding(.horizontal, 71)
+                    .background(
+                        LinearGradient(
+                            stops: [
+                                Gradient.Stop(color: .clear, location: 0.00),
+                                Gradient.Stop(color: Color(hex: "313037").opacity(0.81), location: 1.00),
+                            ],
+                            startPoint: UnitPoint(x: 0.5, y: 0),
+                            endPoint: UnitPoint(x: 0.5, y: 1)
+                        )
+                    )
+                    
+                    // MARK: - 플레이어 닉네임 리스트
+                    List {
+                        ForEach(Array(viewModel.tempPlayers.enumerated()), id: \.1.turn) { index, player in
+                            PlayerRowView(
+                                player: player,
+                                index: index,
+                                updateNickname: { idx, newValue in
+                                    viewModel.updateNickname(for: idx, nickname: newValue)
+                                }
+                            )
+                        }
+                    }
+                    .scrollIndicators(.hidden)
+                    .listStyle(.plain)
+                    .padding(.top, 32)
+                    .padding(.horizontal, 60)
+                    .padding(.bottom,60)
+                }
+                
+                // MARK: -저장 버튼
+                VStack {
+                    Button {
+                        viewModel.saveChanges()
                         isPresented = false
-                    },
-                    dismissButtonType: .icon
-                )
-                
-                // MARK: - 리셋 버튼
-                Button {
-                    viewModel.resetPlayer()
-                } label: {
-                    Image("PlayerResetButton")
-                }
-                .padding(.top, 15)
-                
-                // MARK: - 인원 수 조정
-                // TODO: - 배경에 gradient
-                HStack {
-                    Button {
-                        viewModel.removePlayer()
                     } label: {
-                        Image("PlayerMinusButton")
+                        Text("저장")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundStyle(Color.ppBlack_01)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
                     }
-                    .disabled(viewModel.tempPlayers.count <= 1)
-                    
-                    Spacer()
-                    
-                    Text("\(viewModel.tempPlayers.count)")
-                        .hakgyoansim(size: 45)
-                        .foregroundStyle(.white)
-                    
-                    Spacer()
-                    
-                    Button {
-                        viewModel.addPlayer()
-                    } label: {
-                        Image("PlayerPlusButton")
-                    }
-                    .disabled(viewModel.tempPlayers.count >= 10)
+                    .background(Color.ppBlueGray)
+                    .cornerRadius(60)
+                    .padding(.horizontal)
                 }
-                .padding(.top, 39)
-                .padding(.bottom, 58)
-                .padding(.horizontal, 71)
+                .frame(height: 140, alignment: .bottom)
                 .background(
                     LinearGradient(
                         stops: [
-                            Gradient.Stop(color: .clear, location: 0.00),
-                            Gradient.Stop(color: Color(hex: "313037").opacity(0.81), location: 1.00),
+                            Gradient.Stop(color: .black.opacity(0), location: 0.00),
+                            Gradient.Stop(color: .black, location: 0.8),
                         ],
                         startPoint: UnitPoint(x: 0.5, y: 0),
                         endPoint: UnitPoint(x: 0.5, y: 1)
                     )
                 )
-                
-                // MARK: - 플레이어 닉네임 리스트
-                List {
-                    ForEach(Array(viewModel.tempPlayers.enumerated()), id: \.1.turn) { index, player in
-                        PlayerRowView(
-                            player: player,
-                            index: index,
-                            updateNickname: { idx, newValue in
-                                viewModel.updateNickname(for: idx, nickname: newValue)
-                            }
-                        )
-                    }
-                }
-                .scrollIndicators(.hidden)
-                .listStyle(.plain)
-                .padding(.top, 32)
-                .padding(.horizontal, 60)
-                .padding(.bottom,60)
+                .position(x: geometry.size.width / 2, y: geometry.size.height - 70)
             }
-            
-            // MARK: -저장 버튼
-            VStack {
-                Button {
-                    viewModel.saveChanges()
-                    isPresented = false
-                } label: {
-                    Text("저장")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundStyle(Color.ppBlack_01)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 56)
-                }
-                .background(Color.ppBlueGray)
-                .cornerRadius(60)
-                .padding(.horizontal)
-            }
-            .frame(height: 140, alignment: .bottom)
-            .background(
-                LinearGradient(
-                    stops: [
-                        Gradient.Stop(color: .black.opacity(0), location: 0.00),
-                        Gradient.Stop(color: .black, location: 0.8),
-                    ],
-                    startPoint: UnitPoint(x: 0.5, y: 0),
-                    endPoint: UnitPoint(x: 0.5, y: 1)
-                )
-            )
         }
         .background(.black)
+        .ignoresSafeArea(.keyboard)
     }
 }
 
