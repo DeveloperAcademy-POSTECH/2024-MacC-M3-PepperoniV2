@@ -15,6 +15,8 @@ struct VideoPlayView: View {
     @State private var replayTrigger = false
     @State private var showAlert = false
     
+    @State private var playerOnTurn: Player?
+    
     var body: some View {
         VStack{
             Header(
@@ -99,12 +101,20 @@ struct VideoPlayView: View {
                     )
                     .frame(height:54)
                     .overlay{
-                        Text("\(gameViewModel.players[gameViewModel.turnComplete].nickname ?? "") 차례 시작")
+                        let nowPlayer = gameViewModel.players.filter{ $0.turn == gameViewModel.turnComplete+1}.first
+                        Text("\(nowPlayer?.nickname ?? "") 차례 시작")
                             .suit(.extraBold, size: 16)
                             .foregroundStyle(Color.ppWhiteGray)
                     }
                     .padding(.horizontal, 16)
                 
+            }
+        }
+        .onAppear{
+            for player in gameViewModel.players {
+                if player.turn == gameViewModel.turnComplete + 1 {
+                    playerOnTurn = player
+                }
             }
         }
         .alert(isPresented: $showAlert) {

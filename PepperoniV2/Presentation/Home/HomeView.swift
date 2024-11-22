@@ -104,7 +104,7 @@ struct HomeView: View {
             } label: {
                 Image(isGameStartEnabled ? "StartButton" : "StartButton_disabled")
             }
-            .disabled(!isGameStartEnabled)
+//            .disabled(!isGameStartEnabled)
         }
         .padding(.horizontal)
         .background(.black)

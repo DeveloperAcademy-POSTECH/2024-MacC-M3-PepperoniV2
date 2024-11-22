@@ -32,21 +32,22 @@ import SwiftUI
     
     func changeTurn(first: Player) {
         print("changeTurn")
-        // 첫 번째 플레이어의 turn을 1로 설정
-        guard let firstIndex = players.firstIndex(where: { $0.nickname == first.nickname }) else { return }
-        self.players[firstIndex].turn = 1
+        print("Before:", players)
         
-        print(firstIndex)
-
-        // 나머지 플레이어들의 turn을 업데이트
-        var turn = 2
-        for (index, player) in players.enumerated() {
-            if index != firstIndex {
-                var updatedPlayer = player // 복사본 생성
-                updatedPlayer.turn = turn
-                players[index] = updatedPlayer // 복사본을 배열에 다시 할당
-                turn += 1
-            }
+        // 첫 번째 플레이어의 인덱스를 찾는다.
+        guard let firstIndex = players.firstIndex(where: { $0.nickname == first.nickname }) else {
+            print("First player not found")
+            return
         }
+        
+        // 배열을 재정렬하여 첫 번째 플레이어를 기준으로 순서를 바꾼다.
+        players = Array(players[firstIndex...] + players[..<firstIndex])
+        
+        // 순서를 기반으로 turn 값을 재설정한다.
+        for (index, _) in players.enumerated() {
+            players[index].turn = index + 1 // turn 값을 1부터 시작
+        }
+        
+        print("After:", players)
     }
 }
