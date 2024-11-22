@@ -18,7 +18,7 @@ import SwiftUI
 
     /// 플레이어 추가
     func addPlayer() {
-        let newPlayer = Player(nickname: "\(tempPlayers.count + 1)번", turn: tempPlayers.count + 1)
+        let newPlayer = Player(nickname: "", turn: tempPlayers.count + 1)
         tempPlayers.append(newPlayer)
     }
 
@@ -37,11 +37,16 @@ import SwiftUI
     
     /// 플레이어 초기화
     func resetPlayer() {
-        tempPlayers = [Player(nickname: "1번", turn: 1)]
+        tempPlayers = [Player(nickname: "", turn: 1)]
     }
     
     /// 변경사항 저장
     func saveChanges() {
+        for (index, player) in tempPlayers.enumerated() {
+            if player.nickname?.isEmpty ?? true {
+                tempPlayers[index].nickname = "\(index + 1)번"
+            }
+        }
         gameData.players = tempPlayers
     }
 }

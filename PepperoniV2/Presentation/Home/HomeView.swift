@@ -22,10 +22,29 @@ struct HomeView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text("DUKBAM")
-                .font(.system(size: 28, weight: .black))
-                .foregroundStyle(Color(red: 0.19, green: 0.19, blue: 0.22))
-                .padding(.bottom, 45)
+            GeometryReader { geometry in
+                ZStack(alignment: .center) {
+                    // 타이틀
+                    Text("DUKBAM")
+                        .hakgyoansim(size: 28)
+                        .foregroundStyle(Color.ppWhiteGray)
+                    
+                    // 버튼
+                    HStack {
+                        Spacer()
+                        
+                        Button {
+                            // TODO: -개발자에게 요청 구글폼!
+                        } label: {
+                            Image("RequestButton")
+                        }
+                        .foregroundStyle(.white)
+                        .padding(.trailing, 16)
+                        .frame(width: geometry.size.width, alignment: .trailing)
+                    }
+                }
+            }
+            .frame(height: 70, alignment: .top)
             
             // MARK: -애니 선택
             VStack {
@@ -114,7 +133,7 @@ struct SelectButtonView: View {
                 .frame(width: 41)
             
             Text(title)
-                .font(.system(size: 16, weight: .bold))
+                .hakgyoansim(size: 16)
         }
         .frame(maxWidth: .infinity)
         .frame(height: height)
@@ -132,25 +151,21 @@ struct SelectedAnimeView: View {
     let title: String
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Text("애니 선택")
-                .font(.system(size: 14, weight: .medium))
-            
-            VStack {
-                Text(title) // selectedAnime의 제목 표시
-                    .font(.system(size: 20, weight: .black))
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 90)
-            .background(Color.ppPurple_01)
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .strokeBorder(Color.ppPurple_02, lineWidth: 2)
-            )
+                .suit(.medium, size: 14)
+                .padding(.vertical, 8)
+    
+            Image("AniSelectBox")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 92)
+                .overlay(
+                    Text(title)
+                        .hakgyoansim(size: 20)
+                )
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 128, alignment: .bottom)
         .background(Color.ppDarkGray_02)
         .cornerRadius(10)
     }
@@ -161,43 +176,67 @@ struct SelectedPlayerView: View {
     let playerCount: Int
 
     var body: some View {
-        VStack(spacing: 0) {
-            VStack {
-                Text("인원 선택")
-                    .font(.system(size: 14, weight: .medium))
-
-                VStack {
-                    HStack {
-                        Text(Image(systemName: "person.2.fill"))
-                        Text("\(playerCount)명")
+        ZStack(alignment: .top) {
+            VStack(spacing: 0) {
+                Rectangle()
+                    .frame(height: 68)
+                    .foregroundStyle(.clear)
+                
+                VStack{
+                    VStack {
+                        PlayerGridView()
+                            .padding(.init(top: 57, leading: 12, bottom: 16, trailing: 12))
                     }
-                    .font(.system(size: 20, weight: .bold))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 225, alignment: .top)
+                    .background( LinearGradient(
+                        stops: [
+                            Gradient.Stop(color: .black, location: 0.00),
+                            Gradient.Stop(color: Color(hex: "313037"), location: 1.00),
+                        ],
+                        startPoint: UnitPoint(x: 0.5, y: 0),
+                        endPoint: UnitPoint(x: 0.5, y: 1.36)
+                    )
+                    )
                 }
-                .frame(maxWidth: .infinity)
-                .frame(height: 70)
-                .background(Color.ppPurple_01)
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .strokeBorder(Color.ppPurple_02, lineWidth: 2)
+                        .strokeBorder(LinearGradient(
+                            gradient: Gradient(stops: [
+                                .init(color: Color(hex: "AD29FF"), location: 0.2),
+                                .init(color: Color(hex: "3FE9FF"), location: 1)
+                            ]),
+                            startPoint: UnitPoint(x: 1 + sin(64 * .pi / 180), y: 1 - cos(64 * .pi / 180)),
+                            endPoint: UnitPoint(x: 0, y: 0)
+                        ), lineWidth: 1)
                 )
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 110, alignment: .bottom)
-            .background(Color.ppDarkGray_02)
-            .cornerRadius(10)
-
-            VStack {
-                PlayerGridView()
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 16)
+            
+            VStack(spacing: 0) {
+                Text("인원 선택")
+                    .suit(.medium, size: 14)
+                    .padding(.vertical, 8)
+                
+                Image("PlayerSettingBox")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 72)
+                    .overlay(
+                        HStack {
+                            Image(systemName: "person.2.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25)
+                            Text("\(playerCount)명")
+                                .hakgyoansim(size: 20)
+                        }
+                    )
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 190, alignment: .top)
             .background(Color.ppDarkGray_02)
+            .cornerRadius(10)
         }
-        .background(Color.ppDarkGray_02)
-        .cornerRadius(20)
     }
 }
 
@@ -205,12 +244,20 @@ struct PlayerGridView: View {
     @Environment(GameData.self) var gameData
 
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 3)
-
+    
     var body: some View {
         LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
-            ForEach(gameData.players) { player in
-                PlayerCellView(nickname: player.nickname ?? "")
-                    .frame(width: 106, height: 32)
+            ForEach(Array(gameData.players.enumerated()), id: \.element.id) { index, player in
+                // 10번째일때만 중앙에 오게
+                if index == 9 && gameData.players.count == 10 {
+                    Spacer()
+                    PlayerCellView(nickname: player.nickname ?? "")
+                        .frame(width: 106, height: 32)
+                    Spacer()
+                } else {
+                    PlayerCellView(nickname: player.nickname ?? "")
+                        .frame(width: 106, height: 32)
+                }
             }
         }
     }
@@ -222,30 +269,30 @@ struct PlayerCellView: View {
     var body: some View {
         VStack {
             Text(nickname)
-                .font(.system(size: 14, weight: .medium))
+                .suit(.medium, size: 14)
                 .foregroundStyle(Color.ppDarkGray_01)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .background(Color.ppDarkGray_04)
+        .background(Color(hex: "121212"))
         .cornerRadius(10)
     }
 }
 
 #Preview {
     let gameData = GameData()
-    gameData.selectedAnime = Anime(id: "1", title: "주술 회전", quotes: [])
-//    gameData.selectedAnime = nil
+//    gameData.selectedAnime = Anime(id: "1", title: "주술 회전", quotes: [])
+    gameData.selectedAnime = nil
     gameData.players = [
         Player(nickname: "안녕하세요를레히", turn: 1),
         Player(nickname: "플레이어 2", turn: 2),
         Player(nickname: "플레이어 3", turn: 3),
         Player(nickname: "플레이어 3", turn: 4),
         Player(nickname: "안녕하세요를레히", turn: 1),
-//        Player(nickname: "플레이어 2", turn: 2),
-//        Player(nickname: "플레이어 3", turn: 3),
-//        Player(nickname: "플레이어 3", turn: 4),
-//        Player(nickname: "안녕하세요를레히", turn: 1),
-//        Player(nickname: "안녕하세요를레히", turn: 1)
+        Player(nickname: "플레이어 2", turn: 2),
+        Player(nickname: "플레이어 3", turn: 3),
+        Player(nickname: "플레이어 3", turn: 4),
+        Player(nickname: "안녕하세요를레히", turn: 1),
+        Player(nickname: "안녕하세요를레히", turn: 1)
     ]
     
     let gameViewModel = GameViewModel()
