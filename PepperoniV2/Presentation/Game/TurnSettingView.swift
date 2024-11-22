@@ -3,7 +3,7 @@
 //  PepperoniV2
 //
 //  Created by Hyun Jaeyeon on 11/17/24.
-//
+///
 
 import SwiftUI
 import AVFoundation
@@ -32,7 +32,7 @@ struct TurnSettingView: View {
     var body: some View {
         VStack {
             Header(
-                title: "순서 룰렛",
+                title: "첫 순서 룰렛",
                 dismissAction: {
                     showAlert = true
                 },
@@ -76,6 +76,23 @@ struct TurnSettingView: View {
                     )
                     .rotationEffect(.degrees(manager.rotation))
                     .animation(.easeOut(duration: manager.isSpinning ? 3 : 0), value: manager.rotation)
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(
+                        RadialGradient(
+                            gradient: Gradient(stops: [
+                                .init(color: Color(hex:"A52DEF"), location: 0.01),
+                                .init(color: Color(hex:"873FF2"), location: 0.19),
+                                .init(color: Color(hex:"6B56F4"), location: 0.36),
+                                .init(color: Color(hex:"4ADBFF"), location: 1.0)
+                            ]),
+                            center: UnitPoint(x: 0.52, y: -0.1),
+                            startRadius: 7,
+                            endRadius: 180
+                        ),
+                        lineWidth: 1
+                    )
+                    .frame(width: 100, height: 30)
+                    .offset(y:-170)
             }
             .padding(.init(top: 40, leading: 0, bottom: 50, trailing: 0))
             Spacer()

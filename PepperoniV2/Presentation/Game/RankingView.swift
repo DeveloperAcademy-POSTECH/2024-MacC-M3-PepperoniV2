@@ -119,9 +119,9 @@ struct RankingView: View {
                                                 startRadius: 7,
                                                 endRadius: 180
                                             ),
-                                            
                                             lineWidth: 1
-                                        )                                    .frame(height:70)
+                                        )
+                                        .frame(height:70)
                                     HStack{
                                         Text("꼴찌")
                                             .hakgyoansim(size: 22)
