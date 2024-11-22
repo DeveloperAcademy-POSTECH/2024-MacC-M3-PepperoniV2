@@ -9,7 +9,7 @@ import SwiftData
 
 // TODO: 임시로 넣어놨습니다. 데이터 전문가님 나중에 수정 부탁요💨
 @Model
-class Anime {
+final class Anime {
     @Attribute(.unique) var id: String
     var title: String
     @Relationship(deleteRule: .cascade) var quotes: [AnimeQuote]
@@ -22,7 +22,7 @@ class Anime {
 }
 
 @Model
-class AnimeQuote {
+final class AnimeQuote {
     @Attribute(.unique) var id: String
     var japanese: [String] // 원문 대사
     var pronunciation: [String] // 발음 정보

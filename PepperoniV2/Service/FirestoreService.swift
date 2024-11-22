@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseStorage
 
-class FirebaseManager {
+class FirestoreService {
     let db = Firestore.firestore()
     let storage = Storage.storage()
 
@@ -25,78 +25,97 @@ class FirebaseManager {
 
         var animeList: [Anime] = []
 
-        // Anime 문서 순회
         for animeDocument in animeSnapshot.documents {
             let animeData = animeDocument.data()
             let animeID = animeDocument.documentID // Firestore의 documentID 사용
-            
-            if let animeTitle = animeData["animeTitle"] as? String {
-                print("Fetching quotes for Anime ID: \(animeID)")
 
-                let quotesPath = "\(animeCollectionPath)/\(animeID)/quotes"
-                print("Quotes path: \(quotesPath)")
+            guard let animeTitle = animeData["animeTitle"] as? String else {
+                print("Missing animeTitle in document: \(animeDocument.documentID)")
+                continue
+            }
 
-                let quotesSnapshot = try await db.collection(quotesPath).getDocuments()
+            print("Fetching quotes for Anime ID: \(animeID)")
 
-                var quotes: [AnimeQuote] = []
-                for quoteDocument in quotesSnapshot.documents {
-                    let quoteData = quoteDocument.data()
-                    let quoteID = quoteDocument.documentID // Firestore의 documentID 사용
-                    print("quoteID출력: \(quoteID)")
+            let quotesPath = "\(animeCollectionPath)/\(animeID)/quotes"
+            let quotesSnapshot: QuerySnapshot
 
-                    if let japanese = quoteData["japanese"] as? [String],
-                       let korean = quoteData["korean"] as? [String],
-                       let audioFile = quoteData["audioFile"] as? String {
-                        let quote = AnimeQuote(
-                            id: quoteID, // SwiftData의 고유 ID 생성
-                            japanese: japanese,
-                            pronunciation: quoteData["pronunciation"] as? [String] ?? [],
-                            korean: korean,
-                            timeMark: quoteData["timeMark"] as? [Double] ?? [],
-                            voicingTime: quoteData["voicingTime"] as? Double ?? 0.0,
-                            audioFile: audioFile,
-                            youtubeID: quoteData["youtubeID"] as? String ?? "",
-                            youtubeStartTime: quoteData["youtubeStartTime"] as? Double ?? 0.0,
-                            youtubeEndTime: quoteData["youtubeEndTime"] as? Double ?? 0.0
-                        )
-                        quotes.append(quote)
-                    } else {
-                        print("Missing required fields in quote document: \(quoteDocument.documentID)")
-                    }
+            do {
+                quotesSnapshot = try await db.collection(quotesPath).getDocuments()
+            } catch {
+                print("Error fetching quotes for Anime ID \(animeID): \(error.localizedDescription)")
+                continue
+            }
+
+            var quotes: [AnimeQuote] = []
+
+            for quoteDocument in quotesSnapshot.documents {
+                let quoteData = quoteDocument.data()
+                let quoteID = quoteDocument.documentID // Firestore의 documentID 사용
+
+                guard let japanese = quoteData["japanese"] as? [String],
+                      let korean = quoteData["korean"] as? [String],
+                      let audioFile = quoteData["audioFile"] as? String else {
+                    print("Missing required fields in quote document: \(quoteDocument.documentID)")
+                    continue
                 }
 
-                let anime = Anime(id: animeID,
-                                  title: animeTitle,
-                                  quotes: quotes)
-                animeList.append(anime)
+                // 음원 다운로드
+                let audioURL: URL
+                do {
+                    audioURL = try await downloadAudioFile(animeID: animeID, quoteID: quoteID, audioFile: audioFile)
+                    print("Audio file downloaded to: \(audioURL.path)")
+                } catch {
+                    print("Failed to download audio file for Quote ID \(quoteID): \(error.localizedDescription)")
+                    continue
+                }
 
-                print("Loaded Anime: \(animeID), Title: \(animeTitle), Quotes Count: \(quotes.count)")
-            } else {
-                print("Missing animeTitle in document: \(animeDocument.documentID)")
+                let quote = AnimeQuote(
+                    id: quoteID,
+                    japanese: japanese,
+                    pronunciation: quoteData["pronunciation"] as? [String] ?? [],
+                    korean: korean,
+                    timeMark: quoteData["timeMark"] as? [Double] ?? [],
+                    voicingTime: quoteData["voicingTime"] as? Double ?? 0.0,
+                    audioFile: audioFile,
+                    youtubeID: quoteData["youtubeID"] as? String ?? "",
+                    youtubeStartTime: quoteData["youtubeStartTime"] as? Double ?? 0.0,
+                    youtubeEndTime: quoteData["youtubeEndTime"] as? Double ?? 0.0
+                )
+                quotes.append(quote)
             }
+
+            let anime = Anime(
+                id: animeID,
+                title: animeTitle,
+                quotes: quotes
+            )
+            animeList.append(anime)
+
+            print("Loaded Anime: \(animeID), Title: \(animeTitle), Quotes Count: \(quotes.count)")
         }
 
         // 메인 큐에서 SwiftData 업데이트
-        DispatchQueue.main.async {
-            animeList.forEach { context.insert($0) }
-            do {
-                try context.save() // 변경 사항 저장
-            } catch {
-                print("Error saving context: \(error.localizedDescription)")
-            }
-        }
+//        DispatchQueue.main.async {
+//            animeList.forEach { context.insert($0) }
+//            do {
+//                try context.save() // 변경 사항 저장
+//            } catch {
+//                print("Error saving context: \(error.localizedDescription)")
+//            }
+//        }
     }
 
     /// Firebase Storage에서 오디오 파일 다운로드
-    func downloadAudioFile(audioPath: String) async throws -> URL {
-        let fullPath = "Animes/\(audioPath)"
+    func downloadAudioFile(animeID: String, quoteID: String, audioFile: String) async throws -> URL {
+        // Firebase Storage 경로 설정
+        let fullPath = "Animes/\(animeID)/\(audioFile)"
         let storageRef = storage.reference().child(fullPath)
         print("Storage 경로: \(fullPath)")
 
         // 로컬 저장 경로 설정
         let localURL = FileManager.default
             .urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent(audioPath)
+            .appendingPathComponent(audioFile)
 
         // Firebase Storage에서 메타데이터 가져오기
         let storageMetadata = try await storageRef.getMetadata()
@@ -123,6 +142,7 @@ class FirebaseManager {
                 if let error = error {
                     continuation.resume(throwing: error)
                 } else if let url = url {
+                    print("File downloaded to: \(url.path)")
                     continuation.resume(returning: url)
                 }
             }

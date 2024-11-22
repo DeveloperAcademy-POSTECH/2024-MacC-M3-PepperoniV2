@@ -6,15 +6,17 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AnimeSelectView: View {
     @Binding var isPresented: Bool
     @Bindable var viewModel: AnimeSelectViewModel
+    @Environment(GameViewModel.self) var gameViewModel
     @State private var searchText: String = ""
-    
-    // TODO: 더미데이터 삭제
-    @State var dummie = Dummie()
-    
+
+    // SwiftData에서 Anime 데이터를 가져오기
+    @Query var animes: [Anime]
+
     var body: some View {
         VStack(spacing: 0) {
             Header(
@@ -25,8 +27,8 @@ struct AnimeSelectView: View {
                 dismissButtonType: .icon("xmark")
             )
             
-            // MARK: -검색창
-            HStack (spacing: 14){
+            // MARK: - 검색창
+            HStack(spacing: 14) {
                 Image(systemName: "magnifyingglass")
                     .font(.system(size: 17, weight: .regular))
                 
@@ -57,7 +59,7 @@ struct AnimeSelectView: View {
                 .padding(.vertical, 25)
                 .padding(.horizontal, 16)
               
-            // MARK: -anime 리스트
+            // MARK: - Anime 리스트
             List(currentAnimes) { anime in
                 AnimeRowView(
                     anime: anime,
@@ -72,10 +74,13 @@ struct AnimeSelectView: View {
             }
             .listStyle(.plain)
             
-            // MARK: -저장 버튼
+            // MARK: - 저장 버튼
             Button {
-                viewModel.saveChanges()
-                isPresented = false
+                if let selectedAnime = viewModel.tempSelectedAnime {
+                    gameViewModel.selectedAnime = selectedAnime // GameViewModel에 Anime 설정
+                    viewModel.saveChanges()
+                    isPresented = false
+                }
             } label: {
                 Text("저장")
                     .font(.system(size: 16, weight: .bold))
@@ -93,11 +98,11 @@ struct AnimeSelectView: View {
     /// 현재 보여지는 애니 리스트
     private var currentAnimes: [Anime] {
         if searchText.isEmpty {
-            return dummie.animes
+            return animes
         } else {
             // 검색어 공백 제거
             let normalizedSearchText = searchText.replacingOccurrences(of: " ", with: "")
-            return dummie.animes.filter {
+            return animes.filter {
                 // 애니 제목 공백 제거
                 let normalizedTitle = $0.title.replacingOccurrences(of: " ", with: "")
                 return normalizedTitle.localizedCaseInsensitiveContains(normalizedSearchText)
@@ -154,12 +159,12 @@ struct AnimeRowView: View {
     }
 }
 
-struct AnimeSelectView_Previews: PreviewProvider {
-    static var previews: some View {
-        let gameData = GameData()
-        let viewModel = AnimeSelectViewModel(gameData: gameData)
-        
-        return AnimeSelectView(isPresented: .constant(true), viewModel: viewModel)
-    }
-}
+//struct AnimeSelectView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let gameData = GameData()
+//        let viewModel = AnimeSelectViewModel(gameData: gameData)
+//        
+//        return AnimeSelectView(isPresented: .constant(true), viewModel: viewModel)
+//    }
+//}
 

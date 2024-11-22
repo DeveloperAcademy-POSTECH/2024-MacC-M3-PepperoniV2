@@ -24,6 +24,16 @@ struct PepperoniV2App: App {
         WindowGroup {
             ContentView()
                 .preferredColorScheme(.dark)
+                .onAppear {
+                    Task {
+                        do {
+                            let context = modelContainer.mainContext
+                            try await FirestoreService().fetchAndStoreData(context: context)
+                        } catch {
+                            print("Failed to fetch and store data: \(error.localizedDescription)")
+                        }
+                    }
+                }
         }
         .modelContainer(modelContainer)
     }
