@@ -185,7 +185,6 @@ struct SpeakingView: View {
                         
                         lineWidth: 6 // 선의 굵기
                     )
-                
                     .padding(2)
                     .ignoresSafeArea()
                 
@@ -243,9 +242,6 @@ struct SpeakingView: View {
                 }
             }
         }
-        
-        
-        
         .onAppear {
             startCountdown() // 뷰가 나타나면 카운트다운 시작
             for player in gameViewModel.players {
@@ -290,7 +286,6 @@ struct SpeakingView: View {
             }
         }
     }
-    
     
     // 0에서 증가하는 타이머 시작 함수
     private func startTimer() {

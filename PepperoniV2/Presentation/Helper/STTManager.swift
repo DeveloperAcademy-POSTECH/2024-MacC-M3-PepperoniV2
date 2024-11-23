@@ -28,6 +28,7 @@ class STTManager: ObservableObject {
             return
         }
         
+        recognizedText = ""
         isRecording = true
         
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
