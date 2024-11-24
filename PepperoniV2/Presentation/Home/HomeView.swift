@@ -32,12 +32,10 @@ struct HomeView: View {
                     // 버튼
                     HStack {
                         Spacer()
-                        
-                        Button {
-                            // TODO: -개발자에게 요청 구글폼!
-                        } label: {
+                        Link(destination: URL(string:"https://forms.gle/aDCQnkLDbZT8jFLZA")!,
+                             label: {
                             Image("RequestButton")
-                        }
+                        })
                         .foregroundStyle(.white)
                         .padding(.trailing, 16)
                         .frame(width: geometry.size.width, alignment: .trailing)
