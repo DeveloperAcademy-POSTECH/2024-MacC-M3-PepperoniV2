@@ -11,6 +11,7 @@ struct HomeView: View {
     @EnvironmentObject var router: Router
     @Environment(GameData.self) var gameData
     @Environment(GameViewModel.self) var gameViewModel
+    @Environment(FetchDataState.self) var fetchDataState
     
     @State private var isAnimeSelectPresented = false
     @State private var isPlayerSettingPresented = false
@@ -276,28 +277,28 @@ struct PlayerCellView: View {
     }
 }
 
-#Preview {
-    let gameData = GameData()
+//#Preview {
+//    let gameData = GameData()
 //    gameData.selectedAnime = Anime(id: "1", title: "주술 회전", quotes: [])
-    gameData.selectedAnime = nil
-    gameData.players = [
-        Player(nickname: "안녕하세요를레히", turn: 1),
-        Player(nickname: "플레이어 2", turn: 2),
-        Player(nickname: "플레이어 3", turn: 3),
-        Player(nickname: "플레이어 3", turn: 4),
-        Player(nickname: "안녕하세요를레히", turn: 1),
-        Player(nickname: "플레이어 2", turn: 2),
-        Player(nickname: "플레이어 3", turn: 3),
-        Player(nickname: "플레이어 3", turn: 4),
-        Player(nickname: "안녕하세요를레히", turn: 1),
-        Player(nickname: "안녕하세요를레히", turn: 1)
-    ]
-    
-    let gameViewModel = GameViewModel()
-    
-    return HomeView()
-        .environmentObject(Router())
-        .environment(gameData)
-        .environment(gameViewModel)
-        .preferredColorScheme(.dark)
-}
+//    gameData.selectedAnime = nil
+//    gameData.players = [
+//        Player(nickname: "안녕하세요를레히", turn: 1),
+//        Player(nickname: "플레이어 2", turn: 2),
+//        Player(nickname: "플레이어 3", turn: 3),
+//        Player(nickname: "플레이어 3", turn: 4),
+//        Player(nickname: "안녕하세요를레히", turn: 1),
+//        Player(nickname: "플레이어 2", turn: 2),
+//        Player(nickname: "플레이어 3", turn: 3),
+//        Player(nickname: "플레이어 3", turn: 4),
+//        Player(nickname: "안녕하세요를레히", turn: 1),
+//        Player(nickname: "안녕하세요를레히", turn: 1)
+//    ]
+//    
+//    let gameViewModel = GameViewModel()
+//    
+//    return HomeView()
+//        .environmentObject(Router())
+//        .environment(gameData)
+//        .environment(gameViewModel)
+//        .preferredColorScheme(.dark)
+//}

@@ -10,6 +10,7 @@ import SwiftData
 
 struct AnimeSelectView: View {
     @Binding var isPresented: Bool
+    @Environment(FetchDataState.self) var fetchDataState
     @Bindable var viewModel: AnimeSelectViewModel
     @Environment(GameViewModel.self) var gameViewModel
     @State private var searchText: String = ""
@@ -60,6 +61,21 @@ struct AnimeSelectView: View {
                     .padding(.vertical, 25)
                     .padding(.horizontal, 16)
                 
+                // MARK: -ProgressView
+                if fetchDataState.isFetchingData {
+                    HStack {
+                        Spacer()
+                        ProgressView("명대사를 불러오는 중...")
+                            .padding(8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.black.opacity(0.8)) // 반투명 배경
+                            )
+                            .foregroundStyle(.white)
+                        Spacer()
+                    }
+                }
+                
                 // MARK: -anime 리스트
                 List(currentAnimes) { anime in
                     AnimeRowView(
@@ -75,6 +91,7 @@ struct AnimeSelectView: View {
                 }
                 .listStyle(.plain)
                 .padding(.bottom,60)
+                
             }
             .background(.black)
             
