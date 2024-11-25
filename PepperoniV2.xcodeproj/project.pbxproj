@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		515961C32CF33CD400060E73 /* FetchDataState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515961C22CF33CD300060E73 /* FetchDataState.swift */; };
 		516A49252CEF98CB00D4E9DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */; };
 		516A49282CEF9AD200D4E9DE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 516A49272CEF9AD200D4E9DE /* FirebaseAuth */; };
 		516A492A2CEF9AD200D4E9DE /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 516A49292CEF9AD200D4E9DE /* FirebaseDatabase */; };
@@ -57,6 +58,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		515961C22CF33CD300060E73 /* FetchDataState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchDataState.swift; sourceTree = "<group>"; };
 		516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		516A49302CEF9D6600D4E9DE /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		90129B842CEC67E70029DAEF /* RouletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouletteManager.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 			children = (
 				BD400C9C2CE8902C0052174B /* AppDelegate.swift */,
 				909C93212CE5F29100976538 /* PepperoniV2App.swift */,
+				515961C22CF33CD300060E73 /* FetchDataState.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				909C93252CE5F29100976538 /* ContentView.swift in Sources */,
 				90A503902CEF11FF00D83DCC /* Font+.swift in Sources */,
 				909C93262CE5F29100976538 /* PepperoniV2App.swift in Sources */,
+				515961C32CF33CD400060E73 /* FetchDataState.swift in Sources */,
 				BD400CBF2CE9A8930052174B /* SpeakingView.swift in Sources */,
 				90E2E98F2CED01EA00857636 /* STTManager.swift in Sources */,
 				BD0453402CEF795A00F83631 /* Gradient+.swift in Sources */,
@@ -587,8 +591,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -597,9 +601,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = test.PepperoniV2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -622,8 +630,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -632,9 +640,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = test.PepperoniV2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
