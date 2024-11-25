@@ -14,6 +14,8 @@ class FirestoreService {
     let db = Firestore.firestore()
     let storage = Storage.storage()
     let syncKey = "isDataSynced"
+    
+    private var needUpdate: Bool = false
 
     /// Firestore에서 데이터를 가져와 로컬 저장소와 SwiftData에 저장
     @MainActor
@@ -58,51 +60,63 @@ class FirestoreService {
                 let storagePath = "Animes/\(animeID)/\(audioFile)"
                 let shouldUpdate = try await shouldUpdateFile(filePath: localFilePath, storagePath: storagePath)
 
-                if shouldUpdate {
-                    try await downloadAudioFile(storagePath: storagePath, localPath: localFilePath)
+                // 슈드업데이트 일 때만 해도 되는 동작들
+                do {
+                    if shouldUpdate {
+                        try await downloadAudioFile(storagePath: storagePath, localPath: localFilePath)
+                        
+                        let quote = AnimeQuote(
+                            id: quoteID,
+                            japanese: japanese,
+                            pronunciation: quoteData["pronunciation"] as? [String] ?? [],
+                            korean: korean,
+                            timeMark: quoteData["timeMark"] as? [Double] ?? [],
+                            voicingTime: quoteData["voicingTime"] as? Double ?? 0.0,
+                            audioFile: localFilePath,
+                            youtubeID: quoteData["youtubeID"] as? String ?? "",
+                            youtubeStartTime: quoteData["youtubeStartTime"] as? Double ?? 0.0,
+                            youtubeEndTime: quoteData["youtubeEndTime"] as? Double ?? 0.0
+                        )
+                        quotes.append(quote)
+                    }
+                }catch {
+                    print("Not Should Update")
                 }
-
-                let quote = AnimeQuote(
-                    id: quoteID,
-                    japanese: japanese,
-                    pronunciation: quoteData["pronunciation"] as? [String] ?? [],
-                    korean: korean,
-                    timeMark: quoteData["timeMark"] as? [Double] ?? [],
-                    voicingTime: quoteData["voicingTime"] as? Double ?? 0.0,
-                    audioFile: localFilePath,
-                    youtubeID: quoteData["youtubeID"] as? String ?? "",
-                    youtubeStartTime: quoteData["youtubeStartTime"] as? Double ?? 0.0,
-                    youtubeEndTime: quoteData["youtubeEndTime"] as? Double ?? 0.0
-                )
-                quotes.append(quote)
+                
             }
-
-            let anime = Anime(
-                id: animeID,
-                title: animeTitle,
-                quotes: quotes
-            )
-            animeList.append(anime)
+            
+            //quotes가 0개이면 돌아가지 않아야 함. anmieList에 빈 quotes가 비어있는 Anime를 넣는 것 방지.
+            if quotes.count > 0 {
+                let anime = Anime(
+                    id: animeID,
+                    title: animeTitle,
+                    quotes: quotes
+                )
+                animeList.append(anime)
+            }
         }
 
         // 로컬 데이터를 최신 상태로 유지
-        DispatchQueue.main.async {
-            animeList.forEach { anime in
-                if let existingAnime = context.fetch(Anime.self).first(where: { $0.id == anime.id }) {
-                    anime.quotes.forEach { newQuote in
-                        if !existingAnime.quotes.contains(where: { $0.id == newQuote.id }) {
-                            existingAnime.quotes.append(newQuote)
+        // animeList가 1개 이상일 때만 돌아감
+        if animeList.count > 0 {
+            DispatchQueue.main.async {
+                animeList.forEach { anime in
+                    if let existingAnime = context.fetch(Anime.self).first(where: { $0.id == anime.id }) {
+                        anime.quotes.forEach { newQuote in
+                            if !existingAnime.quotes.contains(where: { $0.id == newQuote.id }) {
+                                existingAnime.quotes.append(newQuote)
+                            }
                         }
+                    } else {
+                        context.insert(anime)
                     }
-                } else {
-                    context.insert(anime)
                 }
-            }
-            do {
-                try context.save()
-                print("Data successfully saved to SwiftData.")
-            } catch {
-                print("Error saving data to SwiftData: \(error.localizedDescription)")
+                do {
+                    try context.save()
+                    print("Data successfully saved to SwiftData.")
+                } catch {
+                    print("Error saving data to SwiftData: \(error.localizedDescription)")
+                }
             }
         }
     }
