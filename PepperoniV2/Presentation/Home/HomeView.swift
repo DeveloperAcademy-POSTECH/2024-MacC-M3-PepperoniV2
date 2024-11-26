@@ -11,7 +11,7 @@ struct HomeView: View {
     @EnvironmentObject var router: Router
     @Environment(GameData.self) var gameData
     @Environment(GameViewModel.self) var gameViewModel
-    @Environment(FetchDataState.self) var fetchDataState
+    @EnvironmentObject var fetchDataState: FetchDataState
     
     @State private var isAnimeSelectPresented = false
     @State private var isPlayerSettingPresented = false

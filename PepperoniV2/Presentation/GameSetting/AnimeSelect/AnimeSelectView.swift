@@ -10,7 +10,7 @@ import SwiftData
 
 struct AnimeSelectView: View {
     @Binding var isPresented: Bool
-    @Environment(FetchDataState.self) var fetchDataState
+    @EnvironmentObject var fetchDataState: FetchDataState
     @Bindable var viewModel: AnimeSelectViewModel
     @Environment(GameViewModel.self) var gameViewModel
     @State private var searchText: String = ""

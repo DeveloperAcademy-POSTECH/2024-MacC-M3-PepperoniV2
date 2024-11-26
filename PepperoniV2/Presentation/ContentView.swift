@@ -12,7 +12,8 @@ struct ContentView: View {
     @State var gameData = GameData()
     
     @State var gameViewModel = GameViewModel()
-    @Environment(FetchDataState.self) var fetchDataState
+    @EnvironmentObject var fetchDataState: FetchDataState
+    @Environment(\.modelContext) private var modelContext
     
     var body: some View {
         NavigationStack(path: $router.route) {
@@ -24,6 +25,21 @@ struct ContentView: View {
                     GameView(type: type)
                         .environmentObject(router)
                         .environment(gameViewModel)
+                }
+                .onAppear {
+                    Task {
+                        do {
+                            try await FirestoreService().fetchAndStoreData(context: modelContext)
+                            DispatchQueue.main.async {
+                                fetchDataState.isFetchingData = false
+                            }
+                        } catch {
+                            DispatchQueue.main.async {
+                                fetchDataState.errorMessage = error.localizedDescription
+                                fetchDataState.isFetchingData = false
+                            }
+                        }
+                    }
                 }
         }
     }

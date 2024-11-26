@@ -5,10 +5,9 @@
 //  Created by Woowon Kang on 11/24/24.
 //
 
-import Observation
+import Foundation
 
-@Observable
-class FetchDataState {
-    var isFetchingData: Bool = true
-    var errorMessage: String? = nil
+class FetchDataState: ObservableObject {
+    @Published var isFetchingData: Bool = true
+    @Published var errorMessage: String? = nil
 }
