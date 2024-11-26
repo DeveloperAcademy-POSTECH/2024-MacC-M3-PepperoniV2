@@ -13,41 +13,46 @@ struct ScoreView: View {
     @State var showAlert: Bool = false
     
     var body: some View {
-        VStack(spacing: 0) {
-            Header(
-                title: "",
-                dismissAction: {
-                    showAlert = true
-                },
-                dismissButtonType: .text("나가기")
-            )
-            Spacer()
-            
-            TotalScore(gameViewModel: _gameViewModel)
-            
-            VStack {
-                HStack{
-                    ScoreBar(score: gameViewModel.temporaryPronunciationScore)
-                    ScoreBar(score: gameViewModel.temporaryIntonationScore)
-                    ScoreBar(score: gameViewModel.temporarySpeedScore)
-                }
+        GeometryReader { geometry in
+            ZStack(alignment: .top) {
+                Header(
+                    title: "",
+                    dismissAction: {
+                        showAlert = true
+                    },
+                    dismissButtonType: .text("나가기")
+                )
                 
-                ScoreTitle()
+                VStack{
+                    TotalScore(gameViewModel: _gameViewModel)
+                    
+                    VStack {
+                        HStack{
+                            ScoreBar(score: gameViewModel.temporaryPronunciationScore)
+                            ScoreBar(score: gameViewModel.temporaryIntonationScore)
+                            ScoreBar(score: gameViewModel.temporarySpeedScore)
+                        }
+                        
+                        ScoreTitle()
+                    }
+                    
+                    // MARK: - 다음 플레이어 버튼
+                    NextPlayerButton()
+                }
+                .padding(.top, 36)
             }
-            
-            // MARK: - 다음 플레이어 버튼
-            NextPlayerButton()
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("홈 화면으로 나가시겠습니까?"),
-                primaryButton: .destructive(Text("나가기")) {
-                    router.popToRoot()
-                },
-                secondaryButton: .cancel(Text("취소"))
-            )
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("홈 화면으로 나가시겠습니까?"),
+                    primaryButton: .destructive(Text("나가기")) {
+                        router.popToRoot()
+                    },
+                    secondaryButton: .cancel(Text("취소"))
+                )
+            }
         }
         .navigationBarBackButtonHidden(true)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
 }
@@ -56,7 +61,7 @@ struct TotalScore: View {
     @Environment(GameViewModel.self) var gameViewModel // ViewModel 가져오기
         
         var body: some View {
-            VStack {
+            VStack(spacing: 0) {
                 Text("\(gameViewModel.players[gameViewModel.turnComplete].nickname ?? "") 결과")
                     .hakgyoansim(size: 20)
                     .padding(.bottom, 28)
@@ -74,7 +79,7 @@ struct TotalScore: View {
                             .hakgyoansim(size: 30)
                         
                     )
-                    .padding(.bottom, 52)
+                    .padding(.bottom, 50)
             }
         }
 }
@@ -192,7 +197,7 @@ struct ScoreTitle: View {
             .foregroundStyle(Color.ppWhiteGray)
             
         }
-        .padding(.bottom, 32)
+        .padding(.bottom, 30)
     }
 }
 
@@ -267,6 +272,21 @@ struct NextPlayerButton: View {
     }
 }
 
-#Preview {
-    ScoreView()
+struct ScoreView_Previews: PreviewProvider {
+    static var previews: some View {
+        let sampleGameViewModel = GameViewModel()
+        sampleGameViewModel.players = [
+            Player(nickname: "Player 1", turn: 1, score: 75),
+            Player(nickname: "Player 2", turn: 2,score: 90)
+        ]
+        sampleGameViewModel.turnComplete = 0
+        sampleGameViewModel.temporaryPronunciationScore = 80
+        sampleGameViewModel.temporaryIntonationScore = 85
+        sampleGameViewModel.temporarySpeedScore = 90
+        
+        return ScoreView()
+            .environmentObject(Router())
+            .environment(sampleGameViewModel)
+            .preferredColorScheme(.dark)
+    }
 }
