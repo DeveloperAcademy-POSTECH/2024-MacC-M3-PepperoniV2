@@ -15,8 +15,6 @@ class FirestoreService {
     let storage = Storage.storage()
     let syncKey = "isDataSynced"
     
-    private var needUpdate: Bool = false
-
     /// Firestore에서 데이터를 가져와 로컬 저장소와 SwiftData에 저장
     @MainActor
     func fetchAndStoreData(context: ModelContext) async throws {
