@@ -179,6 +179,7 @@ struct RankingView: View {
                 player1.score > player2.score
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
