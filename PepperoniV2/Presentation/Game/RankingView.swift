@@ -22,7 +22,8 @@ struct RankingView: View {
                     showAlert = true
                 }
             )
-            .padding(.bottom, 20)
+            .padding(.vertical, 20)
+            
             ScrollView{
                 ForEach(rankedPlayers.indices, id:\.self) { index in
                     if index == 0{ // 1등일 때
