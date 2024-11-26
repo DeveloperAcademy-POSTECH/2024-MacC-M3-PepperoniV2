@@ -97,6 +97,7 @@ struct HomeView: View {
         .onAppear {
             Task {
                 do {
+                    fetchDataState.isFetchingData = true 
                     try await FirestoreService().fetchAndStoreData(context: modelContext)
                     DispatchQueue.main.async {
                         fetchDataState.isFetchingData = false
