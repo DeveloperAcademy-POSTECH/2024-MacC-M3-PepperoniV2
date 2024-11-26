@@ -12,6 +12,7 @@ struct HomeView: View {
     @Environment(GameData.self) var gameData
     @Environment(GameViewModel.self) var gameViewModel
     @EnvironmentObject var fetchDataState: FetchDataState
+    @Environment(\.modelContext) private var modelContext
     
     @State private var isAnimeSelectPresented = false
     @State private var isPlayerSettingPresented = false
@@ -93,6 +94,21 @@ struct HomeView: View {
         }
         .padding(.horizontal)
         .background(.black)
+        .onAppear {
+            Task {
+                do {
+                    try await FirestoreService().fetchAndStoreData(context: modelContext)
+                    DispatchQueue.main.async {
+                        fetchDataState.isFetchingData = false
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        fetchDataState.errorMessage = error.localizedDescription
+                        fetchDataState.isFetchingData = false
+                    }
+                }
+            }
+        }
     }
     
     private func startGame() {
