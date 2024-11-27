@@ -37,9 +37,9 @@ struct PlayerSettingView: View {
                         Button {
                             viewModel.removePlayer()
                         } label: {
-                            Image("PlayerMinusButton")
+                            Image(viewModel.tempPlayers.count <= 2 ? "PlayerMinusButton_disabled" : "PlayerMinusButton")
                         }
-                        .disabled(viewModel.tempPlayers.count <= 1)
+                        .disabled(viewModel.tempPlayers.count <= 2)
                         
                         Spacer()
                         
@@ -52,7 +52,7 @@ struct PlayerSettingView: View {
                         Button {
                             viewModel.addPlayer()
                         } label: {
-                            Image("PlayerPlusButton")
+                            Image(viewModel.tempPlayers.count >= 10 ? "PlayerPlusButton_disabled" : "PlayerPlusButton")
                         }
                         .disabled(viewModel.tempPlayers.count >= 10)
                     }

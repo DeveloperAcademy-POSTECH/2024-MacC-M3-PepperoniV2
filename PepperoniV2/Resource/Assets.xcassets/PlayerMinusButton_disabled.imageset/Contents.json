@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "PlayerMinusButton_disabled.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "PlayerMinusButton_disabled@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "PlayerMinusButton_disabled@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
