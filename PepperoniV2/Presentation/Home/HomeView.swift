@@ -66,7 +66,7 @@ struct HomeView: View {
             
             // MARK: -인원 선택
             VStack {
-                if gameData.players.count < 2 {
+                if gameData.players.filter({ $0.nickname.isEmpty }).count > 0 {
                     SelectButtonView(
                         title: "인원을 넣어주세요",
                         height: 293

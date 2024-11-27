@@ -37,13 +37,13 @@ import SwiftUI
     
     /// 플레이어 초기화
     func resetPlayer() {
-        tempPlayers = [Player(nickname: "", turn: 1)]
+        tempPlayers = [Player(turn: 1), Player(turn: 2)]
     }
     
     /// 변경사항 저장
     func saveChanges() {
         for (index, player) in tempPlayers.enumerated() {
-            if player.nickname?.isEmpty ?? true {
+            if player.nickname.isEmpty {
                 tempPlayers[index].nickname = "\(index + 1)번"
             }
         }
