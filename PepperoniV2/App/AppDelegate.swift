@@ -10,6 +10,8 @@ import FirebaseCore
 import FirebaseAuth
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    static let anonymousSignInCompleted = Notification.Name("anonymousSignInCompleted")
+    
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
@@ -29,6 +31,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 print("Error signing in anonymously: \(error)")
             } else if let user = authResult?.user {
                 print("Successfully signed in anonymously with uid: \(user.uid)")
+                NotificationCenter.default.post(name: AppDelegate.anonymousSignInCompleted, object: nil)
             }
             
             if let user = Auth.auth().currentUser {
