@@ -28,16 +28,29 @@ struct PepperoniV2App: App {
                 .preferredColorScheme(.dark)
                 .environment(fetchDataState)
                 .onAppear {
-                    Task {
-                        do {
-                            let context = modelContainer.mainContext
-                            try await FirestoreService().fetchAndStoreData(context: context)
-                            fetchDataState.isFetchingData = false // 데이터 로드 완료
-                        } catch {
-                            print("Failed to fetch and store data: \(error.localizedDescription)")
-                            fetchDataState.isFetchingData = false // 데이터 로드 실패
+                    NotificationCenter.default.addObserver(
+                        forName: AppDelegate.anonymousSignInCompleted,
+                        object: nil,
+                        queue: .main
+                    ) { _ in
+                        Task {
+                            await MainActor.run {
+                                let context = modelContainer.mainContext
+                                Task {
+                                    do {
+                                        try await FirestoreService().fetchAndStoreData(context: context)
+                                        fetchDataState.isFetchingData = false
+                                    } catch {
+                                        fetchDataState.errorMessage = error.localizedDescription
+                                        fetchDataState.isFetchingData = false
+                                    }
+                                }
+                            }
                         }
                     }
+                }
+                .onDisappear {
+                    NotificationCenter.default.removeObserver(self, name: AppDelegate.anonymousSignInCompleted, object: nil)
                 }
         }
         .modelContainer(modelContainer)
