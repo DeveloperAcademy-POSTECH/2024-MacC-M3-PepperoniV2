@@ -64,7 +64,9 @@ struct VideoPlayView: View {
                         .suit(.medium, size: 16)
                             .foregroundStyle(Color.ppDarkGray_01)
                 }
-                .padding(.init(top: 0, leading: 16, bottom: 131, trailing: 16))
+                .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
+            
+            Spacer()
             
             Button(action: {
                 replayTrigger.toggle()
@@ -82,7 +84,7 @@ struct VideoPlayView: View {
                     }
                     .padding(.bottom, 12)
             }
-            
+        
             Button {
                 router.push(screen: Game.speaking)
             } label: {
@@ -107,7 +109,6 @@ struct VideoPlayView: View {
                             .foregroundStyle(Color.ppWhiteGray)
                     }
                     .padding(.horizontal, 16)
-                
             }
         }
         .onAppear{
