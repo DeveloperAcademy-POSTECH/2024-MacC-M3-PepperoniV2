@@ -36,11 +36,12 @@ struct PlayerSettingView: View {
                     HStack {
                         Button {
                             viewModel.removePlayer()
+                            HapticManager.instance.impact(style: .light)
                         } label: {
                             Image(viewModel.tempPlayers.count <= 2 ? "PlayerMinusButton_disabled" : "PlayerMinusButton")
                         }
                         .disabled(viewModel.tempPlayers.count <= 2)
-                        
+                                            
                         Spacer()
                         
                         Text("\(viewModel.tempPlayers.count)")
@@ -51,6 +52,7 @@ struct PlayerSettingView: View {
                         
                         Button {
                             viewModel.addPlayer()
+                            HapticManager.instance.impact(style: .light)
                         } label: {
                             Image(viewModel.tempPlayers.count >= 10 ? "PlayerPlusButton_disabled" : "PlayerPlusButton")
                         }

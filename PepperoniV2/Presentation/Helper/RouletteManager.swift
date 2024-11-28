@@ -37,6 +37,13 @@ class RouletteManager: ObservableObject {
         
         rotation = nearestMultiple
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.7) {
+            HapticManager.instance.customHapticSequence(
+                styles: [.medium, .heavy],
+                delays: [0.25, 0.35]
+            )
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.isSpinning = false
             self.selectedItem = self.getSelectedItem() // 결과 업데이트
@@ -48,7 +55,7 @@ class RouletteManager: ObservableObject {
         let sectorCenters = (0..<players.count).map { index in
             sectorAngle * Double(index)
         }
-
+        
         var closestIndex = 0
         if currentAngle <= (360 - sectorAngle){
             closestIndex = sectorCenters.enumerated()
@@ -71,49 +78,3 @@ struct RouletteTriangle: Shape {
         return path
     }
 }
-
-//class HapticManager {
-//    static let instance = HapticManager()
-//    private var hapticEngine: CHHapticEngine?
-//
-//    init() {
-//        prepareHaptics()
-//    }
-//
-//    private func prepareHaptics() {
-//        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else {
-//            print("Haptics not supported on this device.")
-//            return
-//        }
-//        do {
-//            hapticEngine = try CHHapticEngine()
-//            try hapticEngine?.start()
-//        } catch {
-//            print("Failed to start haptic engine: \(error.localizedDescription)")
-//        }
-//    }
-//
-//    func playCustomHaptic() {
-//        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
-//        var events = [CHHapticEvent]()
-//
-//        // 강한 진동 이벤트
-//        let sharpTap = CHHapticEvent(
-//            eventType: .hapticTransient,
-//            parameters: [
-//                CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.5),
-//                CHHapticEventParameter(parameterID: .hapticSharpness, value: 1.0)
-//            ],
-//            relativeTime: 0
-//        )
-//        events.append(sharpTap)
-//
-//        do {
-//            let pattern = try CHHapticPattern(events: events, parameters: [])
-//            let player = try hapticEngine?.makePlayer(with: pattern)
-//            try player?.start(atTime: CHHapticTimeImmediate)
-//        } catch {
-//            print("Failed to play custom haptic: \(error.localizedDescription)")
-//        }
-//    }
-//}
