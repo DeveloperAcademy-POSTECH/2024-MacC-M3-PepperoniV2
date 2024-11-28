@@ -171,7 +171,6 @@ struct SpeakingView: View {
                     )
                     .padding(2)
                     .ignoresSafeArea()
-                
             }
             if isCounting {
                 Color.black // 어두운 오버레이 배경
@@ -185,44 +184,55 @@ struct SpeakingView: View {
                     Text("\(playerOnTurn?.nickname ?? "") 차례")
                         .hakgyoansim(size: 20)
                         .padding(.bottom, 57)
-                    
-                    Circle()
-                        .stroke(lineWidth: 14)
-                        .frame(width:290, height:290)
-                        .foregroundStyle(
-                            
-                            EllipticalGradient(
-                                stops: [
-                                    Gradient.Stop(color: Color(hex:"AD29FF"), location: 0.00),
-                                    Gradient.Stop(color: Color(hex:"6652E7"), location: 0.36),
-                                    Gradient.Stop(color: Color(hex:"3FE9FF"), location: 1.00),
-                                ],
-                                center: UnitPoint(x: 0.53, y: -0.04),
-                                startRadiusFraction: 0.1,
-                                endRadiusFraction: 1
+                    ZStack{
+                        Circle()
+                            .frame(width:290, height:290)
+                            .foregroundStyle(
+                                EllipticalGradient(
+                                    stops: [
+                                        Gradient.Stop(color: Color(hex:"AD29FF"), location: 0.00),
+                                        Gradient.Stop(color: Color(hex:"6652E7"), location: 0.36),
+                                        Gradient.Stop(color: Color(hex:"3FE9FF"), location: 1.00),
+                                    ],
+                                    center: UnitPoint(x: 0.53, y: -0.04),
+                                    startRadiusFraction: 0.1,
+                                    endRadiusFraction: 1
+                                )
                             )
-                        )
-                        .overlay{
-                            if countdown > 0 {
-                                Text("\(countdown)")
-                                    .hakgyoansim(size: 200)
-                                    .foregroundStyle(.white)
-                            } else {
-                                Text("START")
-                                    .hakgyoansim(size: 70)
-                                    .foregroundStyle(
-                                        LinearGradient(
-                                            gradient: Gradient(stops: [
-                                                Gradient.Stop(color: Color(hex: "AD29FF"), location: 0.06), // 시작점
-                                                Gradient.Stop(color: Color(hex: "FFFFFF"), location: 0.44),
-                                                Gradient.Stop(color: Color(hex: "3FE9FF"), location: 1.0)// 끝점
-                                            ]),
-                                            startPoint: .topTrailing,  // 대각선 시작점
-                                            endPoint: .bottomLeading   // 대각선 끝점
-                                        )
+                            .shadow(color: Color.ppMint_00, radius: 18.8, x: 0, y: -3)
+                        Circle()
+                            .frame(width:260, height:260)
+                            .foregroundStyle(
+                                LinearGradient(
+                                    stops: [
+                                        Gradient.Stop(color: Color(hex:"313037"), location: 0.12),
+                                        Gradient.Stop(color: Color(hex:"0D0D0D"), location: 1.0),
+                                    ],
+                                    startPoint: UnitPoint(x: 0.0, y: 0.5),
+                                    endPoint: UnitPoint(x: 1.0, y: 0.5)
+                                )
+                            )
+                        if countdown > 0 {
+                            Text("\(countdown)")
+                                .hakgyoansim(size: 200)
+                                .foregroundStyle(.white)
+                        } else {
+                            Text("START")
+                                .hakgyoansim(size: 70)
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        gradient: Gradient(stops: [
+                                            Gradient.Stop(color: Color(hex: "AD29FF"), location: 0.06), // 시작점
+                                            Gradient.Stop(color: Color(hex: "FFFFFF"), location: 0.44),
+                                            Gradient.Stop(color: Color(hex: "3FE9FF"), location: 1.0)// 끝점
+                                        ]),
+                                        startPoint: .topTrailing,  // 대각선 시작점
+                                        endPoint: .bottomLeading   // 대각선 끝점
                                     )
-                            }
+                                )
+                                .shadow(color: Color.ppMint_00, radius: 8, x: 0, y: -3)
                         }
+                    }
                 }
             }
         }
@@ -233,6 +243,11 @@ struct SpeakingView: View {
                     playerOnTurn = player
                 }
             }
+            
+            currentLine = []
+            lines = []
+            currentCharCount = 0
+            
             // 단어를 순회하면서 줄을 나누기 (Swift의 일반 for문 사용)
             if let quote = gameViewModel.selectedQuote {
                 for (index, word) in quote.japanese.enumerated() {
