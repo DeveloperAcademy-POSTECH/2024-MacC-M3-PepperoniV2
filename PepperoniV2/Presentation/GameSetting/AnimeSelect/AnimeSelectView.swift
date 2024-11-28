@@ -87,6 +87,7 @@ struct AnimeSelectView: View {
                     .listRowBackground(Color.clear)
                     .onTapGesture {
                         viewModel.selectAnime(anime)
+                        HapticManager.instance.impact(style: .light)
                     }
                 }
                 .listStyle(.plain)
