@@ -151,6 +151,12 @@ struct AnimeSelectView: View {
     // 애니 선택 및 데이터 로드
     @MainActor
     private func selectAnime(_ anime: Anime) async {
+        // quotes가 이미 저장되어 있으면 바로 선택
+        if !anime.quotes.isEmpty {
+            viewModel.selectAnime(anime)
+            return
+        }
+        
         isLoading = true
         do {
             try await firestoreService.fetchAnimeDetailsAndStore(context: modelContext, animeID: anime.id) // modelContext 전달
