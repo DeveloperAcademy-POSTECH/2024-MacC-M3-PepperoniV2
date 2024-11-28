@@ -45,10 +45,10 @@ struct SpeakingView: View {
     //        ),
     //        selectedQuote: AnimeQuote(
     //            id: "quote2",
-    //            japanese: ["お前が決！", "めるんだ", "んだ", "んだ", "んだ", "んだ"],
-    //            pronunciation: ["오마에가", "키메룬다!","오마에가", "키메룬다!","오마에가", "키메룬다!"],
-    //            korean: ["네가 결정하는", "거야!", "가나", "다라", "마바", "사아"],
-    //            timeMark: [0.1, 1.5],
+    //            japanese: ["俺の","財宝か?","ほしけりゃ","くれてやる","さがせぃ!","この世の","全てを","そこに","おいてきた"],
+    //            pronunciation: ["오레노","자이호오카","호시케랴","쿠레테야루","사가세","코노요노","스베테오","소코니","오이테키타"],
+    //            korean: ["내","보물말이냐?","갖고싶다면","주지","찾아라","이세상의","모든 것을","그 곳에","두고 왔다"],
+    //            timeMark: [0.1, 1.5, 1.8, 2.6, 2.9, 3.2, 3.5],
     //            voicingTime: 2.5,
     //            audioFile: "attack_on_titan_quote2.mp3",
     //            youtubeID: "abcd1234",
@@ -74,6 +74,12 @@ struct SpeakingView: View {
     @State var showAlert: Bool = false
     
     @State private var playerOnTurn: Player?
+    
+    let maxWordsPerLine = 3 // 기본적으로 한 줄에 3단어까지
+    let maxCharactersPerLine = 18 // 한 줄당 최대 글자 수
+    @State var currentLine: [Int] = [] // 현재 줄에 포함된 단어 인덱스
+    @State var lines: [[Int]] = [] // 나뉜 줄의 배열
+    @State var currentCharCount = 0 // 현재 줄의 총 글자 수
     
     var body: some View {
         
@@ -104,48 +110,27 @@ struct SpeakingView: View {
                         endPoint: .bottom // 대각선 끝점
                     )
                     
-                    if let quote = gameViewModel.selectedQuote{
-                        if quote.japanese.count >= 5 {
-                            let halfIndex = quote.japanese.count / 2
-                            
-                            // 두 개의 HStack으로 나누어 텍스트 표시
-                            VStack(spacing:32) {
-                                HStack {
-                                    ForEach(0..<halfIndex, id: \.self) { index in
+                    // SwiftUI ViewBuilder에서 줄 나누기 결과를 표시
+                    if let quote = gameViewModel.selectedQuote {
+                        VStack(spacing: 16) { // 줄 간 간격
+                            ForEach(lines.indices, id: \.self) { lineIndex in
+                                HStack(spacing: 8) { // 단어 간 간격
+                                    ForEach(lines[lineIndex], id: \.self) { index in
                                         WordCard(
                                             pronunciation: quote.pronunciation[index],
                                             japanese: quote.japanese[index],
-                                            isHighlighted: isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount)
+                                            isHighlighted: isHighlighted(
+                                                wordIndex: index,
+                                                timeByWord: quote.timeMark,
+                                                timerCount: timerCount
+                                            )
                                         )
                                     }
                                 }
-                                .padding()
-                                
-                                HStack {
-                                    ForEach(halfIndex..<quote.japanese.count, id: \.self) { index in
-                                        WordCard(
-                                            pronunciation: quote.pronunciation[index],
-                                            japanese: quote.japanese[index],
-                                            isHighlighted: isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount)
-                                        )
-                                    }
-                                }
-                                .padding(.bottom, 50)
+                                .padding(.bottom, 20)
                             }
-                            
-                        } else {
-                            // 길이가 5 미만일 때 기존 방식
-                            HStack {
-                                ForEach(quote.japanese.indices, id: \.self) { index in
-                                    WordCard(
-                                        pronunciation: quote.pronunciation[index],
-                                        japanese: quote.japanese[index],
-                                        isHighlighted: isHighlighted(wordIndex: index, timeByWord: quote.timeMark, timerCount: timerCount)
-                                    )
-                                }
-                            }
-                            .padding()
                         }
+                        .padding()
                     }
                 }
                 .padding(.init(top: 50, leading: 0, bottom: 58, trailing: 0))
@@ -168,7 +153,6 @@ struct SpeakingView: View {
                     })
                     .padding(.bottom, 40)
                 }
-                
             }
             if !isCounting {
                 RoundedRectangle(cornerRadius: 60)
@@ -249,6 +233,23 @@ struct SpeakingView: View {
                     playerOnTurn = player
                 }
             }
+            // 단어를 순회하면서 줄을 나누기 (Swift의 일반 for문 사용)
+            if let quote = gameViewModel.selectedQuote {
+                for (index, word) in quote.japanese.enumerated() {
+                    let wordLength = word.count
+                    if currentCharCount + wordLength <= maxCharactersPerLine && currentLine.count < maxWordsPerLine {
+                        currentLine.append(index)
+                        currentCharCount += wordLength
+                    } else {
+                        lines.append(currentLine)
+                        currentLine = [index]
+                        currentCharCount = wordLength
+                    }
+                }
+                if !currentLine.isEmpty {
+                    lines.append(currentLine)
+                }
+            }
         }
         .onDisappear {
             isCounting = true
@@ -263,7 +264,7 @@ struct SpeakingView: View {
             Alert(
                 title: Text("홈 화면으로 나가시겠습니까?"),
                 primaryButton: .destructive(Text("나가기")) {
-                    //                    router.popToRoot()
+                    router.popToRoot()
                 },
                 secondaryButton: .cancel(Text("취소"))
             )
@@ -363,7 +364,15 @@ struct WordCard: View {
                         .foregroundStyle(Color.ppDarkGray_02)
                 }
             }
-            .frame(height: 88) // frame을 Group에 적용
+                .frame(height: 88) // frame을 Group에 적용
         )
+    }
+}
+
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        stride(from: 0, to: count, by: size).map {
+            Array(self[$0..<Swift.min($0 + size, count)])
+        }
     }
 }
