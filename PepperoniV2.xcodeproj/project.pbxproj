@@ -15,6 +15,7 @@
 		516A492E2CEF9AD200D4E9DE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 516A492D2CEF9AD200D4E9DE /* FirebaseStorage */; };
 		516A49312CEF9D6600D4E9DE /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516A49302CEF9D6600D4E9DE /* FirestoreService.swift */; };
 		90129B852CEC67ED0029DAEF /* RouletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90129B842CEC67E70029DAEF /* RouletteManager.swift */; };
+		908797C42CF81AFD008EA1FA /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908797C32CF81AFD008EA1FA /* HapticManager.swift */; };
 		909C931C2CE5F08E00976538 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 909C931B2CE5F08E00976538 /* .gitignore */; };
 		909C93232CE5F29100976538 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 909C931D2CE5F29100976538 /* Preview Assets.xcassets */; };
 		909C93242CE5F29100976538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 909C931F2CE5F29100976538 /* Assets.xcassets */; };
@@ -62,6 +63,7 @@
 		516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		516A49302CEF9D6600D4E9DE /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		90129B842CEC67E70029DAEF /* RouletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouletteManager.swift; sourceTree = "<group>"; };
+		908797C32CF81AFD008EA1FA /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		909C93082CE5EFE400976538 /* PepperoniV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PepperoniV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909C931B2CE5F08E00976538 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		909C931D2CE5F29100976538 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				90129B842CEC67E70029DAEF /* RouletteManager.swift */,
 				90E2E98E2CED01EA00857636 /* STTManager.swift */,
 				90E2E9902CED020700857636 /* SpeechGrader.swift */,
+				908797C32CF81AFD008EA1FA /* HapticManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				BD400CA62CE891C10052174B /* HomeView.swift in Sources */,
 				90129B852CEC67ED0029DAEF /* RouletteManager.swift in Sources */,
 				BD400CC12CE9A8A10052174B /* ScoreView.swift in Sources */,
+				908797C42CF81AFD008EA1FA /* HapticManager.swift in Sources */,
 				BD400CCD2CEA63670052174B /* YoutubePlayerView.swift in Sources */,
 				BD400CA12CE890B40052174B /* AnimeQuote.swift in Sources */,
 				BD400CC72CE9ACFD0052174B /* Game.swift in Sources */,
