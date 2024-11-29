@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RankingView: View {
-    @EnvironmentObject var router: Router
+//    @EnvironmentObject var router: Router
     @Environment(GameViewModel.self) var gameViewModel
     
     @State var rankedPlayers: [Player] = []
@@ -48,11 +48,11 @@ struct RankingView: View {
                 retryAction: {
                     gameViewModel.retryThisQuote()
                     gameViewModel.turnComplete = 0
-                    router.pop(depth: 4)
+//                    router.pop(depth: 4)
                 },
                 exitAction: {
                     gameViewModel.turnComplete = 0
-                    router.popToRoot()
+//                    router.popToRoot()
                 }
             )
         }
@@ -89,11 +89,11 @@ struct RankRow: View {
                             .hakgyoansim(size: isFirst ? 26 : 20)
                             .foregroundStyle(rankColor)
                         Spacer()
-                        Text(player.nickname ?? "")
+                        Text(player.nickname)
                             .suit(isFirst ? .bold : .medium, size: isFirst ? 22 : 18)
                             .foregroundStyle(nicknameColor)
                         Spacer()
-                        Text("\(player.score)점")
+                        Text("\(player.score / 3)점")
                             .hakgyoansim(size: isFirst ? 20 : 18)
                             .foregroundStyle(scoreColor)
                     }
@@ -215,12 +215,12 @@ struct RankingView_Previews: PreviewProvider {
     static var previews: some View {
         // 샘플 데이터
         let samplePlayers = [
+            Player(nickname: "Player1", turn:0, score: 300),
+            Player(nickname: "Player2", turn:1, score: 297),
+            Player(nickname: "Player3", turn:2, score: 273),
+            Player(nickname: "Player4", turn:3, score: 130),
             Player(nickname: "Player1", turn:0, score: 100),
-            Player(nickname: "Player2", turn:1, score: 75),
-            Player(nickname: "Player3", turn:2, score: 60),
-            Player(nickname: "Player4", turn:3, score: 40),
-            Player(nickname: "Player1", turn:0, score: 100),
-            Player(nickname: "Player2", turn:1, score: 80)
+            Player(nickname: "Player2", turn:1, score: 0)
         ]
         
         // GameViewModel의 샘플 객체 생성
