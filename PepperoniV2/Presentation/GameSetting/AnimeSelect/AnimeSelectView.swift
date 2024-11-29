@@ -77,7 +77,7 @@ struct AnimeSelectView: View {
                 }
                 
                 // MARK: -anime 리스트
-                List(currentAnimes) { anime in
+                List(Array(currentAnimes.enumerated()), id: \.element.id) { index, anime in
                     AnimeRowView(
                         anime: anime,
                         isSelected: viewModel.tempSelectedAnime?.id == anime.id
@@ -89,6 +89,7 @@ struct AnimeSelectView: View {
                         viewModel.selectAnime(anime)
                         HapticManager.instance.impact(style: .light)
                     }
+                    .padding(.bottom, index == currentAnimes.count - 1 ? 60 : 0)
                 }
                 .listStyle(.plain)
                 .padding(.bottom,60)
