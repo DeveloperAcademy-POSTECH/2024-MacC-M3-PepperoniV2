@@ -18,7 +18,7 @@ struct HomeView: View {
     
     var isGameStartEnabled: Bool {
         guard let selectedAnime = gameData.selectedAnime else { return false }
-        return !selectedAnime.title.isEmpty && gameData.players.count >= 2
+        return !selectedAnime.title.isEmpty && gameData.players.filter({ $0.nickname.isEmpty }).count == 0
     }
 
     var body: some View {
