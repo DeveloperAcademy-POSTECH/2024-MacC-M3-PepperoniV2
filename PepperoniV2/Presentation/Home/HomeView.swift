@@ -87,9 +87,9 @@ struct HomeView: View {
             Button {
                 startGame()
             } label: {
-                Image(isGameStartEnabled ? "StartButton" : "StartButton_disabled")
+                Image(gameData.players.filter({ $0.nickname.isEmpty }).count == 0 ? "StartButton" : "StartButton_disabled")
             }
-            .disabled(!isGameStartEnabled)
+            .disabled(gameData.players.filter({ $0.nickname.isEmpty }).count != 0)
         }
         .padding(.horizontal)
         .background(.black)
