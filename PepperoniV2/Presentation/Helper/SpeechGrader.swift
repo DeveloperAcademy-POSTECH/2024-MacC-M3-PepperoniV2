@@ -76,6 +76,7 @@ private func levenshteinDistance(_ source: String, _ target: String) -> Int {
     return distanceMatrix[sourceCount][targetCount]
 }
 
+// calculateIntonation 함수
 func calculateIntonation(referenceFileName: String, comparisonFileURL: URL) -> Double {
     let referenceURL = URL(fileURLWithPath: referenceFileName)
     
@@ -84,13 +85,13 @@ func calculateIntonation(referenceFileName: String, comparisonFileURL: URL) -> D
         print("참조 파일을 찾을 수 없습니다: \(referenceURL.path)")
         return 0.0
     }
-    guard let referencePitchData = extractPitchData(from: referenceURL),
-          let comparisonPitchData = extractPitchData(from: comparisonFileURL) else {
+    guard let referencePitchData = extractPitchData(from: referenceURL, applyVolumeThreshold: false), // 볼륨 기준 미적용
+          let comparisonPitchData = extractPitchData(from: comparisonFileURL, applyVolumeThreshold: true) else { // 볼륨 기준 적용
         print("피치 데이터를 추출할 수 없습니다.")
         return 0.0
     }
     
-    // 유효한 데이터만 추출
+    // 이후 코드는 동일
     let validReferenceData = referencePitchData.compactMap { $0 > 0 ? $0 : nil }
     let validComparisonData = comparisonPitchData.compactMap { $0 > 0 ? $0 : nil }
     
@@ -99,16 +100,12 @@ func calculateIntonation(referenceFileName: String, comparisonFileURL: URL) -> D
         return 0.0
     }
     
-    // 짧은 데이터를 긴 데이터에 맞게 리샘플링
     let resampledComparisonData = resamplePitchData(source: validComparisonData, targetLength: validReferenceData.count)
-    
-    // 정규화 (평균값 기준)
     let referenceMean = validReferenceData.reduce(0, +) / CGFloat(validReferenceData.count)
     let comparisonMean = resampledComparisonData.reduce(0, +) / CGFloat(resampledComparisonData.count)
     let normalizedReferenceData = validReferenceData.map { $0 - referenceMean }
     let normalizedComparisonData = resampledComparisonData.map { $0 - comparisonMean }
     
-    // 변화율 비교
     var matchingStates = 0
     for i in 1..<validReferenceData.count {
         let referenceDiff = normalizedReferenceData[i] - normalizedReferenceData[i - 1]
@@ -122,31 +119,22 @@ func calculateIntonation(referenceFileName: String, comparisonFileURL: URL) -> D
         }
     }
     
-    // 억양 유사도 계산
     let similarity = Double(matchingStates) / Double(validReferenceData.count - 1)
-    let intonationScore = similarity * 100 // 억양 점수 (0~100)
-    
-    // 파일 길이 점수 계산
+    let intonationScore = similarity * 100
     let referenceLength = Double(validReferenceData.count)
     let comparisonLength = Double(validComparisonData.count)
     let lengthScore = max(0.0, 100.0 * (min(comparisonLength, referenceLength) / max(comparisonLength, referenceLength)))
     
-    print("Intonation Score: \(intonationScore)")
-    print("Length Score: \(lengthScore)")
-    
-    // 최종 점수 계산 (가중치 조합)
-    let score = (intonationScore * 0.7) + (lengthScore * 0.3) // 가중치: 억양 80%, 길이 20%
-    
-    // 점수화
+    let score = (intonationScore * 0.7) + (lengthScore * 0.3)
     let finalScore: Double
     switch similarity {
-    case 0.55...1.0: // 55% ~ 70%를 90점 ~ 100점으로
+    case 0.55...1.0:
         finalScore = Double(90 + (similarity - 0.55) / 0.15 * 10)
-    case 0.45..<0.55: // 45% ~ 55%를 75점 ~ 90점으로
+    case 0.45..<0.55:
         finalScore = Double(75 + (similarity - 0.45) / 0.10 * 15)
-    case 0.30..<0.45: // 30% ~ 45%를 50점 ~ 75점으로
+    case 0.30..<0.45:
         finalScore = Double(50 + (similarity - 0.30) / 0.15 * 25)
-    case 0.0..<0.30: // 0% ~ 30%를 0점 ~ 50점으로
+    case 0.0..<0.30:
         finalScore = Double(similarity / 0.30 * 50)
     default:
         finalScore = 0
@@ -179,7 +167,7 @@ func resamplePitchData(source: [CGFloat], targetLength: Int) -> [CGFloat] {
 }
 
 /// m4a 파일에서 피치 데이터를 추출하는 함수
-func extractPitchData(from fileURL: URL) -> [CGFloat]? {
+func extractPitchData(from fileURL: URL, applyVolumeThreshold: Bool = true) -> [CGFloat]? {
     do {
         let audioFile = try AVAudioFile(forReading: fileURL)
         let format = audioFile.processingFormat
@@ -191,16 +179,16 @@ func extractPitchData(from fileURL: URL) -> [CGFloat]? {
         
         try audioFile.read(into: buffer)
         
-        // `AudioManager2`에서 참조한 calculateRelativePitch 함수의 기능을 구현
-        return calculateRelativePitch(buffer: buffer)
+        // AudioManager2에서 참조한 calculateRelativePitch 함수의 기능을 구현
+        return calculateRelativePitch(buffer: buffer, applyVolumeThreshold: applyVolumeThreshold)
     } catch {
         print("오디오 파일을 읽는 데 실패했습니다: \(error)")
         return nil
     }
 }
 
-/// `calculateRelativePitch` 함수 구현
-func calculateRelativePitch(buffer: AVAudioPCMBuffer) -> [CGFloat] {
+/// calculateRelativePitch 함수 구현
+func calculateRelativePitch(buffer: AVAudioPCMBuffer, applyVolumeThreshold: Bool) -> [CGFloat] {
     let frameLength = buffer.frameLength
     guard let channelData = buffer.floatChannelData else { return [] }
     
@@ -219,7 +207,15 @@ func calculateRelativePitch(buffer: AVAudioPCMBuffer) -> [CGFloat] {
         let rms = calculateRMS(data: frameData)
         var pitch: CGFloat
         
-        if rms > volumeThreshold {
+        // 볼륨 임계값 적용 여부 확인
+        if applyVolumeThreshold && rms > volumeThreshold {
+            pitch = calculatePitch(data: frameData, sampleRate: Float(sampleRate))
+            
+            if pitch < minVoiceFrequency || pitch > maxVoiceFrequency {
+                pitch = pitchData.last ?? 0
+            }
+        } else if !applyVolumeThreshold {
+            // 볼륨 임계값을 무시하고 피치 계산
             pitch = calculatePitch(data: frameData, sampleRate: Float(sampleRate))
             
             if pitch < minVoiceFrequency || pitch > maxVoiceFrequency {
