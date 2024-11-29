@@ -233,6 +233,7 @@ struct SpeakingView: View {
                                 .shadow(color: Color.ppMint_00, radius: 8, x: 0, y: -3)
                         }
                     }
+                    .frame(width:290, height:290)
                 }
             }
         }
