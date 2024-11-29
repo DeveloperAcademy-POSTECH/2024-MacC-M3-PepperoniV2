@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RankingView: View {
-//    @EnvironmentObject var router: Router
+    @EnvironmentObject var router: Router
     @Environment(GameViewModel.self) var gameViewModel
     
     @State var rankedPlayers: [Player] = []
@@ -48,11 +48,11 @@ struct RankingView: View {
                 retryAction: {
                     gameViewModel.retryThisQuote()
                     gameViewModel.turnComplete = 0
-//                    router.pop(depth: 4)
+                    router.pop(depth: 4)
                 },
                 exitAction: {
                     gameViewModel.turnComplete = 0
-//                    router.popToRoot()
+                    router.popToRoot()
                 }
             )
         }
