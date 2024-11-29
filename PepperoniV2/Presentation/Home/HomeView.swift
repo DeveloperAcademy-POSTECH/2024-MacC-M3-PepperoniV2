@@ -18,7 +18,7 @@ struct HomeView: View {
     
     var isGameStartEnabled: Bool {
         guard let selectedAnime = gameData.selectedAnime else { return false }
-        return !selectedAnime.title.isEmpty && gameData.players.count >= 2
+        return !selectedAnime.title.isEmpty && gameData.players.filter({ $0.nickname.isEmpty }).count == 0
     }
 
     var body: some View {
@@ -87,9 +87,9 @@ struct HomeView: View {
             Button {
                 startGame()
             } label: {
-                Image(gameData.players.filter({ $0.nickname.isEmpty }).count == 0 ? "StartButton" : "StartButton_disabled")
+                Image(isGameStartEnabled ? "StartButton" : "StartButton_disabled")
             }
-            .disabled(gameData.players.filter({ $0.nickname.isEmpty }).count != 0)
+            .disabled(!isGameStartEnabled)
         }
         .padding(.horizontal)
         .background(.black)
