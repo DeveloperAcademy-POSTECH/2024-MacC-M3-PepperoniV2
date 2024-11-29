@@ -220,11 +220,11 @@ struct SpeakingView: View {
                             Text("START")
                                 .hakgyoansim(size: 70)
                                 .foregroundStyle(
-                                    LinearGradient(
+                                    LinearGradient( //
                                         gradient: Gradient(stops: [
-                                            Gradient.Stop(color: Color(hex: "AD29FF"), location: 0.06), // 시작점
+                                            Gradient.Stop(color: Color(hex: "AD29FF"), location: 0.06),
                                             Gradient.Stop(color: Color(hex: "FFFFFF"), location: 0.44),
-                                            Gradient.Stop(color: Color(hex: "3FE9FF"), location: 1.0)// 끝점
+                                            Gradient.Stop(color: Color(hex: "3FE9FF"), location: 1.0)
                                         ]),
                                         startPoint: .topTrailing,  // 대각선 시작점
                                         endPoint: .bottomLeading   // 대각선 끝점
