@@ -45,15 +45,26 @@ struct VideoPlayView: View {
                 }
                 .padding(.init(top: 0, leading: 36, bottom: 28, trailing: 36))
             
-            if let selectedQuote = gameViewModel.selectedQuote{
-                YouTubePlayerView(
-                    videoID: selectedQuote.youtubeID,
-                    startTime: Int(selectedQuote.youtubeStartTime),
-                    endTime: Int(selectedQuote.youtubeEndTime),
-                    replayTrigger: replayTrigger
-                )
-                .frame(height: 218)
-                .padding(.bottom, 24)
+            VStack(spacing: 0){
+                Rectangle()
+                    .frame(height: 52)
+                    .foregroundStyle(Color.ppDarkGray_03)
+                    .overlay{
+                        Text("\"\(gameViewModel.selectedQuote?.korean.joined(separator: " ") ?? "")\"")
+                            .hakgyoansim(size: 18)
+                            .foregroundStyle(Color.ppMint_00)
+                    }
+                
+                if let selectedQuote = gameViewModel.selectedQuote{
+                    YouTubePlayerView(
+                        videoID: selectedQuote.youtubeID,
+                        startTime: Int(selectedQuote.youtubeStartTime),
+                        endTime: Int(selectedQuote.youtubeEndTime),
+                        replayTrigger: replayTrigger
+                    )
+                    .frame(height: 218)
+                    .padding(.bottom, 24)
+                }
             }
             
             RoundedRectangle(cornerRadius: 10)
