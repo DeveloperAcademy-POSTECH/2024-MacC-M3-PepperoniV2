@@ -170,11 +170,17 @@ struct RankRow: View {
     }
     
     private var rankText: String {
-        isLast ? "꼴찌" : "\(rank)위"
+        if isFirst {
+            return "Win"
+        } else if isLast {
+            return "-"
+        } else {
+            return "Lose"
+        }
     }
     
     private var rankColor: Color {
-        isFirst ? .white : (rank <= 3 ? Color.ppMint_00 : Color.ppBlueGray)
+        isFirst ? .white : Color.ppBlueGray
     }
     
     private var nicknameColor: Color {
@@ -222,12 +228,12 @@ struct RankingView_Previews: PreviewProvider {
     static var previews: some View {
         // 샘플 데이터
         let samplePlayers = [
-            Player(nickname: "Player1", turn:0, score: 300),
-            Player(nickname: "Player2", turn:1, score: 297),
-            Player(nickname: "Player3", turn:2, score: 273),
-            Player(nickname: "Player4", turn:3, score: 130),
-            Player(nickname: "Player1", turn:0, score: 100),
-            Player(nickname: "Player2", turn:1, score: 0)
+            Player(nickname: "참가자1", turn:0, score: 300),
+            Player(nickname: "참가자3", turn:1, score: 297),
+            Player(nickname: "진행자", turn:2, score: 273, isHost: true),
+            Player(nickname: "참가자4", turn:3, score: 130),
+            Player(nickname: "참가자5", turn:0, score: 100),
+            Player(nickname: "참가자2", turn:1, score: 0)
         ]
         
         // GameViewModel의 샘플 객체 생성
