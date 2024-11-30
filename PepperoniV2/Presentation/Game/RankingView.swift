@@ -28,7 +28,13 @@ struct RankingView: View {
             ScrollView {
                 ForEach(rankedPlayers.indices, id: \.self) { index in
                     let player = rankedPlayers[index]
-                    RankRow(player: player, rank: index + 1, isFirst: index == 0, isLast: index == rankedPlayers.count - 1)
+                    let isAboveHost = player.score > rankedPlayers.first(where: { $0.isHost })?.score ?? 0
+                    
+                    RankRow(player: player,
+                            rank: index + 1,
+                            isFirst: isAboveHost, // 호스트 보다 위인 사람은 first 효과
+                            isLast: player.isHost, // host는 last 효과
+                            isHost: player.isHost)
                         .opacity(rowVisible[index] ? 1 : 0) // 초기 상태는 보이지 않음
                         .offset(y: rowVisible[index] ? 0 : 20) // 약간 아래에서 올라오는 효과
                         .animation(.easeOut(duration: 0.5).delay(Double(index) * 0.07), value: rowVisible[index])
@@ -71,6 +77,7 @@ struct RankRow: View {
     let rank: Int
     let isFirst: Bool
     let isLast: Bool
+    let isHost: Bool
     
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
@@ -105,14 +112,14 @@ struct RankRow: View {
     }
     
     private var backgroundStyle: AnyShapeStyle {
-        if isFirst {
+        if isLast {
+                    return AnyShapeStyle(LinearGradient(
+                        colors: [Color.black],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ))
+        } else if isFirst {
             return AnyShapeStyle(firstPlaceGradient)
-        } else if isLast {
-            return AnyShapeStyle(LinearGradient(
-                colors: [Color.black],
-                startPoint: .leading,
-                endPoint: .trailing
-            ))
         } else {
             return AnyShapeStyle(LinearGradient(
                 colors: [Color(hex: "37363B"), Color(hex: "19191B")],
