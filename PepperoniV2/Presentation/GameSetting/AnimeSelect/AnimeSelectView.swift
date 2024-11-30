@@ -21,6 +21,8 @@ struct AnimeSelectView: View {
     // SwiftData에서 Anime 데이터를 가져오기
     @Query var animes: [Anime]
     
+    @State private var loadingStates: [String: (isLoading: Bool, progress: Double)] = [:]
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
@@ -83,7 +85,9 @@ struct AnimeSelectView: View {
                 List(Array(currentAnimes.enumerated()), id: \.element.id) { index, anime in
                     AnimeRowView(
                         anime: anime,
-                        isSelected: viewModel.tempSelectedAnime?.id == anime.id
+                        isSelected: viewModel.tempSelectedAnime?.id == anime.id,
+                        isLoading: loadingStates[anime.id]?.isLoading ?? false,
+                        progress: loadingStates[anime.id]?.progress ?? 0.0
                     )
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .listRowSeparator(.hidden)
@@ -152,20 +156,19 @@ struct AnimeSelectView: View {
     // 애니 선택 및 데이터 로드
     @MainActor
     private func selectAnime(_ anime: Anime) async {
-        // quotes가 이미 저장되어 있으면 바로 선택
-        if !anime.quotes.isEmpty {
-            viewModel.selectAnime(anime)
-            return
-        }
-        
-        isLoading = true
+        let animeID = anime.id
+        loadingStates[animeID] = (isLoading: true, progress: 0.0)
         do {
-            try await firestoreService.fetchAnimeDetailsAndStore(context: modelContext, animeID: anime.id) // modelContext 전달
+            try await firestoreService.fetchAnimeDetailsAndStore(context: modelContext, animeID: animeID) { progress in
+                DispatchQueue.main.async {
+                    loadingStates[animeID]?.progress = progress
+                }
+            }
             viewModel.selectAnime(anime)
         } catch {
             print("Failed to load anime details: \(error.localizedDescription)")
         }
-        isLoading = false
+        loadingStates[animeID]?.isLoading = false
     }
 }
 
@@ -181,15 +184,29 @@ struct DashLine: Shape {
 struct AnimeRowView: View {
     let anime: Anime
     let isSelected: Bool
+    let isLoading: Bool
+    let progress: Double
     
     private var needDownload: Bool {
-        anime.quotes.isEmpty
+        anime.quotes.isEmpty || isLoading
     }
     
     var body: some View {
         HStack {
             VStack {
-                if needDownload {
+                if isLoading {
+                    ZStack {
+                        Circle()
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 4)
+                        Circle()
+                            .trim(from: 0, to: CGFloat(progress))
+                            .stroke(Color.blue, style: StrokeStyle(lineWidth: 4, lineCap: .round))
+                            .rotationEffect(.degrees(-90))
+                            .animation(.linear, value: progress)
+                    }
+                    .frame(width: 32, height: 32)
+                    .padding(.leading, 11)
+                } else if needDownload {
                     Image("NeedDownload")
                         .resizable()
                         .frame(width: 32, height: 32)
@@ -215,18 +232,18 @@ struct AnimeRowView: View {
             .padding(.horizontal)
             .frame(maxHeight: .infinity)
             .background(needDownload ? LinearGradient(stops: [
-                           Gradient.Stop(color: Color.ppDarkGray_04, location: 0.0),
-                           Gradient.Stop(color: Color.ppDarkGray_04, location: 1.00),
-                       ],
-                                                                 startPoint: UnitPoint(x: 0, y: 0.5),
-                                                                 endPoint: UnitPoint(x: 1, y: 0.5)) : (isSelected ? LinearGradient.gradient3 : LinearGradient(
-                                                                   stops: [
-                                                                       Gradient.Stop(color: Color(hex: "313037"), location: 0.12),
-                                                                       Gradient.Stop(color: Color(hex: "0D0D0D"), location: 1.00),
-                                                                   ],
-                                                                   startPoint: UnitPoint(x: 0, y: 0.5),
-                                                                   endPoint: UnitPoint(x: 1, y: 0.5)
-                                                                 )))
+                Gradient.Stop(color: Color.ppDarkGray_04, location: 0.0),
+                Gradient.Stop(color: Color.ppDarkGray_04, location: 1.00),
+            ],
+                                                      startPoint: UnitPoint(x: 0, y: 0.5),
+                                                      endPoint: UnitPoint(x: 1, y: 0.5)) : (isSelected ? LinearGradient.gradient3 : LinearGradient(
+                                                        stops: [
+                                                            Gradient.Stop(color: Color(hex: "313037"), location: 0.12),
+                                                            Gradient.Stop(color: Color(hex: "0D0D0D"), location: 1.00),
+                                                        ],
+                                                        startPoint: UnitPoint(x: 0, y: 0.5),
+                                                        endPoint: UnitPoint(x: 1, y: 0.5)
+                                                      )))
         }
         .frame(height: 78)
         .cornerRadius(10)
