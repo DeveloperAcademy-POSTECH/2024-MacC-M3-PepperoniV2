@@ -68,6 +68,7 @@ struct SpeakingView: View {
     @State private var timer: Timer? = nil       // 타이머 객체
     @State private var timerCount: Double = 0.0 // 초기 타이머 설정 (초 단위)
     @State private var isRunning: Bool = false   // 타이머 상태
+    @State private var pausedTime: Double? // 타이머 일시 중지 상태 저장
     
     @StateObject private var sttManager = STTManager()
     
@@ -88,7 +89,7 @@ struct SpeakingView: View {
                     title: "",
                     dismissAction: {
                         Task {
-                            stopTimer()
+                            pauseTimer()
                             showAlert = true
                             await sttManager.pauseRecording() // 녹음 및 STT 일시 정지
                         }
@@ -289,6 +290,7 @@ struct SpeakingView: View {
                 secondaryButton: .cancel(Text("취소")) {
                     Task {
                         // Alert를 닫고 녹음 재개
+                        resumeTimer()
                         await sttManager.resumeRecording()
                     }
                 }
@@ -327,6 +329,26 @@ struct SpeakingView: View {
         self.timer = nil          // 타이머 객체 초기화
         timerCount = 0
         isRunning = false
+    }
+    
+    private func pauseTimer() {
+        guard isRunning else { return } // 실행 중일 때만 작동
+        pausedTime = timerCount // 현재 시간을 저장
+        timer?.invalidate() // 타이머 정지
+        timer = nil
+        isRunning = false
+        print("Timer paused at: \(pausedTime ?? 0)")
+    }
+
+    // 타이머 재개 함수
+    private func resumeTimer() {
+        guard let pausedTime = pausedTime, !isRunning else { return } // 일시 중지된 상태여야 함
+        timerCount = pausedTime // 일시 중지된 시간으로 복원
+        isRunning = true
+        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
+            self.timerCount += 0.01
+        }
+        print("Timer resumed from: \(pausedTime)")
     }
     
     private func isHighlighted(wordIndex: Int, timeByWord: [Double], timerCount: Double) -> Bool {
