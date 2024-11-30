@@ -250,11 +250,11 @@ struct PlayerGridView: View {
                 // 10번째일때만 중앙에 오게
                 if index == 9 && gameData.players.count == 10 {
                     Spacer()
-                    PlayerCellView(nickname: player.nickname ?? "")
+                    PlayerCellView(nickname: player.nickname)
                         .frame(width: 106, height: 32)
                     Spacer()
                 } else {
-                    PlayerCellView(nickname: player.nickname ?? "")
+                    PlayerCellView(nickname: player.nickname)
                         .frame(width: 106, height: 32)
                 }
             }
