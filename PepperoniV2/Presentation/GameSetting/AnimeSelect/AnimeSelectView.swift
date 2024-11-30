@@ -157,6 +157,14 @@ struct AnimeSelectView: View {
     @MainActor
     private func selectAnime(_ anime: Anime) async {
         let animeID = anime.id
+        
+        // 이미 quotes가 있는 경우, 바로 선택
+        if !anime.quotes.isEmpty {
+            viewModel.selectAnime(anime)
+            return
+        }
+        
+        // quotes가 비어있는 경우, 데이터를 다운로드
         loadingStates[animeID] = (isLoading: true, progress: 0.0)
         do {
             try await firestoreService.fetchAnimeDetailsAndStore(context: modelContext, animeID: animeID) { progress in
@@ -170,6 +178,7 @@ struct AnimeSelectView: View {
         }
         loadingStates[animeID]?.isLoading = false
     }
+
 }
 
 struct DashLine: Shape {
