@@ -9,11 +9,14 @@ import SwiftUI
 import SwiftData
 
 struct AnimeSelectView: View {
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @Binding var isPresented: Bool
     @Environment(FetchDataState.self) var fetchDataState
     @Bindable var viewModel: AnimeSelectViewModel
     @Environment(GameViewModel.self) var gameViewModel
     @State private var searchText: String = ""
+    @State private var isLoading = false
+    private let firestoreService = FirestoreService()
 
     // SwiftData에서 Anime 데이터를 가져오기
     @Query var animes: [Anime]
@@ -62,7 +65,7 @@ struct AnimeSelectView: View {
                     .padding(.horizontal, 16)
                 
                 // MARK: -ProgressView
-                if fetchDataState.isFetchingData {
+                if fetchDataState.isFetchingData || isLoading {
                     HStack {
                         Spacer()
                         ProgressView("명대사를 불러오는 중...")
@@ -86,8 +89,9 @@ struct AnimeSelectView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                     .onTapGesture {
-                        viewModel.selectAnime(anime)
-                        HapticManager.instance.impact(style: .light)
+                        Task {
+                            await selectAnime(anime) // 선택된 애니 데이터 로드
+                        }
                     }
                     .padding(.bottom, index == currentAnimes.count - 1 ? 60 : 0)
                 }
@@ -143,6 +147,25 @@ struct AnimeSelectView: View {
                 return normalizedTitle.localizedCaseInsensitiveContains(normalizedSearchText)
             }
         }
+    }
+    
+    // 애니 선택 및 데이터 로드
+    @MainActor
+    private func selectAnime(_ anime: Anime) async {
+        // quotes가 이미 저장되어 있으면 바로 선택
+        if !anime.quotes.isEmpty {
+            viewModel.selectAnime(anime)
+            return
+        }
+        
+        isLoading = true
+        do {
+            try await firestoreService.fetchAnimeDetailsAndStore(context: modelContext, animeID: anime.id) // modelContext 전달
+            viewModel.selectAnime(anime)
+        } catch {
+            print("Failed to load anime details: \(error.localizedDescription)")
+        }
+        isLoading = false
     }
 }
 

@@ -38,7 +38,7 @@ struct PepperoniV2App: App {
                                 let context = modelContainer.mainContext
                                 Task {
                                     do {
-                                        try await FirestoreService().fetchAndStoreData(context: context)
+                                        try await FirestoreService().fetchAnimeTitles(context: context)
                                         fetchDataState.isFetchingData = false
                                     } catch {
                                         fetchDataState.errorMessage = error.localizedDescription

@@ -6,6 +6,7 @@
 //
 
 import SwiftData
+import SwiftUI
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
@@ -15,110 +16,115 @@ class FirestoreService {
     let storage = Storage.storage()
     let syncKey = "isDataSynced"
     
-    /// Firestore에서 데이터를 가져와 로컬 저장소와 SwiftData에 저장
+    /// Firestore에서 anime의 타이틀만 불러와서 SwiftData 저장
     @MainActor
-    func fetchAndStoreData(context: ModelContext) async throws {
+    func fetchAnimeTitles(context: ModelContext) async throws {
         // Firestore 컬렉션 경로 설정
         let animeCollectionPath = "Anime"
         let animeSnapshot = try await db.collection(animeCollectionPath).getDocuments()
-
-        var animeList: [Anime] = []
-
+        
+        var newAnimeTitles: [String] = []
+        
+        // Firestore에서 모든 애니 제목 가져오기
         for animeDocument in animeSnapshot.documents {
             let animeData = animeDocument.data()
             let animeID = animeDocument.documentID
-
+            
             guard let animeTitle = animeData["animeTitle"] as? String else {
                 print("Missing animeTitle in document: \(animeDocument.documentID)")
                 continue
             }
-
-            print("Fetching quotes for Anime ID: \(animeID)")
-
-            let quotesPath = "\(animeCollectionPath)/\(animeID)/quotes"
-            let quotesSnapshot = try await db.collection(quotesPath).getDocuments()
-
-            var quotes: [AnimeQuote] = []
-
-            for quoteDocument in quotesSnapshot.documents {
-                let quoteData = quoteDocument.data()
-                let quoteID = quoteDocument.documentID
-
-                guard let japanese = quoteData["japanese"] as? [String],
-                      let korean = quoteData["korean"] as? [String],
-                      let audioFile = quoteData["audioFile"] as? String else {
-                    print("Missing required fields in quote document: \(quoteDocument.documentID)")
-                    continue
-                }
-
-                let localFilePath = FileManager.default
-                    .urls(for: .documentDirectory, in: .userDomainMask)[0]
-                    .appendingPathComponent(audioFile).path
-
-                let storagePath = "Animes/\(animeID)/\(audioFile)"
-                let shouldUpdate = try await shouldUpdateFile(filePath: localFilePath, storagePath: storagePath)
-
-                // 슈드업데이트 일 때만 해도 되는 동작들
-                do {
-                    if shouldUpdate {
-                        try await downloadAudioFile(storagePath: storagePath, localPath: localFilePath)
-                        
-                        let quote = AnimeQuote(
-                            id: quoteID,
-                            japanese: japanese,
-                            pronunciation: quoteData["pronunciation"] as? [String] ?? [],
-                            korean: korean,
-                            timeMark: quoteData["timeMark"] as? [Double] ?? [],
-                            voicingTime: quoteData["voicingTime"] as? Double ?? 0.0,
-                            audioFile: localFilePath,
-                            youtubeID: quoteData["youtubeID"] as? String ?? "",
-                            youtubeStartTime: quoteData["youtubeStartTime"] as? Double ?? 0.0,
-                            youtubeEndTime: quoteData["youtubeEndTime"] as? Double ?? 0.0
-                        )
-                        quotes.append(quote)
-                    }
-                }catch {
-                    print("Not Should Update")
-                }
-                
-            }
             
-            //quotes가 0개이면 돌아가지 않아야 함. anmieList에 빈 quotes가 비어있는 Anime를 넣는 것 방지.
-            if quotes.count > 0 {
-                let anime = Anime(
-                    id: animeID,
-                    title: animeTitle,
-                    quotes: quotes
-                )
-                animeList.append(anime)
+            // SwiftData에 이미 저장된 애니인지 확인
+            if context.fetch(Anime.self).first(where: { $0.id == animeID }) == nil {
+                // 새로운 Anime 객체 생성 및 SwiftData에 추가
+                let newAnime = Anime(id: animeID, title: animeTitle, quotes: [])
+                context.insert(newAnime)
+                newAnimeTitles.append(animeTitle)
             }
         }
+        
+        do {
+            try context.save()
+            print("Successfully saved new anime titles to SwiftData.")
+        } catch {
+            print("Error saving data to SwiftData: \(error.localizedDescription)")
+        }
 
-        // 로컬 데이터를 최신 상태로 유지
-        // animeList가 1개 이상일 때만 돌아감
-        if animeList.count > 0 {
-            DispatchQueue.main.async {
-                animeList.forEach { anime in
-                    if let existingAnime = context.fetch(Anime.self).first(where: { $0.id == anime.id }) {
-                        anime.quotes.forEach { newQuote in
-                            if !existingAnime.quotes.contains(where: { $0.id == newQuote.id }) {
-                                existingAnime.quotes.append(newQuote)
-                            }
-                        }
-                    } else {
-                        context.insert(anime)
-                    }
-                }
-                do {
-                    try context.save()
-                    print("Data successfully saved to SwiftData.")
-                } catch {
-                    print("Error saving data to SwiftData: \(error.localizedDescription)")
-                }
+        // TODO: 확인용, 제거 요망
+        DispatchQueue.main.async {
+            if newAnimeTitles.isEmpty {
+                print("No new anime titles to add.")
+            } else {
+                print("New anime titles: \(newAnimeTitles)")
             }
         }
     }
 
+    /// 사용자가 선택한 애니 데이터를 Firestore에서 불러와 SwiftData와 로컬 저장소에 저장
+    @MainActor
+    func fetchAnimeDetailsAndStore(context: ModelContext, animeID: String) async throws {
+        let animeCollectionPath = "Anime"
+        let animeDocumentPath = "\(animeCollectionPath)/\(animeID)"
+        let quotesPath = "\(animeDocumentPath)/quotes"
+        
+        let quotesSnapshot = try await db.collection(quotesPath).getDocuments()
+        var quotes: [AnimeQuote] = []
+        
+        for quoteDocument in quotesSnapshot.documents {
+            let quoteData = quoteDocument.data()
+            let quoteID = quoteDocument.documentID
+            
+            guard let japanese = quoteData["japanese"] as? [String],
+                  let korean = quoteData["korean"] as? [String],
+                  let audioFile = quoteData["audioFile"] as? String else {
+                print("Missing required fields in quote document: \(quoteDocument.documentID)")
+                continue
+            }
+            
+            let localFilePath = FileManager.default
+                .urls(for: .documentDirectory, in: .userDomainMask)[0]
+                .appendingPathComponent(audioFile).path
+            
+            let storagePath = "Animes/\(animeID)/\(audioFile)"
+            let shouldUpdate = try await shouldUpdateFile(filePath: localFilePath, storagePath: storagePath)
+            
+            if shouldUpdate {
+                try await downloadAudioFile(storagePath: storagePath, localPath: localFilePath)
+            }
+            
+            let quote = AnimeQuote(
+                id: quoteID,
+                japanese: japanese,
+                pronunciation: quoteData["pronunciation"] as? [String] ?? [],
+                korean: korean,
+                timeMark: quoteData["timeMark"] as? [Double] ?? [],
+                voicingTime: quoteData["voicingTime"] as? Double ?? 0.0,
+                audioFile: localFilePath,
+                youtubeID: quoteData["youtubeID"] as? String ?? "",
+                youtubeStartTime: quoteData["youtubeStartTime"] as? Double ?? 0.0,
+                youtubeEndTime: quoteData["youtubeEndTime"] as? Double ?? 0.0
+            )
+            quotes.append(quote)
+        }
+        
+        // swiftdata의 anime와 firebase에서 불러온 anime를 비교, 없으면 swiftdata에 넣어줌
+        if let existingAnime = context.fetch(Anime.self).first(where: { $0.id == animeID }) {
+            quotes.forEach { newQuote in
+                if !existingAnime.quotes.contains(where: { $0.id == newQuote.id }) {
+                    existingAnime.quotes.append(newQuote)
+                }
+            }
+        }
+        
+        do {
+            try context.save()
+            print("Successfully updated anime details and quotes to SwiftData.")
+        } catch {
+            print("Error saving details to SwiftData: \(error.localizedDescription)")
+        }
+    }
+    
     /// Firebase Storage 파일 업데이트 확인 및 다운로드
     func shouldUpdateFile(filePath: String, storagePath: String) async throws -> Bool {
         let storageRef = storage.reference().child(storagePath)
