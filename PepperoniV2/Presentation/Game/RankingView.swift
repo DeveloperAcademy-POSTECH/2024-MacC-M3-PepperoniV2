@@ -28,12 +28,11 @@ struct RankingView: View {
             ScrollView {
                 ForEach(rankedPlayers.indices, id: \.self) { index in
                     let player = rankedPlayers[index]
-                    let isAboveHost = player.score > rankedPlayers.first(where: { $0.isHost })?.score ?? 0
+                    let isWin = player.score > rankedPlayers.first(where: { $0.isHost })?.score ?? 0
                     
                     RankRow(player: player,
                             rank: index + 1,
-                            isFirst: isAboveHost, // 호스트 보다 위인 사람은 first 효과
-                            isLast: player.isHost, // host는 last 효과
+                            isWin: isWin, // 호스트 보다 위인 사람은 first 효과
                             isHost: player.isHost)
                         .opacity(rowVisible[index] ? 1 : 0) // 초기 상태는 보이지 않음
                         .offset(y: rowVisible[index] ? 0 : 20) // 약간 아래에서 올라오는 효과
@@ -44,7 +43,8 @@ struct RankingView: View {
                             }
                         }
                         .padding(.horizontal, 16)
-                        .padding(.bottom, (index == 0 || index == rankedPlayers.count - 2) ? 16 : 4)
+                        .padding(.bottom, player.isHost ? 8 : 4)
+                        .padding(.top, player.isHost ? 4 : 0)
                 }
             }
             
@@ -75,50 +75,49 @@ struct RankingView: View {
 struct RankRow: View {
     let player: Player
     let rank: Int
-    let isFirst: Bool
-    let isLast: Bool
+    let isWin: Bool
     let isHost: Bool
     
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
-            .frame(height: isFirst ? 80 : 70)
+            .frame(height: isWin ? 80 : 70)
             .foregroundStyle(backgroundStyle)
             .overlay {
                 ZStack {
-                    if isFirst || isLast {
+                    if isWin || isHost {
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(isLast ? lastPlaceStroke : firstPlaceStroke,
-                                    lineWidth: isFirst || isLast ? 1 : 0.5)
-                            .frame(height: isFirst ? 80 : 70)
+                            .stroke(isHost ? lastPlaceStroke : firstPlaceStroke,
+                                    lineWidth: isWin || isHost ? 1 : 0.5)
+                            .frame(height: isWin ? 80 : 70)
                     }
                     HStack {
                         Text(rankText)
-                            .hakgyoansim(size: isFirst ? 26 : 20)
+                            .hakgyoansim(size: isWin ? 26 : 20)
                             .foregroundStyle(rankColor)
                         Spacer()
                         Text(player.nickname)
-                            .suit(isFirst ? .bold : .medium, size: isFirst ? 22 : 18)
+                            .suit(isWin ? .bold : .medium, size: isWin ? 22 : 18)
                             .foregroundStyle(nicknameColor)
                         Spacer()
                         Text("\(player.score / 3)점")
-                            .hakgyoansim(size: isFirst ? 20 : 18)
+                            .hakgyoansim(size: isWin ? 20 : 18)
                             .foregroundStyle(scoreColor)
                     }
-                    .padding(.horizontal, isFirst ? 15 : 18)
+                    .padding(.horizontal, isWin ? 15 : 18)
                 }
             }
-            .shadow(color: .white.opacity(isLast ? 0.38 : 0), radius: 8.2, x: 0, y: 0)
+            .shadow(color: .white.opacity(isHost ? 0.38 : 0), radius: 8.2, x: 0, y: 0)
         
     }
     
     private var backgroundStyle: AnyShapeStyle {
-        if isLast {
+        if isHost {
                     return AnyShapeStyle(LinearGradient(
                         colors: [Color.black],
                         startPoint: .leading,
                         endPoint: .trailing
                     ))
-        } else if isFirst {
+        } else if isWin {
             return AnyShapeStyle(firstPlaceGradient)
         } else {
             return AnyShapeStyle(LinearGradient(
@@ -170,9 +169,9 @@ struct RankRow: View {
     }
     
     private var rankText: String {
-        if isFirst {
+        if isWin {
             return "Win"
-        } else if isLast {
+        } else if isHost {
             return "-"
         } else {
             return "Lose"
@@ -180,15 +179,15 @@ struct RankRow: View {
     }
     
     private var rankColor: Color {
-        isFirst ? .white : Color.ppBlueGray
+        isWin ? .white : Color.ppBlueGray
     }
     
     private var nicknameColor: Color {
-        isFirst ? .white : Color.ppWhiteGray
+        isWin ? .white : Color.ppWhiteGray
     }
     
     private var scoreColor: Color {
-        isFirst ? .white : Color.ppDarkGray_01
+        isWin ? .white : Color.ppDarkGray_01
     }
 }
 
