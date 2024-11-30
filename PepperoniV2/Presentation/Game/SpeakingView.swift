@@ -82,13 +82,16 @@ struct SpeakingView: View {
     @State var currentCharCount = 0 // 현재 줄의 총 글자 수
     
     var body: some View {
-        
         ZStack{
             VStack {
                 Header(
                     title: "",
                     dismissAction: {
-                        showAlert = true
+                        Task {
+                            stopTimer()
+                            await sttManager.pauseRecording() // 녹음 및 STT 일시 정지
+                            showAlert = true
+                        }
                     },
                     dismissButtonType: .text("나가기")
                 )
@@ -100,7 +103,6 @@ struct SpeakingView: View {
                 
                 Text("\(playerOnTurn?.nickname ?? "") 차례")
                     .hakgyoansim(size: 20)
-                
                 Spacer()
                 
                 ZStack{
@@ -134,8 +136,6 @@ struct SpeakingView: View {
                     }
                 }
                 .padding(.init(top: 50, leading: 0, bottom: 58, trailing: 0))
-                
-                
                 Spacer()
                 
                 VStack{
@@ -154,24 +154,7 @@ struct SpeakingView: View {
                     .padding(.bottom, 40)
                 }
             }
-            if !isCounting {
-                RoundedRectangle(cornerRadius: 60)
-                    .stroke(
-                        LinearGradient(
-                            gradient: Gradient(stops: [
-                                Gradient.Stop(color: Color(hex: "3FE9FF"), location: 0.00),
-                                Gradient.Stop(color: Color(hex: "6652E7"), location: 0.75),
-                                Gradient.Stop(color: Color(hex: "AD29FF"), location: 1.0)
-                            ]),
-                            startPoint: .topLeading, // 시작점
-                            endPoint: .bottomTrailing // 끝점
-                        ),
-                        
-                        lineWidth: 6 // 선의 굵기
-                    )
-                    .padding(2)
-                    .ignoresSafeArea()
-            }
+            
             if isCounting {
                 Color.black // 어두운 오버레이 배경
                     .edgesIgnoringSafeArea(.all)
@@ -235,6 +218,22 @@ struct SpeakingView: View {
                     }
                     .frame(width:290, height:290)
                 }
+            } else {
+                RoundedRectangle(cornerRadius: 60)
+                    .stroke(
+                        LinearGradient(
+                            gradient: Gradient(stops: [
+                                Gradient.Stop(color: Color(hex: "3FE9FF"), location: 0.00),
+                                Gradient.Stop(color: Color(hex: "6652E7"), location: 0.75),
+                                Gradient.Stop(color: Color(hex: "AD29FF"), location: 1.0)
+                            ]),
+                            startPoint: .topLeading, // 시작점
+                            endPoint: .bottomTrailing // 끝점
+                        ),
+                        lineWidth: 6 // 선의 굵기
+                    )
+                    .padding(2)
+                    .ignoresSafeArea()
             }
         }
         .onAppear {
@@ -280,9 +279,18 @@ struct SpeakingView: View {
             Alert(
                 title: Text("홈 화면으로 나가시겠습니까?"),
                 primaryButton: .destructive(Text("나가기")) {
-                    router.popToRoot()
+                    Task {
+                        // Alert를 닫고 비동기로 작업 수행
+                        await sttManager.pauseRecording() // 녹음과 STT 중단
+                        router.popToRoot()
+                    }
                 },
-                secondaryButton: .cancel(Text("취소"))
+                secondaryButton: .cancel(Text("취소")) {
+                    Task {
+                        // Alert를 닫고 녹음 재개
+                        await sttManager.resumeRecording()
+                    }
+                }
             )
         }
         .navigationBarBackButtonHidden(true)
@@ -295,7 +303,7 @@ struct SpeakingView: View {
             } else if countdown == 1 {
                 countdown -= 1
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                DispatchQueue.global().asyncAfter(deadline: .now() + 0.7) {
                     self.isCounting = false
                     timer.invalidate()
                     sttManager.startRecording() // STT 녹음 시작
@@ -380,7 +388,7 @@ struct WordCard: View {
                         .foregroundStyle(Color.ppDarkGray_02)
                 }
             }
-                .frame(height: 88) // frame을 Group에 적용
+            .frame(height: 88) // frame을 Group에 적용
         )
     }
 }

@@ -27,63 +27,142 @@ class STTManager: ObservableObject {
             print("Speech recognizer is not available.")
             return
         }
-        
+
         recognizedText = ""
         isRecording = true
-        
+
+        // STT 및 Audio 설정
+        do {
+            try setupSTT()
+        } catch {
+            print("Failed to set up STT: \(error.localizedDescription)")
+            return
+        }
+
+        // 오디오 엔진 시작
+        audioEngine.prepare()
+        try? audioEngine.start()
+
+        // 녹음 파일 설정 및 시작
+        startAudioRecorder()
+    }
+
+    func resumeRecording() async {
+        guard !isRecording else {
+            print("Recording is already in progress.")
+            return
+        }
+
+        print("Resuming recording and STT")
+
+        // 오디오 세션 활성화
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(true)
+        } catch {
+            print("Failed to activate audio session: \(error.localizedDescription)")
+            return
+        }
+
+        // STT 및 Audio 설정
+        do {
+            try setupSTT()
+        } catch {
+            print("Failed to set up STT: \(error.localizedDescription)")
+            return
+        }
+
+        // 오디오 엔진 재개
+        if !audioEngine.isRunning {
+            try? audioEngine.start()
+        }
+
+        // 녹음 재개
+        audioRecorder?.record()
+        isRecording = true
+    }
+    
+    private func setupSTT() throws {
+        // STT 초기화
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-        guard let recognitionRequest = recognitionRequest else { return }
+        guard let recognitionRequest = recognitionRequest, let speechRecognizer = speechRecognizer, speechRecognizer.isAvailable else {
+            throw NSError(domain: "STTManagerError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Speech recognizer is not available."])
+        }
         recognitionRequest.shouldReportPartialResults = true
-        
+
         let inputNode = audioEngine.inputNode
         let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.removeTap(onBus: 0) // 기존의 Tap 제거
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, _) in
             recognitionRequest.append(buffer)
         }
-        
-        audioEngine.prepare()
-        try? audioEngine.start()
-        
-        // 녹음 파일 설정, 녹음
-        startAudioRecorder()
-        
+
         recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
             if let result = result {
-                DispatchQueue.main.async {
+                DispatchQueue.global().async {
                     self?.recognizedText = result.bestTranscription.formattedString
                     print("Recognized Text: \(self?.recognizedText ?? "")")
                 }
             }
-            
+
             if error != nil || (result?.isFinal ?? false) {
                 Task { [weak self] in
-                    print("rc_stopRecoding 여긴 언제 실행될까?")
                     await self?.stopRecording()
                 }
-            } else {
-                print("recognition 잘됨")
             }
         }
     }
     
     func stopRecording() async {
-        guard isRecording else { return } // 변경: 이미 녹음 중이 아닐 경우 함수 종료
-        print("stop 실행")
+        guard isRecording else { return } // 이미 녹음 중이 아닐 경우 함수 종료
+        print("Stopping recording...")
         
         isRecording = false
-        self.recognitionTask?.finish()
-        audioRecorder?.stop()
+
+        // 비동기로 오디오 엔진 및 녹음 정리
+        await withCheckedContinuation { continuation in
+            DispatchQueue.main.async {
+                self.audioEngine.stop()
+                self.audioEngine.inputNode.removeTap(onBus: 0)
+                self.audioRecorder?.stop()
+                self.recognitionTask?.cancel()
+                self.cleanup()
+                continuation.resume()
+            }
+        }
         
-        // 녹음을 정지했을때 시간 측정 함수를 실행합니다.
         if let audioFileURL = audioRecorder?.url {
-            let voicingTime = processAudioFile(at: audioFileURL)
+            print("Processing audio file at: \(audioFileURL.path)")
+            
+            // 비동기로 파일 처리
+            let voicingTime = await processAudioFile(at: audioFileURL)
+            
             DispatchQueue.main.async {
                 self.voicingTime = voicingTime
                 print("음성 시간: \(voicingTime)초") // 디버깅용
             }
         }
-        
-        cleanup()
+
+        print("Recording stopped.")
+    }
+
+    func pauseRecording() async {
+        guard isRecording else { return }
+        print("Pausing recording...")
+
+        isRecording = false
+
+        // 비동기로 작업 일시 정지
+        await withCheckedContinuation { continuation in
+            DispatchQueue.main.async {
+                self.audioRecorder?.pause()
+                self.audioEngine.pause()
+                self.recognitionTask?.cancel()
+                continuation.resume()
+            }
+        }
+
+        print("Recording paused.")
     }
     
     private func cleanup() {
@@ -96,6 +175,16 @@ class STTManager: ObservableObject {
         recognitionRequest = nil
         recognitionTask = nil
     }
+    
+//    func pauseRecording() async {
+//        guard isRecording else { return }
+//        print("Pausing recording and STT")
+//        
+//        // 녹음 및 STT 중지
+//        audioRecorder?.pause() // 녹음 일시 중지
+//        recognitionTask?.finish() // STT 일시 정지
+//        audioEngine.pause() // 오디오 엔진 일시 정지
+//    }
     
     /// 사용자의 음성을 저장합니다.
     private func startAudioRecorder() {
