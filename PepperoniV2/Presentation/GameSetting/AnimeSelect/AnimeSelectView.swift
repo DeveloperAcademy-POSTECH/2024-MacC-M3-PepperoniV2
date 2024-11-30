@@ -17,10 +17,10 @@ struct AnimeSelectView: View {
     @State private var searchText: String = ""
     @State private var isLoading = false
     private let firestoreService = FirestoreService()
-
+    
     // SwiftData에서 Anime 데이터를 가져오기
     @Query var animes: [Anime]
-
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
@@ -182,14 +182,23 @@ struct AnimeRowView: View {
     let anime: Anime
     let isSelected: Bool
     
+    private var needDownload: Bool {
+        anime.quotes.isEmpty
+    }
+    
     var body: some View {
         HStack {
             VStack {
-                if isSelected {
-                    Image(systemName: "checkmark")
+                if needDownload {
+                    Image("NeedDownload")
                         .resizable()
-                        .scaledToFit()
-                        .frame(height: 20, alignment: .center)
+                        .frame(width: 32, height: 32)
+                        .foregroundStyle(Color.ppDarkGray_01)
+                        .padding(.leading, 11)
+                } else if isSelected {
+                    Image("Checkmark")
+                        .resizable()
+                        .frame(width:35, height: 32, alignment: .center)
                         .foregroundStyle(.white)
                         .padding(.leading, 7)
                 }
@@ -198,40 +207,50 @@ struct AnimeRowView: View {
             
             HStack {
                 Text(anime.title)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(needDownload ? Color.ppDarkGray_01: .white)
                     .suit(.medium, size: 16)
                 
                 Spacer()
             }
             .padding(.horizontal)
             .frame(maxHeight: .infinity)
-            .background(isSelected ? LinearGradient.gradient3 : LinearGradient(
-                stops: [
-                    Gradient.Stop(color: Color(hex: "313037"), location: 0.12),
-                    Gradient.Stop(color: Color(hex: "0D0D0D"), location: 1.00),
-                ],
-                startPoint: UnitPoint(x: 0, y: 0.5),
-                endPoint: UnitPoint(x: 1, y: 0.5)
-            ))
+            .background(needDownload ? LinearGradient(stops: [
+                           Gradient.Stop(color: Color.ppDarkGray_04, location: 0.0),
+                           Gradient.Stop(color: Color.ppDarkGray_04, location: 1.00),
+                       ],
+                                                                 startPoint: UnitPoint(x: 0, y: 0.5),
+                                                                 endPoint: UnitPoint(x: 1, y: 0.5)) : (isSelected ? LinearGradient.gradient3 : LinearGradient(
+                                                                   stops: [
+                                                                       Gradient.Stop(color: Color(hex: "313037"), location: 0.12),
+                                                                       Gradient.Stop(color: Color(hex: "0D0D0D"), location: 1.00),
+                                                                   ],
+                                                                   startPoint: UnitPoint(x: 0, y: 0.5),
+                                                                   endPoint: UnitPoint(x: 1, y: 0.5)
+                                                                 )))
         }
         .frame(height: 78)
         .cornerRadius(10)
         .overlay {
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(LinearGradient.gradient3, lineWidth: 2)
+            if needDownload {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.ppDarkGray_01, lineWidth: 2)
+            } else {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(LinearGradient.gradient3, lineWidth: 2)
+            }
+            
         }
         .padding(.horizontal)
         .padding(.top, 2)
         .padding(.bottom, 12)
     }
 }
-
+//
 //struct AnimeSelectView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        let gameData = GameData()
 //        let viewModel = AnimeSelectViewModel(gameData: gameData)
-//        
+//
 //        return AnimeSelectView(isPresented: .constant(true), viewModel: viewModel)
 //    }
 //}
-
