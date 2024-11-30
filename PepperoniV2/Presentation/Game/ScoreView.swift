@@ -108,6 +108,7 @@ struct ScoreBar: View {
                         startPoint: UnitPoint(x: 0.5, y: 0),
                         endPoint: UnitPoint(x: 0.5, y: 1)
                     ))
+                    .shadow(color:.ppMint_00, radius: 15, y:-3)
                     .padding(.bottom, 2)
                 Polygon()
                 
