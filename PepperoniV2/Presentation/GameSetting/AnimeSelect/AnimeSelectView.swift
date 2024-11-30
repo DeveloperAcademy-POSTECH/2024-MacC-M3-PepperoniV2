@@ -143,7 +143,7 @@ struct AnimeSelectView: View {
     
     /// 현재 보여지는 애니 리스트
     private var currentAnimes: [Anime] {
-        let sortedAnimes = animes.sorted { $0.title < $1.title }
+        let sortedAnimes = animes.sorted { $0.title.localizedCompare($1.title) == .orderedAscending }
         if searchText.isEmpty {
             return sortedAnimes
         } else {
