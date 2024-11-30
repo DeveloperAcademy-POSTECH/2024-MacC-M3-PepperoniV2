@@ -78,69 +78,96 @@ private func levenshteinDistance(_ source: String, _ target: String) -> Int {
 
 // calculateIntonation 함수
 func calculateIntonation(referenceFileName: String, comparisonFileURL: URL) -> Double {
-    let referenceURL = URL(fileURLWithPath: referenceFileName)
     
-    // 파일 존재 여부 확인
-    guard FileManager.default.fileExists(atPath: referenceURL.path) else {
-        print("참조 파일을 찾을 수 없습니다: \(referenceURL.path)")
-        return 0.0
-    }
-    guard let referencePitchData = extractPitchData(from: referenceURL, applyVolumeThreshold: false), // 볼륨 기준 미적용
-          let comparisonPitchData = extractPitchData(from: comparisonFileURL, applyVolumeThreshold: true) else { // 볼륨 기준 적용
-        print("피치 데이터를 추출할 수 없습니다.")
-        return 0.0
-    }
-    
-    // 이후 코드는 동일
-    let validReferenceData = referencePitchData.compactMap { $0 > 0 ? $0 : nil }
-    let validComparisonData = comparisonPitchData.compactMap { $0 > 0 ? $0 : nil }
-    
-    guard !validReferenceData.isEmpty, !validComparisonData.isEmpty else {
-        print("유효한 피치 데이터가 부족합니다.")
-        return 0.0
-    }
-    
-    let resampledComparisonData = resamplePitchData(source: validComparisonData, targetLength: validReferenceData.count)
-    let referenceMean = validReferenceData.reduce(0, +) / CGFloat(validReferenceData.count)
-    let comparisonMean = resampledComparisonData.reduce(0, +) / CGFloat(resampledComparisonData.count)
-    let normalizedReferenceData = validReferenceData.map { $0 - referenceMean }
-    let normalizedComparisonData = resampledComparisonData.map { $0 - comparisonMean }
-    
-    var matchingStates = 0
-    for i in 1..<validReferenceData.count {
-        let referenceDiff = normalizedReferenceData[i] - normalizedReferenceData[i - 1]
-        let comparisonDiff = normalizedComparisonData[i] - normalizedComparisonData[i - 1]
+    var referenceURL: URL?
+
+    // Documents 이하 경로 추출
+    if let documentRange = referenceFileName.range(of: "/Documents/") {
+        let relativePath = String(referenceFileName[documentRange.upperBound...]) // "CHOIAE_008.m4a"
         
-        let referenceState = referenceDiff > 0 ? 1 : (referenceDiff < 0 ? -1 : 0)
-        let comparisonState = comparisonDiff > 0 ? 1 : (comparisonDiff < 0 ? -1 : 0)
+        // 현재 앱의 Document 디렉토리 경로 가져오기
+        let currentDocumentDirectory = FileManager.default
+            .urls(for: .documentDirectory, in: .userDomainMask)[0]
         
-        if referenceState == comparisonState {
-            matchingStates += 1
+        // 새로운 URL 생성
+        referenceURL = currentDocumentDirectory.appendingPathComponent(relativePath)
+        
+        print("Updated URL: \(referenceURL)") // /var/mobile/Containers/Data/Application/NEW_UUID/Documents/CHOIAE_008.m4a
+    } else {
+        print("Invalid path: \(referenceFileName)")
+    }
+    
+    
+    if let referenceURL = referenceURL {
+        
+        // 파일 존재 여부 확인
+        guard FileManager.default.fileExists(atPath: referenceURL.path) else {
+            print("참조 파일을 찾을 수 없습니다: \(referenceURL.path)")
+            return 0.0
         }
+        guard let referencePitchData = extractPitchData(from: referenceURL, applyVolumeThreshold: false), // 볼륨 기준 미적용
+              let comparisonPitchData = extractPitchData(from: comparisonFileURL, applyVolumeThreshold: true) else { // 볼륨 기준 적용
+            print("피치 데이터를 추출할 수 없습니다.")
+            return 0.0
+        }
+        
+        // 이후 코드는 동일
+        let validReferenceData = referencePitchData.compactMap { $0 > 0 ? $0 : nil }
+        let validComparisonData = comparisonPitchData.compactMap { $0 > 0 ? $0 : nil }
+        
+        guard !validReferenceData.isEmpty, !validComparisonData.isEmpty else {
+            print("유효한 피치 데이터가 부족합니다.")
+            return 0.0
+        }
+        
+        let resampledComparisonData = resamplePitchData(source: validComparisonData, targetLength: validReferenceData.count)
+        let referenceMean = validReferenceData.reduce(0, +) / CGFloat(validReferenceData.count)
+        let comparisonMean = resampledComparisonData.reduce(0, +) / CGFloat(resampledComparisonData.count)
+        let normalizedReferenceData = validReferenceData.map { $0 - referenceMean }
+        let normalizedComparisonData = resampledComparisonData.map { $0 - comparisonMean }
+        
+        var matchingStates = 0
+        for i in 1..<validReferenceData.count {
+            let referenceDiff = normalizedReferenceData[i] - normalizedReferenceData[i - 1]
+            let comparisonDiff = normalizedComparisonData[i] - normalizedComparisonData[i - 1]
+            
+            let referenceState = referenceDiff > 0 ? 1 : (referenceDiff < 0 ? -1 : 0)
+            let comparisonState = comparisonDiff > 0 ? 1 : (comparisonDiff < 0 ? -1 : 0)
+            
+            if referenceState == comparisonState {
+                matchingStates += 1
+            }
+        }
+        
+        let similarity = Double(matchingStates) / Double(validReferenceData.count - 1)
+        let intonationScore = similarity * 100
+        let referenceLength = Double(validReferenceData.count)
+        let comparisonLength = Double(validComparisonData.count)
+        let lengthScore = max(0.0, 100.0 * (min(comparisonLength, referenceLength) / max(comparisonLength, referenceLength)))
+        
+        let score = (intonationScore * 0.7) + (lengthScore * 0.3)
+        let finalScore: Double
+        switch similarity {
+        case 0.55...1.0:
+            finalScore = Double(90 + (similarity - 0.55) / 0.15 * 10)
+        case 0.45..<0.55:
+            finalScore = Double(75 + (similarity - 0.45) / 0.10 * 15)
+        case 0.30..<0.45:
+            finalScore = Double(50 + (similarity - 0.30) / 0.15 * 25)
+        case 0.0..<0.30:
+            finalScore = Double(similarity / 0.30 * 50)
+        default:
+            finalScore = 0
+        }
+        
+        return min(100.0, finalScore)
+        
+    } else {
+        
+        print("Error: referenceURL is not valid")
+        return 0
+        
     }
-    
-    let similarity = Double(matchingStates) / Double(validReferenceData.count - 1)
-    let intonationScore = similarity * 100
-    let referenceLength = Double(validReferenceData.count)
-    let comparisonLength = Double(validComparisonData.count)
-    let lengthScore = max(0.0, 100.0 * (min(comparisonLength, referenceLength) / max(comparisonLength, referenceLength)))
-    
-    let score = (intonationScore * 0.7) + (lengthScore * 0.3)
-    let finalScore: Double
-    switch similarity {
-    case 0.55...1.0:
-        finalScore = Double(90 + (similarity - 0.55) / 0.15 * 10)
-    case 0.45..<0.55:
-        finalScore = Double(75 + (similarity - 0.45) / 0.10 * 15)
-    case 0.30..<0.45:
-        finalScore = Double(50 + (similarity - 0.30) / 0.15 * 25)
-    case 0.0..<0.30:
-        finalScore = Double(similarity / 0.30 * 50)
-    default:
-        finalScore = 0
-    }
-    
-    return min(100.0, finalScore)
 }
 
 
