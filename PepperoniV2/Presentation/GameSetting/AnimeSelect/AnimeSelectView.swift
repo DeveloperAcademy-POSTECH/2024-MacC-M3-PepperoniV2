@@ -93,10 +93,13 @@ struct AnimeSelectView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                     .onTapGesture {
-                        Task {
-                            await selectAnime(anime) // 선택된 애니 데이터 로드
+                        if !(loadingStates[anime.id]?.isLoading ?? false) {
+                            Task {
+                                await selectAnime(anime) // 선택된 애니 데이터 로드
+                            }
                         }
                     }
+                    .disabled(loadingStates[anime.id]?.isLoading ?? false) // 로딩 중일 경우 비활성화
                     .padding(.bottom, index == currentAnimes.count - 1 ? 60 : 0)
                 }
                 .listStyle(.plain)
