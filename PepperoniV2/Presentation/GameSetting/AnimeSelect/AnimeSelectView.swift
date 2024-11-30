@@ -17,10 +17,12 @@ struct AnimeSelectView: View {
     @State private var searchText: String = ""
     @State private var isLoading = false
     private let firestoreService = FirestoreService()
-
+    
     // SwiftData에서 Anime 데이터를 가져오기
     @Query var animes: [Anime]
-
+    
+    @State private var loadingStates: [String: (isLoading: Bool, progress: Double)] = [:]
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
@@ -83,16 +85,21 @@ struct AnimeSelectView: View {
                 List(Array(currentAnimes.enumerated()), id: \.element.id) { index, anime in
                     AnimeRowView(
                         anime: anime,
-                        isSelected: viewModel.tempSelectedAnime?.id == anime.id
+                        isSelected: viewModel.tempSelectedAnime?.id == anime.id,
+                        isLoading: loadingStates[anime.id]?.isLoading ?? false,
+                        progress: loadingStates[anime.id]?.progress ?? 0.0
                     )
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                     .onTapGesture {
-                        Task {
-                            await selectAnime(anime) // 선택된 애니 데이터 로드
+                        if !(loadingStates[anime.id]?.isLoading ?? false) {
+                            Task {
+                                await selectAnime(anime) // 선택된 애니 데이터 로드
+                            }
                         }
                     }
+                    .disabled(loadingStates[anime.id]?.isLoading ?? false) // 로딩 중일 경우 비활성화
                     .padding(.bottom, index == currentAnimes.count - 1 ? 60 : 0)
                 }
                 .listStyle(.plain)
@@ -152,21 +159,29 @@ struct AnimeSelectView: View {
     // 애니 선택 및 데이터 로드
     @MainActor
     private func selectAnime(_ anime: Anime) async {
-        // quotes가 이미 저장되어 있으면 바로 선택
+        let animeID = anime.id
+        
+        // 이미 quotes가 있는 경우, 바로 선택
         if !anime.quotes.isEmpty {
             viewModel.selectAnime(anime)
             return
         }
         
-        isLoading = true
+        // quotes가 비어있는 경우, 데이터를 다운로드
+        loadingStates[animeID] = (isLoading: true, progress: 0.0)
         do {
-            try await firestoreService.fetchAnimeDetailsAndStore(context: modelContext, animeID: anime.id) // modelContext 전달
+            try await firestoreService.fetchAnimeDetailsAndStore(context: modelContext, animeID: animeID) { progress in
+                DispatchQueue.main.async {
+                    loadingStates[animeID]?.progress = progress
+                }
+            }
             viewModel.selectAnime(anime)
         } catch {
             print("Failed to load anime details: \(error.localizedDescription)")
         }
-        isLoading = false
+        loadingStates[animeID]?.isLoading = false
     }
+
 }
 
 struct DashLine: Shape {
@@ -181,15 +196,38 @@ struct DashLine: Shape {
 struct AnimeRowView: View {
     let anime: Anime
     let isSelected: Bool
+    let isLoading: Bool
+    let progress: Double
+    
+    private var needDownload: Bool {
+        anime.quotes.isEmpty || isLoading
+    }
     
     var body: some View {
         HStack {
             VStack {
-                if isSelected {
-                    Image(systemName: "checkmark")
+                if isLoading {
+                    ZStack {
+                        Circle()
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 4)
+                        Circle()
+                            .trim(from: 0, to: CGFloat(progress))
+                            .stroke(Color.blue, style: StrokeStyle(lineWidth: 4, lineCap: .round))
+                            .rotationEffect(.degrees(-90))
+                            .animation(.linear, value: progress)
+                    }
+                    .frame(width: 32, height: 32)
+                    .padding(.leading, 11)
+                } else if needDownload {
+                    Image("NeedDownload")
                         .resizable()
-                        .scaledToFit()
-                        .frame(height: 20, alignment: .center)
+                        .frame(width: 32, height: 32)
+                        .foregroundStyle(Color.ppDarkGray_01)
+                        .padding(.leading, 11)
+                } else if isSelected {
+                    Image("Checkmark")
+                        .resizable()
+                        .frame(width:35, height: 32, alignment: .center)
                         .foregroundStyle(.white)
                         .padding(.leading, 7)
                 }
@@ -198,40 +236,50 @@ struct AnimeRowView: View {
             
             HStack {
                 Text(anime.title)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(needDownload ? Color.ppDarkGray_01: .white)
                     .suit(.medium, size: 16)
                 
                 Spacer()
             }
             .padding(.horizontal)
             .frame(maxHeight: .infinity)
-            .background(isSelected ? LinearGradient.gradient3 : LinearGradient(
-                stops: [
-                    Gradient.Stop(color: Color(hex: "313037"), location: 0.12),
-                    Gradient.Stop(color: Color(hex: "0D0D0D"), location: 1.00),
-                ],
-                startPoint: UnitPoint(x: 0, y: 0.5),
-                endPoint: UnitPoint(x: 1, y: 0.5)
-            ))
+            .background(needDownload ? LinearGradient(stops: [
+                Gradient.Stop(color: Color.ppDarkGray_04, location: 0.0),
+                Gradient.Stop(color: Color.ppDarkGray_04, location: 1.00),
+            ],
+                                                      startPoint: UnitPoint(x: 0, y: 0.5),
+                                                      endPoint: UnitPoint(x: 1, y: 0.5)) : (isSelected ? LinearGradient.gradient3 : LinearGradient(
+                                                        stops: [
+                                                            Gradient.Stop(color: Color(hex: "313037"), location: 0.12),
+                                                            Gradient.Stop(color: Color(hex: "0D0D0D"), location: 1.00),
+                                                        ],
+                                                        startPoint: UnitPoint(x: 0, y: 0.5),
+                                                        endPoint: UnitPoint(x: 1, y: 0.5)
+                                                      )))
         }
         .frame(height: 78)
         .cornerRadius(10)
         .overlay {
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(LinearGradient.gradient3, lineWidth: 2)
+            if needDownload {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.ppDarkGray_01, lineWidth: 2)
+            } else {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(LinearGradient.gradient3, lineWidth: 2)
+            }
+            
         }
         .padding(.horizontal)
         .padding(.top, 2)
         .padding(.bottom, 12)
     }
 }
-
+//
 //struct AnimeSelectView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        let gameData = GameData()
 //        let viewModel = AnimeSelectViewModel(gameData: gameData)
-//        
+//
 //        return AnimeSelectView(isPresented: .constant(true), viewModel: viewModel)
 //    }
 //}
-

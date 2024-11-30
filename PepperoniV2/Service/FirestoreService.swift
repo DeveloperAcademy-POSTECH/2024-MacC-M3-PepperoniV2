@@ -63,7 +63,7 @@ class FirestoreService {
 
     /// 사용자가 선택한 애니 데이터를 Firestore에서 불러와 SwiftData와 로컬 저장소에 저장
     @MainActor
-    func fetchAnimeDetailsAndStore(context: ModelContext, animeID: String) async throws {
+    func fetchAnimeDetailsAndStore(context: ModelContext, animeID: String, progressCallback: @escaping (Double) -> Void) async throws {
         let animeCollectionPath = "Anime"
         let animeDocumentPath = "\(animeCollectionPath)/\(animeID)"
         let quotesPath = "\(animeDocumentPath)/quotes"
@@ -71,7 +71,7 @@ class FirestoreService {
         let quotesSnapshot = try await db.collection(quotesPath).getDocuments()
         var quotes: [AnimeQuote] = []
         
-        for quoteDocument in quotesSnapshot.documents {
+        for (index, quoteDocument) in quotesSnapshot.documents.enumerated() {
             let quoteData = quoteDocument.data()
             let quoteID = quoteDocument.documentID
             
@@ -106,6 +106,9 @@ class FirestoreService {
                 youtubeEndTime: quoteData["youtubeEndTime"] as? Double ?? 0.0
             )
             quotes.append(quote)
+            
+            let progress = Double(index + 1) / Double(quotesSnapshot.documents.count)
+            progressCallback(progress)
         }
         
         // swiftdata의 anime와 firebase에서 불러온 anime를 비교, 없으면 swiftdata에 넣어줌
