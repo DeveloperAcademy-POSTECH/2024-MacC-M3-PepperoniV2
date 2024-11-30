@@ -99,7 +99,7 @@ class STTManager: ObservableObject {
 
         recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
             if let result = result {
-                DispatchQueue.global().async {
+                DispatchQueue.main.async {
                     self?.recognizedText = result.bestTranscription.formattedString
                     print("Recognized Text: \(self?.recognizedText ?? "")")
                 }
@@ -114,36 +114,23 @@ class STTManager: ObservableObject {
     }
     
     func stopRecording() async {
-        guard isRecording else { return } // 이미 녹음 중이 아닐 경우 함수 종료
-        print("Stopping recording...")
+        guard isRecording else { return } // 변경: 이미 녹음 중이 아닐 경우 함수 종료
+        print("stop 실행")
         
         isRecording = false
-
-        // 비동기로 오디오 엔진 및 녹음 정리
-        await withCheckedContinuation { continuation in
-            DispatchQueue.main.async {
-                self.audioEngine.stop()
-                self.audioEngine.inputNode.removeTap(onBus: 0)
-                self.audioRecorder?.stop()
-                self.recognitionTask?.cancel()
-                self.cleanup()
-                continuation.resume()
-            }
-        }
+        self.recognitionTask?.finish()
+        audioRecorder?.stop()
         
+        // 녹음을 정지했을때 시간 측정 함수를 실행합니다.
         if let audioFileURL = audioRecorder?.url {
-            print("Processing audio file at: \(audioFileURL.path)")
-            
-            // 비동기로 파일 처리
-            let voicingTime = await processAudioFile(at: audioFileURL)
-            
+            let voicingTime = processAudioFile(at: audioFileURL)
             DispatchQueue.main.async {
                 self.voicingTime = voicingTime
                 print("음성 시간: \(voicingTime)초") // 디버깅용
             }
         }
-
-        print("Recording stopped.")
+        
+        cleanup()
     }
 
     func pauseRecording() async {

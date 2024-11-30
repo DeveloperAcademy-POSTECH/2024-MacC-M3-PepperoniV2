@@ -89,8 +89,8 @@ struct SpeakingView: View {
                     dismissAction: {
                         Task {
                             stopTimer()
-                            await sttManager.pauseRecording() // 녹음 및 STT 일시 정지
                             showAlert = true
+                            await sttManager.pauseRecording() // 녹음 및 STT 일시 정지
                         }
                     },
                     dismissButtonType: .text("나가기")
@@ -281,7 +281,8 @@ struct SpeakingView: View {
                 primaryButton: .destructive(Text("나가기")) {
                     Task {
                         // Alert를 닫고 비동기로 작업 수행
-                        await sttManager.pauseRecording() // 녹음과 STT 중단
+                        await sttManager.stopRecording() // 녹음과 STT 중단
+                        gameViewModel.turnComplete = 0
                         router.popToRoot()
                     }
                 },
