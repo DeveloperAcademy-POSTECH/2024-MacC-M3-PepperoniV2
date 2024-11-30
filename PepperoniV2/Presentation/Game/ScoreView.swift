@@ -76,7 +76,7 @@ struct TotalScore: View {
                                 .foregroundStyle(Color.ppMint_00) // 숫자 색상 지정
                             Text("점")
                         }
-                            .hakgyoansim(size: 30)
+                        .hakgyoansim(size: 30)
                         
                     )
                     .padding(.bottom, 50)

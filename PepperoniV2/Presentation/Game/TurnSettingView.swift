@@ -159,7 +159,6 @@ struct TurnSettingView: View {
                 
             }
         }
-        
         .onAppear {
             manager.players = gameViewModel.players
             afterRoulette = false
@@ -189,7 +188,6 @@ struct TurnSettingView: View {
                             }
                         }
                     }
-                    
                 } else {
                     print("마이크 접근 권한이 거부되었습니다.")
                 }

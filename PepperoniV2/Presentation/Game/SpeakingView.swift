@@ -68,6 +68,7 @@ struct SpeakingView: View {
     @State private var timer: Timer? = nil       // 타이머 객체
     @State private var timerCount: Double = 0.0 // 초기 타이머 설정 (초 단위)
     @State private var isRunning: Bool = false   // 타이머 상태
+    @State private var pausedTime: Double? // 타이머 일시 중지 상태 저장
     
     @StateObject private var sttManager = STTManager()
     
@@ -82,13 +83,16 @@ struct SpeakingView: View {
     @State var currentCharCount = 0 // 현재 줄의 총 글자 수
     
     var body: some View {
-        
         ZStack{
             VStack {
                 Header(
                     title: "",
                     dismissAction: {
-                        showAlert = true
+                        Task {
+                            pauseTimer()
+                            showAlert = true
+                            await sttManager.pauseRecording() // 녹음 및 STT 일시 정지
+                        }
                     },
                     dismissButtonType: .text("나가기")
                 )
@@ -100,7 +104,6 @@ struct SpeakingView: View {
                 
                 Text("\(playerOnTurn?.nickname ?? "") 차례")
                     .hakgyoansim(size: 20)
-                
                 Spacer()
                 
                 ZStack{
@@ -134,8 +137,6 @@ struct SpeakingView: View {
                     }
                 }
                 .padding(.init(top: 50, leading: 0, bottom: 58, trailing: 0))
-                
-                
                 Spacer()
                 
                 VStack{
@@ -154,24 +155,7 @@ struct SpeakingView: View {
                     .padding(.bottom, 40)
                 }
             }
-            if !isCounting {
-                RoundedRectangle(cornerRadius: 60)
-                    .stroke(
-                        LinearGradient(
-                            gradient: Gradient(stops: [
-                                Gradient.Stop(color: Color(hex: "3FE9FF"), location: 0.00),
-                                Gradient.Stop(color: Color(hex: "6652E7"), location: 0.75),
-                                Gradient.Stop(color: Color(hex: "AD29FF"), location: 1.0)
-                            ]),
-                            startPoint: .topLeading, // 시작점
-                            endPoint: .bottomTrailing // 끝점
-                        ),
-                        
-                        lineWidth: 6 // 선의 굵기
-                    )
-                    .padding(2)
-                    .ignoresSafeArea()
-            }
+            
             if isCounting {
                 Color.black // 어두운 오버레이 배경
                     .edgesIgnoringSafeArea(.all)
@@ -235,6 +219,22 @@ struct SpeakingView: View {
                     }
                     .frame(width:290, height:290)
                 }
+            } else {
+                RoundedRectangle(cornerRadius: 60)
+                    .stroke(
+                        LinearGradient(
+                            gradient: Gradient(stops: [
+                                Gradient.Stop(color: Color(hex: "3FE9FF"), location: 0.00),
+                                Gradient.Stop(color: Color(hex: "6652E7"), location: 0.75),
+                                Gradient.Stop(color: Color(hex: "AD29FF"), location: 1.0)
+                            ]),
+                            startPoint: .topLeading, // 시작점
+                            endPoint: .bottomTrailing // 끝점
+                        ),
+                        lineWidth: 6 // 선의 굵기
+                    )
+                    .padding(2)
+                    .ignoresSafeArea()
             }
         }
         .onAppear {
@@ -280,9 +280,20 @@ struct SpeakingView: View {
             Alert(
                 title: Text("홈 화면으로 나가시겠습니까?"),
                 primaryButton: .destructive(Text("나가기")) {
-                    router.popToRoot()
+                    Task {
+                        // Alert를 닫고 비동기로 작업 수행
+                        await sttManager.stopRecording() // 녹음과 STT 중단
+                        gameViewModel.turnComplete = 0
+                        router.popToRoot()
+                    }
                 },
-                secondaryButton: .cancel(Text("취소"))
+                secondaryButton: .cancel(Text("취소")) {
+                    Task {
+                        // Alert를 닫고 녹음 재개
+                        resumeTimer()
+                        await sttManager.resumeRecording()
+                    }
+                }
             )
         }
         .navigationBarBackButtonHidden(true)
@@ -295,7 +306,7 @@ struct SpeakingView: View {
             } else if countdown == 1 {
                 countdown -= 1
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                DispatchQueue.global().asyncAfter(deadline: .now() + 0.7) {
                     self.isCounting = false
                     timer.invalidate()
                     sttManager.startRecording() // STT 녹음 시작
@@ -318,6 +329,26 @@ struct SpeakingView: View {
         self.timer = nil          // 타이머 객체 초기화
         timerCount = 0
         isRunning = false
+    }
+    
+    private func pauseTimer() {
+        guard isRunning else { return } // 실행 중일 때만 작동
+        pausedTime = timerCount // 현재 시간을 저장
+        timer?.invalidate() // 타이머 정지
+        timer = nil
+        isRunning = false
+        print("Timer paused at: \(pausedTime ?? 0)")
+    }
+
+    // 타이머 재개 함수
+    private func resumeTimer() {
+        guard let pausedTime = pausedTime, !isRunning else { return } // 일시 중지된 상태여야 함
+        timerCount = pausedTime // 일시 중지된 시간으로 복원
+        isRunning = true
+        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
+            self.timerCount += 0.01
+        }
+        print("Timer resumed from: \(pausedTime)")
     }
     
     private func isHighlighted(wordIndex: Int, timeByWord: [Double], timerCount: Double) -> Bool {
@@ -380,7 +411,7 @@ struct WordCard: View {
                         .foregroundStyle(Color.ppDarkGray_02)
                 }
             }
-                .frame(height: 88) // frame을 Group에 적용
+            .frame(height: 88) // frame을 Group에 적용
         )
     }
 }
