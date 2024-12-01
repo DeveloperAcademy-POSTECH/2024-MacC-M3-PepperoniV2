@@ -143,12 +143,13 @@ struct AnimeSelectView: View {
     
     /// 현재 보여지는 애니 리스트
     private var currentAnimes: [Anime] {
+        let sortedAnimes = animes.sorted { $0.title.localizedCompare($1.title) == .orderedAscending }
         if searchText.isEmpty {
-            return animes
+            return sortedAnimes
         } else {
             // 검색어 공백 제거
             let normalizedSearchText = searchText.replacingOccurrences(of: " ", with: "")
-            return animes.filter {
+            return sortedAnimes.filter {
                 // 애니 제목 공백 제거
                 let normalizedTitle = $0.title.replacingOccurrences(of: " ", with: "")
                 return normalizedTitle.localizedCaseInsensitiveContains(normalizedSearchText)

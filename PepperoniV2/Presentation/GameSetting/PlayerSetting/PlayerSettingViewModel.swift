@@ -37,14 +37,18 @@ import SwiftUI
     
     /// 플레이어 초기화
     func resetPlayer() {
-        tempPlayers = [Player(turn: 1), Player(turn: 2)]
+        tempPlayers = [Player(turn: 1, isHost: true), Player(turn: 2)]
     }
     
     /// 변경사항 저장
     func saveChanges() {
         for (index, player) in tempPlayers.enumerated() {
             if player.nickname.isEmpty {
-                tempPlayers[index].nickname = "\(index + 1)번"
+                if player.isHost {
+                    tempPlayers[index].nickname = "진행자"
+                } else {
+                    tempPlayers[index].nickname = "도전자\(player.turn - 1)"
+                }
             }
         }
         gameData.players = tempPlayers

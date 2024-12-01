@@ -161,16 +161,16 @@ struct PlayerRowView: View {
             
             VStack {
                 TextField(
-                    "\(index + 1)번",
+                    player.isHost ? "진행자" : "도전자\(player.turn - 1)",
                     text: Binding(
                         get: {
-                            player.nickname ?? ""
+                            player.nickname
                         },
                         set: { newValue in
                             updateNickname(index, newValue)
                         }
                     ),
-                    prompt: Text(isFocused ? "" : "\(index + 1)번")
+                    prompt: Text(isFocused ? "" : (player.isHost ? "진행자" : "도전자\(player.turn - 1)"))
                         .foregroundStyle(Color.ppWhiteGray)
                 )
                 .foregroundStyle(.white)

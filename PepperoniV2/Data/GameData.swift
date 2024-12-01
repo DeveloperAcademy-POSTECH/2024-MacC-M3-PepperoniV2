@@ -12,10 +12,11 @@ struct Player: Identifiable {
     var nickname: String = ""
     var turn: Int
     var score: Int = 0
+    var isHost = false
 }
 
 @Observable class GameData {
     var selectedAnime: Anime?
     var selectedQuote: AnimeQuote?
-    var players: [Player] = [Player(turn: 1), Player(turn: 2)]
+    var players: [Player] = [Player(turn: 1, isHost: true), Player(turn: 2)]
 }
