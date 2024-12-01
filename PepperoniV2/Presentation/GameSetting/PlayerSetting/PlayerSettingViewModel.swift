@@ -47,7 +47,7 @@ import SwiftUI
                 if player.isHost {
                     tempPlayers[index].nickname = "진행자"
                 } else {
-                    tempPlayers[index].nickname = "참가자\(player.turn - 1)"
+                    tempPlayers[index].nickname = "도전자\(player.turn - 1)"
                 }
             }
         }
