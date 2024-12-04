@@ -155,14 +155,19 @@ struct SelectedAnimeView: View {
                 .suit(.medium, size: 14)
                 .padding(.vertical, 8)
     
-            Image("AniSelectBox")
+            Image("AnimeSelectBox")
                 .resizable()
-                .scaledToFit()
+                .scaledToFill()
                 .frame(height: 92)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 .overlay(
                     Text(title)
                         .hakgyoansim(size: 20)
                 )
+                .overlay {
+                    RoundedRectangle(cornerRadius: 10)
+                        .strokeBorder(LinearGradient.gradient3, lineWidth: 2)
+                }
         }
         .frame(maxWidth: .infinity)
         .background(Color.ppDarkGray_02)
@@ -219,8 +224,9 @@ struct SelectedPlayerView: View {
                 
                 Image("PlayerSettingBox")
                     .resizable()
-                    .scaledToFit()
+                    .scaledToFill()
                     .frame(height: 72)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     .overlay(
                         HStack {
                             Image(systemName: "person.2.fill")
@@ -231,6 +237,10 @@ struct SelectedPlayerView: View {
                                 .hakgyoansim(size: 20)
                         }
                     )
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 10)
+                            .strokeBorder(LinearGradient.gradient3, lineWidth: 2)
+                    }
             }
             .frame(maxWidth: .infinity)
             .background(Color.ppDarkGray_02)
