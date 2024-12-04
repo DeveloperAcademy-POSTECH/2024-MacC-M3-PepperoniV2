@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct VideoPlayView: View {
     
@@ -55,15 +56,15 @@ struct VideoPlayView: View {
                             .foregroundStyle(Color.ppMint_00)
                     }
                 
-                if let selectedQuote = gameViewModel.selectedQuote{
-                    YouTubePlayerView(
-                        videoID: selectedQuote.youtubeID,
-                        startTime: Int(selectedQuote.youtubeStartTime),
-                        endTime: Int(selectedQuote.youtubeEndTime),
-                        replayTrigger: replayTrigger
-                    )
-                    .frame(height: 218)
-                    .padding(.bottom, 24)
+                if let selectedQuote = gameViewModel.selectedQuote {
+                    if let fileURL = Bundle.main.url(forResource: selectedQuote.audioFile, withExtension: "mov") {
+                        VideoPlayer(player: AVPlayer(url: fileURL))
+                            .frame(height: 218)
+                            .padding(.bottom, 24)
+                    }  else {
+                        Text("영상 파일을 로드할 수 없습니다.")
+                            .foregroundColor(.red)
+                    }
                 }
             }
             
@@ -81,6 +82,7 @@ struct VideoPlayView: View {
             
             Button(action: {
                 replayTrigger.toggle()
+                print("다시누름: \(gameViewModel.selectedQuote?.audioFile)")
             }) {
                 RoundedRectangle(cornerRadius: 50)
                     .frame(width:109, height:41)
@@ -128,6 +130,7 @@ struct VideoPlayView: View {
                     playerOnTurn = player
                 }
             }
+            print("\(gameViewModel.selectedQuote?.korean)")
         }
         .alert(isPresented: $showAlert) {
             Alert(

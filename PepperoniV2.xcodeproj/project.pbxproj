@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		511509D12CFFDA1C00D5065E /* JINGYG_010.mov in Resources */ = {isa = PBXBuildFile; fileRef = 511509CD2CFFDA1C00D5065E /* JINGYG_010.mov */; };
+		511509D22CFFDA1C00D5065E /* ONEPIC_010.mov in Resources */ = {isa = PBXBuildFile; fileRef = 511509CF2CFFDA1C00D5065E /* ONEPIC_010.mov */; };
+		511509D32CFFDA1C00D5065E /* JUSULH_010.mov in Resources */ = {isa = PBXBuildFile; fileRef = 511509CE2CFFDA1C00D5065E /* JUSULH_010.mov */; };
+		511509D42CFFDA1C00D5065E /* SLDUNK_010.mov in Resources */ = {isa = PBXBuildFile; fileRef = 511509D02CFFDA1C00D5065E /* SLDUNK_010.mov */; };
+		511509D62CFFDFC200D5065E /* showcase.json in Resources */ = {isa = PBXBuildFile; fileRef = 511509D52CFFDFC200D5065E /* showcase.json */; };
 		515961C32CF33CD400060E73 /* FetchDataState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515961C22CF33CD300060E73 /* FetchDataState.swift */; };
 		516A49252CEF98CB00D4E9DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */; };
 		516A49282CEF9AD200D4E9DE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 516A49272CEF9AD200D4E9DE /* FirebaseAuth */; };
@@ -14,6 +19,10 @@
 		516A492C2CEF9AD200D4E9DE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 516A492B2CEF9AD200D4E9DE /* FirebaseFirestore */; };
 		516A492E2CEF9AD200D4E9DE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 516A492D2CEF9AD200D4E9DE /* FirebaseStorage */; };
 		516A49312CEF9D6600D4E9DE /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516A49302CEF9D6600D4E9DE /* FirestoreService.swift */; };
+		517C11262D000098004021E8 /* ONEPIC_010.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 517C11252D000098004021E8 /* ONEPIC_010.m4a */; };
+		517C11282D0000C7004021E8 /* JINGYG_010.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 517C11272D0000C7004021E8 /* JINGYG_010.m4a */; };
+		517C112B2D0001C4004021E8 /* SLDUNK_010.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 517C112A2D0001C4004021E8 /* SLDUNK_010.m4a */; };
+		517C112C2D0001C4004021E8 /* JUSULH_010.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 517C11292D0001C4004021E8 /* JUSULH_010.m4a */; };
 		90129B852CEC67ED0029DAEF /* RouletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90129B842CEC67E70029DAEF /* RouletteManager.swift */; };
 		908797C42CF81AFD008EA1FA /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908797C32CF81AFD008EA1FA /* HapticManager.swift */; };
 		909C931C2CE5F08E00976538 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 909C931B2CE5F08E00976538 /* .gitignore */; };
@@ -59,9 +68,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		511509CD2CFFDA1C00D5065E /* JINGYG_010.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = JINGYG_010.mov; sourceTree = "<group>"; };
+		511509CE2CFFDA1C00D5065E /* JUSULH_010.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = JUSULH_010.mov; sourceTree = "<group>"; };
+		511509CF2CFFDA1C00D5065E /* ONEPIC_010.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = ONEPIC_010.mov; sourceTree = "<group>"; };
+		511509D02CFFDA1C00D5065E /* SLDUNK_010.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = SLDUNK_010.mov; sourceTree = "<group>"; };
+		511509D52CFFDFC200D5065E /* showcase.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = showcase.json; sourceTree = "<group>"; };
 		515961C22CF33CD300060E73 /* FetchDataState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchDataState.swift; sourceTree = "<group>"; };
 		516A49242CEF98CB00D4E9DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		516A49302CEF9D6600D4E9DE /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
+		517C11252D000098004021E8 /* ONEPIC_010.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = ONEPIC_010.m4a; sourceTree = "<group>"; };
+		517C11272D0000C7004021E8 /* JINGYG_010.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = JINGYG_010.m4a; sourceTree = "<group>"; };
+		517C11292D0001C4004021E8 /* JUSULH_010.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = JUSULH_010.m4a; sourceTree = "<group>"; };
+		517C112A2D0001C4004021E8 /* SLDUNK_010.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = SLDUNK_010.m4a; sourceTree = "<group>"; };
 		90129B842CEC67E70029DAEF /* RouletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouletteManager.swift; sourceTree = "<group>"; };
 		908797C32CF81AFD008EA1FA /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		909C93082CE5EFE400976538 /* PepperoniV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PepperoniV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -222,6 +240,15 @@
 		BD400C992CE88EDD0052174B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				511509D52CFFDFC200D5065E /* showcase.json */,
+				517C11292D0001C4004021E8 /* JUSULH_010.m4a */,
+				517C112A2D0001C4004021E8 /* SLDUNK_010.m4a */,
+				511509CD2CFFDA1C00D5065E /* JINGYG_010.mov */,
+				517C11272D0000C7004021E8 /* JINGYG_010.m4a */,
+				511509CE2CFFDA1C00D5065E /* JUSULH_010.mov */,
+				511509CF2CFFDA1C00D5065E /* ONEPIC_010.mov */,
+				517C11252D000098004021E8 /* ONEPIC_010.m4a */,
+				511509D02CFFDA1C00D5065E /* SLDUNK_010.mov */,
 				90A5038E2CED8B0E00D83DCC /* audioFile */,
 				BD0453382CEE307900F83631 /* Extensions */,
 				909C931F2CE5F29100976538 /* Assets.xcassets */,
@@ -397,8 +424,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				517C11282D0000C7004021E8 /* JINGYG_010.m4a in Resources */,
+				517C112B2D0001C4004021E8 /* SLDUNK_010.m4a in Resources */,
+				517C112C2D0001C4004021E8 /* JUSULH_010.m4a in Resources */,
 				909C93232CE5F29100976538 /* Preview Assets.xcassets in Resources */,
 				90A5039B2CEF12F600D83DCC /* SUIT-ExtraBold.otf in Resources */,
+				517C11262D000098004021E8 /* ONEPIC_010.m4a in Resources */,
 				90A5039C2CEF12F600D83DCC /* SUIT-Heavy.otf in Resources */,
 				90A5039D2CEF12F600D83DCC /* SUIT-Light.otf in Resources */,
 				90A5039E2CEF12F600D83DCC /* SUIT-Regular.otf in Resources */,
@@ -407,6 +438,11 @@
 				90A503A12CEF12F600D83DCC /* SUIT-SemiBold.otf in Resources */,
 				516A49252CEF98CB00D4E9DE /* GoogleService-Info.plist in Resources */,
 				90A503A22CEF12F600D83DCC /* SUIT-Medium.otf in Resources */,
+				511509D62CFFDFC200D5065E /* showcase.json in Resources */,
+				511509D12CFFDA1C00D5065E /* JINGYG_010.mov in Resources */,
+				511509D22CFFDA1C00D5065E /* ONEPIC_010.mov in Resources */,
+				511509D32CFFDA1C00D5065E /* JUSULH_010.mov in Resources */,
+				511509D42CFFDA1C00D5065E /* SLDUNK_010.mov in Resources */,
 				90A503A32CEF12F600D83DCC /* SUIT-ExtraLight.otf in Resources */,
 				90E2E9932CED035600857636 /* BOT006.m4a in Resources */,
 				90A503A82CEF174000D83DCC /* HakgyoansimUndongjangOTFL.otf in Resources */,
@@ -584,7 +620,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"PepperoniV2/Preview Content\"";
-				DEVELOPMENT_TEAM = 5Z2TRCRXZZ;
+				DEVELOPMENT_TEAM = 2U3B7G3F2A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PepperoniV2/Info.plist;
@@ -623,7 +659,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"PepperoniV2/Preview Content\"";
-				DEVELOPMENT_TEAM = 5Z2TRCRXZZ;
+				DEVELOPMENT_TEAM = 2U3B7G3F2A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PepperoniV2/Info.plist;

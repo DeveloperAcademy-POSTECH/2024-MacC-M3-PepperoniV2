@@ -6,32 +6,43 @@
 //
 
 import SwiftUI
-import YouTubeiOSPlayerHelper
+import AVKit
 
-struct YouTubePlayerView: UIViewRepresentable {
-    var videoID: String
-    var startTime: Int
-    var endTime: Int
+import SwiftUI
+import AVKit
+
+struct YouTubePlayerView: UIViewControllerRepresentable {
+    var fileURL: URL
     var replayTrigger: Bool
-    
-    func makeUIView(context: Context) -> YTPlayerView {
-        let playerView = YTPlayerView()
-        
-        let playerVars: [String: Any] = [
-            "playsinline": 1,
-            "autoplay": 0,
-            "rel": 0,
-            "start": startTime,
-            "end": endTime
-        ]
 
-        playerView.load(withVideoId: videoID, playerVars: playerVars)
-        return playerView
+    class Coordinator {
+        var parent: YouTubePlayerView
+
+        init(parent: YouTubePlayerView) {
+            self.parent = parent
+        }
     }
 
-    func updateUIView(_ uiView: YTPlayerView, context: Context) {
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+
+    func makeUIViewController(context: Context) -> AVPlayerViewController {
+        let playerViewController = AVPlayerViewController()
+        let player = AVPlayer(url: fileURL)
+        playerViewController.player = player
+        playerViewController.showsPlaybackControls = true
+
+        return playerViewController
+    }
+
+    func updateUIViewController(_ playerViewController: AVPlayerViewController, context: Context) {
+        guard let player = playerViewController.player else { return }
+
         if replayTrigger {
-            uiView.seek(toSeconds: Float(startTime), allowSeekAhead: true)
+            // 재생 중지 후 처음부터 재생
+            player.seek(to: .zero)
+            player.play()
         }
     }
 }

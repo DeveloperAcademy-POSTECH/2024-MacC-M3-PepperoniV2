@@ -1,0 +1,46 @@
+[
+    {
+      "animeTitle": "원피스",
+      "animeID": "ONEPIC",
+      "quoteID": "ONEPIC_010",
+      "japanese": ["海賊王に", "俺は", "なる"],
+      "pronunciation": ["카이조쿠오오니", "오레와", "나루"],
+      "korean": ["나는", "해적왕이", "될거야!"],
+      "timeMark": [0.0, 2.8, 4.1],
+      "voicingTime": 4,
+      "audioFile": "ONEPIC_010.mov"
+    },
+    {
+      "animeTitle": "주술회전",
+      "animeID": "JUSULH",
+      "quoteID": "JUSULH_010",
+      "japanese": ["領域展開", "無量空処"],
+      "pronunciation": ["료이키텐카이", "무료오크쇼"],
+      "korean": ["영역전개", "무량공처"],
+      "timeMark": [0.1, 5.0],
+      "voicingTime": 8,
+      "audioFile": "JUSULH_010.mov"
+    },
+    {
+      "animeTitle": "진격의 거인",
+      "animeID": "JINGYG",
+      "quoteID": "JINGYG_010",
+      "japanese": ["心臓を", "捧げよ"],
+      "pronunciation": ["신조오오", "사사게요"],
+      "korean": ["심장을", "받쳐라"],
+      "timeMark": [0.5,1.4],
+      "voicingTime": 3,
+      "audioFile": "JINGYG_010.mov"
+    },
+    {
+      "animeTitle": "슬램덩크",
+      "animeID": "SLDUNK",
+      "quoteID": "SLDUNK_010",
+      "japanese": ["左手は","添える","だけ"],
+      "pronunciation": ["히다리테와", "소에루", "다케"],
+      "korean": ["왼손은", "거등뿐"],
+      "timeMark": [0.2,0.8,1.1],
+      "voicingTime": 3,
+      "audioFile": "SLDUNK_010.mov"
+    }
+  ]

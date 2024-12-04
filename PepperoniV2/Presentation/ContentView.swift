@@ -12,7 +12,7 @@ struct ContentView: View {
     @State var gameData = GameData()
     
     @State var gameViewModel = GameViewModel()
-    @Environment(FetchDataState.self) var fetchDataState
+    //@Environment(FetchDataState.self) var fetchDataState
     
     var body: some View {
         NavigationStack(path: $router.route) {
