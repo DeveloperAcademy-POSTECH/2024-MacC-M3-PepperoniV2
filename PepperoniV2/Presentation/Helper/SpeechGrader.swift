@@ -76,6 +76,7 @@ private func levenshteinDistance(_ source: String, _ target: String) -> Int {
     return distanceMatrix[sourceCount][targetCount]
 }
 
+//TODO: - 음원 못불러옴
 // calculateIntonation 함수
 func calculateIntonation(referenceFileName: String, comparisonFileURL: URL) -> Double {
     // referenceFileName이 .mov로 끝나면 .m4a로 변환

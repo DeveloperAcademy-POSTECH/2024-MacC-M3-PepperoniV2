@@ -56,8 +56,9 @@ struct VideoPlayView: View {
                             .foregroundStyle(Color.ppMint_00)
                     }
                 
+                //TODO: - 영상 재생 못함
                 if let selectedQuote = gameViewModel.selectedQuote {
-                    if let fileURL = Bundle.main.url(forResource: selectedQuote.audioFile, withExtension: "mov") {
+                    if let fileURL = Bundle.main.url(forResource: selectedQuote.audioFile.components(separatedBy: ".").first ?? selectedQuote.audioFile, withExtension: "mov") {
                         VideoPlayer(player: AVPlayer(url: fileURL))
                             .frame(height: 218)
                             .padding(.bottom, 24)
@@ -80,23 +81,23 @@ struct VideoPlayView: View {
             
             Spacer()
             
-            Button(action: {
-                replayTrigger.toggle()
-                print("다시누름: \(gameViewModel.selectedQuote?.audioFile)")
-            }) {
-                RoundedRectangle(cornerRadius: 50)
-                    .frame(width:109, height:41)
-                    .foregroundStyle(Color.ppDarkGray_03)
-                    .overlay{
-                        HStack(spacing:4){
-                            Image(systemName:"arrow.counterclockwise")
-                            Text("replay")
-                                .hakgyoansim(size: 19)
-                        }
-                        .foregroundStyle(Color.ppMint_00)
-                    }
-                    .padding(.bottom, 12)
-            }
+//            Button(action: {
+//                replayTrigger.toggle()
+//                print("다시누름: \(gameViewModel.selectedQuote?.audioFile)")
+//            }) {
+//                RoundedRectangle(cornerRadius: 50)
+//                    .frame(width:109, height:41)
+//                    .foregroundStyle(Color.ppDarkGray_03)
+//                    .overlay{
+//                        HStack(spacing:4){
+//                            Image(systemName:"arrow.counterclockwise")
+//                            Text("replay")
+//                                .hakgyoansim(size: 19)
+//                        }
+//                        .foregroundStyle(Color.ppMint_00)
+//                    }
+//                    .padding(.bottom, 12)
+//            }
         
             Button {
                 router.push(screen: Game.speaking)

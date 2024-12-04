@@ -94,7 +94,7 @@ final class AnimeQuote {
                     id: "quote1",
                     japanese: ["心臓を", "捧げよ"],
                     pronunciation: ["신조오오", "사사게요"],
-                    korean: ["심장을", "받쳐라"],
+                    korean: ["심장을", "바쳐라"],
                     timeMark: [0.5,1.4],
                     voicingTime: 3.0,
                     audioFile: "JINGYG_010.mov"
@@ -109,7 +109,7 @@ final class AnimeQuote {
                     id: "quote1",
                     japanese: ["左手は","添える","だけ"],
                     pronunciation: ["히다리테와", "소에루", "다케"],
-                    korean: ["왼손은", "거등뿐"],
+                    korean: ["왼손은", "거들뿐"],
                     timeMark: [0.2,0.8,1.1],
                     voicingTime: 3.0,
                     audioFile: "SLDUNK_010.mov"

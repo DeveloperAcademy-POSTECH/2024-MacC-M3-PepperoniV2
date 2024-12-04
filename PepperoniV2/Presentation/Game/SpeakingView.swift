@@ -366,7 +366,7 @@ struct SpeakingView: View {
         if let quote = gameViewModel.selectedQuote{
             gameViewModel.temporaryPronunciationScore = calculatePronunciation(original: quote.japanese, sttText: sttManager.recognizedText)
             
-            gameViewModel.temporaryIntonationScore = calculateIntonation(referenceFileName: quote.audioFile, comparisonFileURL: sttManager.getFileURL())
+            gameViewModel.temporaryIntonationScore = calculateIntonation(referenceFileName: quote.audioFile.components(separatedBy: ".").first ?? quote.audioFile, comparisonFileURL: sttManager.getFileURL())
             print("레퍼런스 음원 주소: \(quote.audioFile)")
             print("사용자 목소리 음원 주소: \(sttManager.getFileURL())")
             
