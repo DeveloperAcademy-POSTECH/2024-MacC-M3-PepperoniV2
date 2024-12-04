@@ -28,7 +28,8 @@ struct RankingView: View {
             ScrollView {
                 ForEach(rankedPlayers.indices, id: \.self) { index in
                     let player = rankedPlayers[index]
-                    let isWin = player.score > rankedPlayers.first(where: { $0.isHost })?.score ?? 0
+                    let isHost = player.isHost
+                    let isWin = !isHost && (player.score / 3) >= (rankedPlayers.first(where: { $0.isHost })?.score ?? 0) / 3
                     
                     RankRow(player: player,
                             rank: index + 1,
@@ -63,7 +64,15 @@ struct RankingView: View {
             )
         }
         .onAppear {
-            rankedPlayers = gameViewModel.players.sorted { $0.score > $1.score }
+            rankedPlayers = gameViewModel.players.sorted {
+                if $0.score / 3 != $1.score / 3 {
+                    // 점수를 기준으로 내림차순 정렬
+                    return $0.score / 3 > $1.score / 3
+                } else {
+                    // 점수가 같으면 진행자가 아닌 참가자가 우선
+                    return !$0.isHost && $1.isHost
+                }
+            }
             rowVisible = Array(repeating: false, count: rankedPlayers.count) // 초기화
         }
         .navigationBarBackButtonHidden(true)
@@ -229,8 +238,8 @@ struct RankingView_Previews: PreviewProvider {
         let samplePlayers = [
             Player(nickname: "참가자1", turn:0, score: 300),
             Player(nickname: "참가자3", turn:1, score: 297),
-            Player(nickname: "진행자", turn:2, score: 273, isHost: true),
-            Player(nickname: "참가자4", turn:3, score: 130),
+            Player(nickname: "진행자", turn:2, score: 296, isHost: true),
+            Player(nickname: "참가자4", turn:3, score: 294),
             Player(nickname: "참가자5", turn:0, score: 100),
             Player(nickname: "참가자2", turn:1, score: 0)
         ]
